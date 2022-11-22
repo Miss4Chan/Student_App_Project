@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class Location{
+    //test
     private float x;
     private float y;
     private String type;
