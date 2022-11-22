@@ -1,5 +1,8 @@
 package com.example.studentmap.model;
 
+import lombok.Data;
+
+@Data
 public class Location{
     private float x;
     private float y;
