@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Locations</title>
+    <style>
+        body{
+            width: 800px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<h1>Locations List</h1>
+<main>
+    <h3 style="color: maroon" th:text="${error}"></h3>
+    <h2>Choose a location:</h2>
+    <ul style="list-style-type:none">
+        <li th:each="location : ${locations}">
+            <label th:text="${location.name}"></label><br/>
+        </li>
+    </ul>
+</main>
+</body>
+</html>
