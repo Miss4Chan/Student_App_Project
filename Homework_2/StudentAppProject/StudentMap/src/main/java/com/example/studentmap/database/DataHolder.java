@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 @Component
 public class DataHolder{
     public static List<Location> locations;
+    public static List<Location> locationtest;
 
     @PostConstruct
     public void init() throws IOException{
