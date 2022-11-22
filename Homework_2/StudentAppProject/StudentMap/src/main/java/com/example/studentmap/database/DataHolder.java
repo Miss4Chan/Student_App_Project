@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 public class DataHolder{
     public static List<Location> locations;
     public static List<Location> locationtest;
-
+//zdr hihi
     @PostConstruct
     public void init() throws IOException{
         locations = new ArrayList<>();
