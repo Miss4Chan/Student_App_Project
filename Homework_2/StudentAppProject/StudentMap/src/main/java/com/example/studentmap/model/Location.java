@@ -1,6 +1,7 @@
 package com.example.studentmap.model;
 
 public class Location{
+    //test
     private float x;
     private float y;
     private String type;
