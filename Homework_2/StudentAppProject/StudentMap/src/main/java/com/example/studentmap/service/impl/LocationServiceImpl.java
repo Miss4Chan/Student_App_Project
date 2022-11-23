@@ -17,16 +17,28 @@ public class LocationServiceImpl implements LocationService{
 
     @Override
     public List<Location> getAllLocations(){
-        return locationRepository.getAllLocations();
+        return locationRepository.findAll();
     }
 
     @Override
-    public Location getLocationByName(String id){
-        return locationRepository.getLocationByName(id);
+    public List<Location> getLocationByName(String name){
+        return locationRepository.findAllByNameContainingIgnoreCase(name);
     }
 
     @Override
     public List<Location> getLocationsByType(String type){
-        return locationRepository.getLocationsByType(type);
+        return locationRepository.findAllByType(type);
     }
+
+    @Override
+    public void populateDataBase(List<Location> locations) {
+        locationRepository.saveAll(locations);
+    }
+
+    @Override
+    public Location getLocationById(Long id) {
+        return locationRepository.findById(id).orElseThrow(); // TODO: 23.11.2022 put exception 
+    }
+
+
 }

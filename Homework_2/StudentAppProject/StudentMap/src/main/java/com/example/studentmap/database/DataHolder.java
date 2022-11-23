@@ -1,6 +1,8 @@
 package com.example.studentmap.database;
 
 import com.example.studentmap.model.Location;
+import com.example.studentmap.service.LocationService;
+import lombok.AllArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
@@ -11,8 +13,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@AllArgsConstructor
 public class DataHolder{
     public static List<Location> locations;
+    private final LocationService locationService;
 
     @PostConstruct
     public void init() throws IOException{
@@ -32,5 +36,6 @@ public class DataHolder{
         } catch (FileNotFoundException e){
             e.printStackTrace();
         }
+        locationService.populateDataBase(locations);
     }
 }
