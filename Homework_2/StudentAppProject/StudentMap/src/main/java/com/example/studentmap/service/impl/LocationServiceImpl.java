@@ -40,5 +40,13 @@ public class LocationServiceImpl implements LocationService{
         return locationRepository.findById(id).orElseThrow(); // TODO: 23.11.2022 put exception 
     }
 
+    @Override
+    public Location createOrUpdate(float x, float y, String type, String name, String address, String phone, String website, String openingHours) {
+        return locationRepository.save(new Location(x,y,type,name,address,phone,website,openingHours));
+    }
 
+    @Override
+    public void deleteById(Long id) {
+        locationRepository.deleteById(id);
+    }
 }
