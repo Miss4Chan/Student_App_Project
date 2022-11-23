@@ -1,6 +1,7 @@
 package com.example.studentmap.database;
 
 import com.example.studentmap.model.Location;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -12,15 +13,15 @@ import java.util.stream.Collectors;
 @Component
 public class DataHolder{
     public static List<Location> locations;
-    public static List<Location> locationtest;
-//zdr hihi
+
     @PostConstruct
     public void init() throws IOException{
         locations = new ArrayList<>();
-        File f = new File("src/main/java/com/example/studentmap/database/locations.csv");
+        ClassPathResource r = new ClassPathResource("csvFiles/locations.csv");
 
         try{
-            BufferedReader br = new BufferedReader(new FileReader(f));
+            InputStream is = r.getInputStream();
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
             String l = br.readLine(); //da gi nema naslovite na kategoriite
             locations = br.lines().map(line->{
                 String[] parts = line.split(",",-1);
