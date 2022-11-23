@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface LocationService{
     List<Location> getAllLocations();
-    Location getLocationByName(String id);
+    List<Location> getLocationByName(String id);
     List<Location> getLocationsByType(String type);
+    void populateDataBase(List<Location> locations);
+    Location getLocationById(Long id);
 }

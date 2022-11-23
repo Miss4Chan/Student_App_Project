@@ -29,7 +29,7 @@ public class LocationsController{
     // opcija 1: moze da se generira vo FileFixer i da se stavi vo locations.csv
     // opcija 2: moze da se generira vo DataHolder i da go ima samo vo modelot - jas bi vaka
     public String getDetailsPage(@PathVariable String name, Model model){
-        Location location = this.locationService.getLocationByName(name);
+        Location location = this.locationService.getLocationByName(name).get(0);
         if(location == null)
             return "redirect:/locations?error=Location not found";
         model.addAttribute("location",location);

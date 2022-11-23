@@ -1,10 +1,23 @@
 package com.example.studentmap.model;
 
-import lombok.Data;
+import lombok.*;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Data
+@NoArgsConstructor
+@Getter
+@Setter
+@Entity
+//added lombok notation for easy writing od classes
 public class Location{
-    //test
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
     private float x;
     private float y;
     private String type;
@@ -13,9 +26,10 @@ public class Location{
     private String phone;
     private String website;
     private String openingHours;
+    private double avgGrade; //not in constructor
 
-    public Location(float x, float y, String type, String name, String address, String phone,
-                    String website, String openingHours){
+
+    public Location(float x, float y, String type, String name, String address, String phone, String website, String openingHours) {
         this.x = x;
         this.y = y;
         this.type = type;
@@ -23,70 +37,6 @@ public class Location{
         this.address = address;
         this.phone = phone;
         this.website = website;
-        this.openingHours = openingHours;
-    }
-
-    public float getX(){
-        return x;
-    }
-
-    public void setX(float x){
-        this.x = x;
-    }
-
-    public float getY(){
-        return y;
-    }
-
-    public void setY(float y){
-        this.y = y;
-    }
-
-    public String getType(){
-        return type;
-    }
-
-    public void setType(String type){
-        this.type = type;
-    }
-
-    public String getName(){
-        return name;
-    }
-
-    public void setName(String name){
-        this.name = name;
-    }
-
-    public String getAddress(){
-        return address;
-    }
-
-    public void setAddress(String address){
-        this.address = address;
-    }
-
-    public String getPhone(){
-        return phone;
-    }
-
-    public void setPhone(String phone){
-        this.phone = phone;
-    }
-
-    public String getWebsite(){
-        return website;
-    }
-
-    public void setWebsite(String website){
-        this.website = website;
-    }
-
-    public String getOpeningHours(){
-        return openingHours;
-    }
-
-    public void setOpeningHours(String openingHours){
         this.openingHours = openingHours;
     }
 
