@@ -2,6 +2,9 @@ package com.example.studentmap.web;
 
 import com.example.studentmap.model.Location;
 import com.example.studentmap.service.LocationService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,12 +21,26 @@ public class LocationsController {
         this.locationService = locationService;
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public String getLocationsPage(@RequestParam(required = false) String error, Model model) {
         List<Location> locations = this.locationService.getAllLocations();
         model.addAttribute("locations", locations);
         model.addAttribute("error", error);
         return "listLocations";
+    }
+
+    @GetMapping
+    public String getHomePage(@RequestParam(required = false) String error, Model model) throws JsonProcessingException {
+        //samo universities
+        List<Location> locations = this.locationService.getLocationsByType("university");
+        //model.addAttribute("locations", locations);
+        model.addAttribute("error", error);
+        ObjectMapper objectMapper = new ObjectMapper();
+        //Set pretty printing of json
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+        String arrayToJson = objectMapper.writeValueAsString(locations);
+        model.addAttribute("locations", arrayToJson);
+        return "mapa";
     }
 
     @GetMapping("/{name}")
@@ -75,5 +92,9 @@ public class LocationsController {
             model.addAttribute("location", location);
             return "add-location";
     }
+
+    // TODO: 24-Nov-22 post method na locations za search
+
+    // TODO: 24-Nov-22 post method za filter by type
 
 }
