@@ -8,7 +8,6 @@ let open = false;
 
 
 function menuClick(){
-    console.log("click")
     if(open) {
         document.getElementById("map").style.width = screen.width.toString();
         document.getElementById("map").style.margin = "0px"
@@ -31,17 +30,57 @@ var uniicon = L.icon({
     popupAnchor:  [0, -40]
 });
 
+var markers = new Array();
+
+$("#select").change(function () {
+    window.location.href = "/locations/select/"+ $(this).val();
+    //console.log($(this).val());
+});
+
+let selectedUniversity;
+
 async function loadAllLocations(){
     let items = document.getElementById("locs").value;
     let parsed = JSON.parse(items);
-    console.log(parsed[0])
-    //var marker = L.marker([21.435225, 41.999165]).addTo(map);
-    // var marker2 = L.marker([41.999165, 21.435225]).addTo(map);
-    let i
+
     for(let item of parsed){
-        console.log(item.y);
-        let marker = L.marker([item.y, item.x]).addTo(map);
+        let marker = L.marker([item.y, item.x]).bindPopup("<h3>"+item.name+"</h3>");
+        markers.push(marker);
+        map.addLayer(marker);
+        marker.on('click', () => {
+            document.getElementById("details").hidden=false;
+            document.getElementById("name").innerText=item.name;
+            let address = document.getElementById("address");
+            let hours = document.getElementById("opening-hours");
+            let phone = document.getElementById("phone");
+            let website = document.getElementById("website");
+            if(item.address!=="") {
+                address.innerText = item.address;
+                address.parentElement.hidden=false;
+            }
+            else address.parentElement.hidden=true;
+            if(item.phone!=="") {
+                phone.innerText = item.phone;
+                phone.parentElement.hidden=false;
+            }
+            else phone.parentElement.hidden=true;
+            if(item.website!=="") {
+                website.innerText = item.website;
+                website.href = item.website;
+                website.parentElement.hidden=false;
+            }
+            else website.parentElement.hidden=true;
+            if(item.openingHours!=="") {
+                hours.innerText = item.openingHours;
+                hours.parentElement.hidden=false;
+            }
+            else hours.parentElement.hidden=true;
+            if(document.getElementById("sidebar").hidden == true){
+                menuClick();
+            }
+        });
     }
 }
 
 loadAllLocations();
+
