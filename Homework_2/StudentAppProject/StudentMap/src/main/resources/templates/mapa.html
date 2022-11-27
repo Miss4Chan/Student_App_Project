@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Student app - Home</title>
 
     <!-- leaflet-->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
@@ -76,46 +76,28 @@
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <i class="bi bi-list fs-2 mb-3" id="menu" onclick="menuClick()"></i>
             <div class="container d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                <a href="/" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
-                    <img id="hamburger" src="Student_icon.svg.png" height="50px">
+                <a href="/locations" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+                    <img id="logo" src="/Student_icon.svg.png" height="50px">
                     <span class="fs-4" style="margin-left: 10px">STUDENT APP</span>
                 </a>
 
                 <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
                     <li>
-                        <a href="#" class="nav-link text-white">
+                        <a href="/locations" class="nav-link text-white">
                             <svg class="bi d-block mx-auto mb-1" width="24" height="24">
                                 <use xlink:href="#home"></use>
                             </svg>
                             Home
                         </a>
                     </li>
-                    <!--                <li>-->
-                    <!--                    <a href="#" class="nav-link text-white">-->
-                    <!--                        <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#speedometer2"></use></svg>-->
-                    <!--                        Dashboard-->
-                    <!--                    </a>-->
-                    <!--                </li>-->
-                    <!--                <li>-->
-                    <!--                    <a href="#" class="nav-link text-white">-->
-                    <!--                        <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#table"></use></svg>-->
-                    <!--                        Orders-->
-                    <!--                    </a>-->
-                    <!--                </li>-->
-                    <!--                <li>-->
-                    <!--                    <a href="#" class="nav-link text-white">-->
-                    <!--                        <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#grid"></use></svg>-->
-                    <!--                        Products-->
-                    <!--                    </a>-->
-                    <!--                </li>-->
-                    <li>
-                        <a href="aboutus.html" class="nav-link text-white">
-                            <svg class="bi d-block mx-auto mb-1" width="24" height="24">
-                                <use xlink:href="#people-circle"></use>
-                            </svg>
-                            About us
-                        </a>
-                    </li>
+<!--                    <li>-->
+<!--                        <a href="aboutus.html" class="nav-link text-white">-->
+<!--                            <svg class="bi d-block mx-auto mb-1" width="24" height="24">-->
+<!--                                <use xlink:href="#people-circle"></use>-->
+<!--                            </svg>-->
+<!--                            About us-->
+<!--                        </a>-->
+<!--                    </li>-->
                 </ul>
             </div>
         </div>
@@ -125,26 +107,44 @@
 <div id="sidebar" style="padding-top: 32px" class="text-bg-dark" hidden>
     <div style="padding: 0px 20px">
 
-        <form class="col-12 ncol-lg-auto mb-3 mb-lg-0 me-lg-3 d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start" role="search" method="post">
-            <input style="width: 80%" type="search" class="form-control text-bg-dark " placeholder="Search location..." aria-label="Search">
+        <form class="col-12 ncol-lg-auto mb-3 mb-lg-0 me-lg-3 d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start" role="search" method="post" action="/locations/search">
+            <input style="width: 80%" name="text" type="search" class="form-control text-bg-dark " placeholder="Search location..." aria-label="Search">
             <button class="btn btn-outline-light col-2" type="submit" id="search"><i class="bi bi-search"></i></button>
         </form>
 
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" data-bs-auto-close="true" type="button" data-bs-toggle="dropdown" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Dropdown button
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-            </div>
+        <div class="dropdown" style="margin-top: 15px; width: 80%;">
+        <select style="width: 80%" class="btn btn-secondary dropdown-toggle" id="select" data-bs-auto-close="true" type="button" data-bs-toggle="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <option class="dropdown-item" value="none" th:text="(${selectedValue} != null ? ${selectedValue} : 'Choose category..')" selected disabled hidden></option>
+            <option class="dropdown-item" value="university" name="university">university</option>
+            <option class="dropdown-item" value="cafe" name="cafe">cafe</option>
+            <option class="dropdown-item" value="bakery">bakery</option>
+            <option class="dropdown-item" value="library">library</option>
+            <option class="dropdown-item" value="pub">pub</option>
+            <option class="dropdown-item" value="confectionary">confectionary</option>
+            <option class="dropdown-item" value="electronics">electronics</option>
+            <option class="dropdown-item" value="supermarket">supermarkets</option>
+        </select>
         </div>
 
 
-
     </div>
-
+    <div hidden id="details" style="margin-top: 40px;" class="text-center">
+        <div class="mt-3">
+        <strong name="name" id="name" ></strong>
+        </div>
+        <div hidden class="mt-4">
+            <i class="bi bi-geo-alt-fill"></i><p id="address"></p>
+        </div>
+        <div hidden class="mt-4">
+            <i class="bi bi-clock"></i><p id="opening-hours"></p>
+        </div>
+        <div hidden class="mt-4">
+            <i class="bi bi-telephone-fill"></i><p id="phone"></p>
+        </div>
+        <div hidden class="mt-4">
+            <i class="bi bi-globe"></i></br><a target="_blank" id="website" ></a>
+        </div>
+    </div>
 </div>
 <div id="map"></div>
 <input id="locs" type="hidden" th:value="${locations}"/>

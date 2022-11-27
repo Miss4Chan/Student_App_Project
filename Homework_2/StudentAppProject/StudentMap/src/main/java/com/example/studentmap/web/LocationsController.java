@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 @Controller
@@ -42,21 +43,53 @@ public class LocationsController {
         model.addAttribute("locations", arrayToJson);
         return "mapa";
     }
-
-    @GetMapping("/{name}")
-    public String getDetailsPage(@PathVariable String name, Model model) {
-        Location location = this.locationService.getLocationByName(name).get(0);
-        if (location == null)
-            return "redirect:/locations?error=Location not found";
-        model.addAttribute("location", location);
-        return "details";
+//    @GetMapping("/{id}")
+//    public String getDetails(Model model){
+//
+//    }
+    @PostMapping("/search")
+    public String returnSearch(@RequestParam(required = false) String error,
+                               @RequestParam(required=false) String text,
+                               Model model) throws JsonProcessingException {
+        if(Objects.equals(text, "")){
+            return "redirect:/locations";
+        }
+        List<Location> locations = this.locationService.getLocationByName(text);
+        model.addAttribute("error", error);
+        ObjectMapper objectMapper = new ObjectMapper();
+        //Set pretty printing of json
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+        String arrayToJson = objectMapper.writeValueAsString(locations);
+        model.addAttribute("locations", arrayToJson);
+        return "mapa";
     }
+//TODO da se popravi: java.lang.IndexOutOfBoundsException: Index 0 out of bounds for length 0
+//    @GetMapping("/{name}")
+//    public String getDetailsPage(@PathVariable String name, Model model) {
+//        Location location = this.locationService.getLocationByName(name).get(0);
+//        if (location == null)
+//            return "redirect:/locations?error=Location not found";
+//        model.addAttribute("location", location);
+//        return "details";
+//    }
 
     @GetMapping("/create-form")
     public String addLocationPage(Model model) {
         List<Location> locations = this.locationService.getAllLocations();
         model.addAttribute("locations", locations);
         return "add-location";
+    }
+
+    @GetMapping("/select/{value}")
+    public String getCategory(@PathVariable String value, Model model) throws JsonProcessingException {
+        List<Location> locations = this.locationService.getLocationsByType(value);
+        ObjectMapper objectMapper = new ObjectMapper();
+        //Set pretty printing of json
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+        String arrayToJson = objectMapper.writeValueAsString(locations);
+        model.addAttribute("locations", arrayToJson);
+        model.addAttribute("selectedValue",value);
+        return "mapa";
     }
 
 
