@@ -43,7 +43,7 @@ public class LocationsController {
         model.addAttribute("locations", arrayToJson);
         return "mapa";
     }
-//    @GetMapping("/{id}")
+    //    @GetMapping("/{id}")
 //    public String getDetails(Model model){
 //
 //    }
@@ -92,7 +92,7 @@ public class LocationsController {
         return "mapa";
     }
 
-    //CRUD
+
     @PostMapping("/create")
     public String createLocation(@RequestParam float x,
                                  @RequestParam float y,
@@ -108,22 +108,22 @@ public class LocationsController {
 
 
     @GetMapping("/get/{id}")
-    public Location getShopById(@PathVariable Long id) throws InterruptedException, ExecutionException {
+    public Location getLocationById(@PathVariable Long id) throws InterruptedException, ExecutionException {
         return locationService.getLocationById(id);
     }
 
 
     @DeleteMapping("/delete/{id}")
-    public String deleteShop(@PathVariable Long id) {
+    public String deleteLocation(@PathVariable Long id) {
         locationService.deleteById(id);
         return "redirect:/locations";
     }
 
     @GetMapping("/edit-form/{id}")
-    public String editProductPage(@PathVariable Long id, Model model) {
-            Location location = this.locationService.getLocationById(id);
-            model.addAttribute("location", location);
-            return "add-location";
+    public String editLocationPage(@PathVariable Long id, Model model) {
+        Location location = this.locationService.getLocationById(id);
+        model.addAttribute("location", location);
+        return "add-location";
     }
 
     // TODO: 24-Nov-22 post method na locations za search

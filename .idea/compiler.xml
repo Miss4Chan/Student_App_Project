@@ -8,18 +8,21 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="StudentMap" />
+        <module name="StudentMap (2)" />
         <module name="StudentMap (1)" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="StudentMap" target="17" />
       <module name="StudentMap (1)" target="17" />
+      <module name="StudentMap (2)" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="StudentMap" options="-parameters" />
       <module name="StudentMap (1)" options="-parameters" />
+      <module name="StudentMap (2)" options="-parameters" />
     </option>
   </component>
 </project>
