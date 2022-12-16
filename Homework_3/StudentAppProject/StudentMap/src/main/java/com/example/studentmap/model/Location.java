@@ -1,11 +1,10 @@
 package com.example.studentmap.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -27,7 +26,9 @@ public class Location{
     private String website;
     private String openingHours;
     private double avgGrade; //not in constructor
-
+    @OneToMany(mappedBy = "location", fetch = FetchType.EAGER)
+    @JsonManagedReference
+    private List<Comment> comments;
 
     public Location(float x, float y, String type, String name, String address, String phone, String website, String openingHours) {
         this.x = x;
