@@ -1,6 +1,6 @@
 package com.example.studentmap.service.impl;
 
-import com.example.studentmap.model.Role;
+import com.example.studentmap.model.enums.Role;
 import com.example.studentmap.model.User;
 import com.example.studentmap.model.exceptions.InvalidArgumentsException;
 import com.example.studentmap.model.exceptions.PasswordsDoNotMatchException;

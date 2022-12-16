@@ -1,4 +1,4 @@
-package com.example.studentmap.model;
+package com.example.studentmap.model.enums;
 
 import org.springframework.security.core.GrantedAuthority;
 

@@ -1,6 +1,5 @@
 package com.example.studentmap.web;
 
-import com.example.studentmap.model.Role;
 import com.example.studentmap.model.exceptions.InvalidArgumentsException;
 import com.example.studentmap.model.exceptions.PasswordsDoNotMatchException;
 import com.example.studentmap.service.AuthService;
