@@ -1,13 +1,16 @@
 package com.example.studentmap.model;
 
+import com.example.studentmap.model.enums.Role;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.nio.MappedByteBuffer;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -20,6 +23,8 @@ public class User implements UserDetails {
     private String password;
     private String name;
     private String surname;
+    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
+    private List<Favourites> favourites;
     @Enumerated(value = EnumType.STRING)
     private Role role;
     private boolean isAccountNonExpired = true;

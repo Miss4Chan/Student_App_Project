@@ -92,7 +92,7 @@ public class LocationsController {
         return "mapa";
     }
 
-
+    //CRUD
     @PostMapping("/create")
     public String createLocation(@RequestParam float x,
                                  @RequestParam float y,
