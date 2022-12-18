@@ -3,6 +3,7 @@ package com.example.studentmap.web;
 import com.example.studentmap.model.Comment;
 import com.example.studentmap.model.Location;
 import com.example.studentmap.model.User;
+import com.example.studentmap.repository.UserRepository;
 import com.example.studentmap.service.CommentService;
 import com.example.studentmap.service.LocationService;
 import org.springframework.stereotype.Controller;
@@ -16,10 +17,13 @@ import java.util.List;
 public class CommentsController{
     private final CommentService commentService;
     private final LocationService locationService;
+    private final UserRepository userRepository;
 
-    public CommentsController(CommentService commentService, LocationService locationService){
+    public CommentsController(CommentService commentService, LocationService locationService,
+                              UserRepository userRepository){
         this.commentService = commentService;
         this.locationService = locationService;
+        this.userRepository = userRepository;
     }
 
     @GetMapping()
@@ -50,8 +54,9 @@ public class CommentsController{
 
     @PostMapping("/add-comment/{id}")
     public String createComment(@PathVariable String id, @RequestParam String comment,
-                                @RequestParam User user){
+                                @RequestParam String name){
         Location location = this.locationService.getLocationById(Long.valueOf(id));
+        User user = userRepository.findByName(name).get();
         this.commentService.createComment(comment, user, location);
         return "redirect:/comments";
     }
