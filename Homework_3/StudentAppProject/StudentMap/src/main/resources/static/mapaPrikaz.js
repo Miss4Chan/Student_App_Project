@@ -50,6 +50,9 @@ async function loadAllLocations(){
         marker.on('click', () => {
             document.getElementById("details").hidden=false;
             document.getElementById("name").innerText=item.name;
+            document.getElementById("chosenLoc").value = item.id;
+            document.getElementById("commentDiv").hidden=false;
+            document.getElementById("commentForm").action="/comments/add-comment/" + item.id;
             let address = document.getElementById("address");
             let hours = document.getElementById("opening-hours");
             let phone = document.getElementById("phone");

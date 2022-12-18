@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Student app - Home</title>
@@ -130,6 +130,11 @@
     </div>
     <div hidden id="details" style="margin-top: 40px;" class="text-center">
         <div class="mt-3">
+            <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                <a>Edit location..</a>
+            </th:block>
+        </div>
+        <div class="mt-3">
         <strong name="name" id="name" ></strong>
         </div>
         <div hidden class="mt-4">
@@ -145,10 +150,26 @@
             <i class="bi bi-globe"></i></br><a target="_blank" id="website" ></a>
         </div>
     </div>
+    <div hidden id="commentDiv">
+        <h2 style="color: maroon" th:text="${error} != null ? ${error} : ''"></h2>
+        <form id="commentForm" th:method="POST" sec:authorize="isAuthenticated()" >
+            <label>Comment:</label>
+            <input id="comment" type="textarea" name="comment"/>
+            <br/>
+            <input type="hidden" id="user" name="name" th:value="${#authentication.getPrincipal().getName}"/>
+            <button type="submit">Add Comment</button>
+        </form>
+        <div th:if="${comments} != null" th:each="comment: ${comments}">
+            <label for="username">User:</label>
+            <input id="username" th:value="comment.user.username">
+            <label for="commented">Comment:</label>
+            <input id="commented" th:value="comment.comment">
+        </div>
+    </div>
 </div>
 <div id="map"></div>
 <input id="locs" type="hidden" th:value="${locations}"/>
-
+<input id="chosenLoc" name="location" type="hidden" />
 <script src="/mapaPrikaz.js"></script>
 
 </body>
