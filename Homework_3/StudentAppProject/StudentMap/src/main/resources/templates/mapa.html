@@ -164,6 +164,18 @@
             <input type="hidden" id="faveButton" name="faves" th:value="${#authentication.getPrincipal().getName}"/>
             <button type="submit">Add to Faves</button>
         </form>
+<!--        <div class="info" th:text="'Оцена: ' + ${location.averageGrade} + ' според ' + ${location.graders} + ' оценувач/и'"></div>-->
+        <div id="grades" >
+            <!--th:if="${!graded}"-->
+            <a class="addG" onclick="getId(this)" name="1"><i class="bi bi-star-fill"></i></a>
+            <a class="addG" onclick="getId(this)" name="2"><i class="bi bi-star-fill"></i></a>
+            <a class="addG" onclick="getId(this)" name="3"><i class="bi bi-star-fill"></i></a>
+            <a class="addG" onclick="getId(this)" name="4"><i class="bi bi-star-fill"></i></a>
+            <a class="addG" onclick="getId(this)" name="5"><i class="bi bi-star-fill"></i></a>
+            <p class="text-danger">Внеси оцена за универзитетот избирајќи една од ѕвездите</p>
+
+        </div>
+
         <div th:if="${comments} != null" th:each="comment: ${comments}">
             <label for="username">User:</label>
             <input id="username" th:value="comment.user.username">

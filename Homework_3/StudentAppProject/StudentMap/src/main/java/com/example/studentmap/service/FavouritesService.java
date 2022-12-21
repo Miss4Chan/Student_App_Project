@@ -11,5 +11,6 @@ public interface FavouritesService {
     List<Location>  listAllFaves(Long favesID);
     Favourites addLocationToFaves(String username, Long favesID);
     Favourites createFavourites(String username);
+
 }
 

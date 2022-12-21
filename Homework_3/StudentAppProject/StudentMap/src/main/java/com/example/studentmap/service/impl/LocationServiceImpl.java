@@ -24,7 +24,16 @@ public class LocationServiceImpl implements LocationService{
     public List<Location> getLocationByName(String name){
         return locationRepository.findAllByNameContainingIgnoreCase(name);
     }
-
+    @Override
+    public double calculateAverageGrade(Long id, int grade) {
+        Location location = locationRepository.findById(id).get();
+        double averageGrade = location.getAverageGrade()*location.getGraders() + grade/ (location.getGraders()+1);
+        location.setAverageGrade(averageGrade);
+        location.setGraders(location.getGraders()+1);
+        locationRepository.deleteById(id);
+        locationRepository.save(location);
+        return averageGrade;
+    }
     @Override
     public List<Location> getLocationsByType(String type){
         return locationRepository.findAllByType(type);

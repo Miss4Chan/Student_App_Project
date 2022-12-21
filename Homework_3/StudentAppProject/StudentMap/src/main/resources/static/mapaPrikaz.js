@@ -38,6 +38,21 @@ $("#select").change(function () {
 });
 
 let selectedUniversity;
+function getId(el)
+{
+    var id = document.getElementById("chosenLoc").value;
+    el.href="/locations/add-grade/"+ id+"/"+el.name;
+    // var links = document.getElementsByClassName("addG");
+    // console.log(links)
+    // let i =0;
+    // for(let item of links)
+    // {
+    //     console.log(item)
+    //     console.log(i)
+    //     item.href = "/locations/add-grade/"+ id+"/"+i;
+    //     i++;
+    // }
+}
 
 async function loadAllLocations(){
     let items = document.getElementById("locs").value;
@@ -58,6 +73,7 @@ async function loadAllLocations(){
             let hours = document.getElementById("opening-hours");
             let phone = document.getElementById("phone");
             let website = document.getElementById("website");
+
             if(item.address!=="") {
                 address.innerText = item.address;
                 address.parentElement.hidden=false;
