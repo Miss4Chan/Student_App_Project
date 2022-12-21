@@ -1,7 +1,7 @@
 <th:block xmlns:th="http://www.thymeleaf.org">
     <section class="jumbotron text-center">
         <div class="container">
-            <h3 class="jumbotron-heading">Shopping cart for
+            <h3 class="jumbotron-heading">Favourites for
                 <th:block th:if="${#request.getRemoteUser() != null}" th:text="${#request.getRemoteUser()}"></th:block>
             </h3>
         </div>
@@ -18,14 +18,17 @@
                     <table class="table table-striped">
                         <thead>
                         <tr>
-                            <th scope="col">Product</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Manufacturer</th>
-                            <th scope="col">Category</th>
+                            <th scope="col">X</th>
+                            <th scope="col">Y</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Type</th>
+
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="locations : ${loc}">
+                        <tr th:each="loc : ${locations}">
+                            <td th:text="${loc.getX()}"></td>
+                            <td th:text="${loc.getY()}"></td>
                             <td th:text="${loc.getName()}"></td>
                             <td th:text="${loc.getType()}"></td>
                         </tr>

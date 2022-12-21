@@ -53,6 +53,7 @@ async function loadAllLocations(){
             document.getElementById("chosenLoc").value = item.id;
             document.getElementById("commentDiv").hidden=false;
             document.getElementById("commentForm").action="/comments/add-comment/" + item.id;
+            document.getElementById("favesForm").action="/favourites/add-location-to-faves/" + item.id;
             let address = document.getElementById("address");
             let hours = document.getElementById("opening-hours");
             let phone = document.getElementById("phone");

@@ -158,6 +158,11 @@
             <br/>
             <input type="hidden" id="user" name="name" th:value="${#authentication.getPrincipal().getName}"/>
             <button type="submit">Add Comment</button>
+            <br>
+        </form>
+        <form id="favesForm" th:method="POST" sec:authorize="isAuthenticated()">
+            <input type="hidden" id="faveButton" name="faves" th:value="${#authentication.getPrincipal().getName}"/>
+            <button type="submit">Add to Faves</button>
         </form>
         <div th:if="${comments} != null" th:each="comment: ${comments}">
             <label for="username">User:</label>

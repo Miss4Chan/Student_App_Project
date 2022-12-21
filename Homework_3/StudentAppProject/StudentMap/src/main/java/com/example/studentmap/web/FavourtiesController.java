@@ -21,7 +21,7 @@ public class FavourtiesController {
     }
 
     @GetMapping
-    public String getShoppingCartPage(@RequestParam(required = false) String error,
+    public String getFavouritesPage(@RequestParam(required = false) String error,
                                       HttpServletRequest req,
                                       Model model) {
         if(error != null && !error.isEmpty()){
@@ -38,11 +38,12 @@ public class FavourtiesController {
         return "favourites"; //nema model attr zatoa shto e prazna - display prazna lista or whatever
     }
     @PostMapping("/add-location-to-faves/{id}")
-    public String addProductToShoppingCart(@PathVariable Long id, HttpServletRequest req, Authentication authentication) {
+    public String addLocationToFaves(@PathVariable Long id,
+                                     Authentication authentication) {
         try {
             User user = (User) authentication.getPrincipal();
             this.favouritesService.addLocationToFaves(user.getUsername(), id);
-            return "redirect:/locations";
+            return "redirect:/favourites";
         } catch (RuntimeException exception) {
             return "redirect:/locations?error=" + exception.getMessage();
         }

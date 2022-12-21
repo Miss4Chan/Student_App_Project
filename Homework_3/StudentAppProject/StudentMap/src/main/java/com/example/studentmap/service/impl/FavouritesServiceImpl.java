@@ -3,6 +3,7 @@ package com.example.studentmap.service.impl;
 import com.example.studentmap.model.Favourites;
 import com.example.studentmap.model.Location;
 import com.example.studentmap.repository.FavouritesRepository;
+import com.example.studentmap.repository.UserRepository;
 import com.example.studentmap.service.FavouritesService;
 import com.example.studentmap.service.LocationService;
 import org.springframework.stereotype.Service;
@@ -15,10 +16,13 @@ public class FavouritesServiceImpl implements FavouritesService {
 
     private final FavouritesRepository favouritesRepository;
     private final LocationService locationService;
+    private final UserRepository userRepository;
 
-    public FavouritesServiceImpl(FavouritesRepository favouritesRepository, LocationService locationService) {
+    public FavouritesServiceImpl(FavouritesRepository favouritesRepository, LocationService locationService,
+                                 UserRepository userRepository) {
         this.favouritesRepository = favouritesRepository;
         this.locationService = locationService;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -34,8 +38,19 @@ public class FavouritesServiceImpl implements FavouritesService {
 
     @Override
     public Favourites addLocationToFaves(String username, Long locationID) {
-        Favourites f = favouritesRepository.findFavouritesByUser_Username(username).get();
+        Favourites f = null;
+        if(favouritesRepository.findFavouritesByUser_Username(username).isPresent()) {
+            f = favouritesRepository.findFavouritesByUser_Username(username).get();
+        }
+        else{
+            f = createFavourites(username);
+        }
         f.getLocationList().add(locationService.getLocationById(locationID));
         return favouritesRepository.save(f);
+    }
+
+    @Override
+    public Favourites createFavourites(String username) {
+        return new Favourites(userRepository.findByUsername(username).get());
     }
 }

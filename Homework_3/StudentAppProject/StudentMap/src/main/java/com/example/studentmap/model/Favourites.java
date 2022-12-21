@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
 @NoArgsConstructor
 @Getter
 @Setter
@@ -19,7 +18,7 @@ public class Favourites {
 
     private LocalDateTime dateCreated;
 
-    @ManyToOne
+    @OneToOne(fetch = FetchType.EAGER)
     private User user;
 
     @ManyToMany

@@ -12,4 +12,5 @@ import java.util.Optional;
 public interface FavouritesRepository extends JpaRepository<Favourites,Long> {
     Optional<Favourites> findByUser(User user);
     Optional<Favourites> findFavouritesByUser_Username(String username);
+
 }
