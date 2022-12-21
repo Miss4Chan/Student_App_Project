@@ -24,7 +24,8 @@ public class Location{
     private String phone;
     private String website;
     private String openingHours;
-    private double avgGrade; //not in constructor
+    private double averageGrade; //not in constructor
+    private int graders;
     @OneToMany(mappedBy = "location", fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<Comment> comments;
@@ -38,6 +39,8 @@ public class Location{
         this.phone = phone;
         this.website = website;
         this.openingHours = openingHours;
+        averageGrade=0;
+        graders=0;
     }
 
 }

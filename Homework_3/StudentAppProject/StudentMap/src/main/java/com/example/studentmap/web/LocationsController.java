@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
@@ -78,6 +79,11 @@ public class LocationsController {
         List<Location> locations = this.locationService.getAllLocations();
         model.addAttribute("locations", locations);
         return "add-location";
+    }
+    @GetMapping("/add-grade/{id}/{grade}")
+    public void addGrade(@PathVariable int grade,@PathVariable Long id,Model model){
+        double averageGrade = locationService.calculateAverageGrade(id,grade);
+        model.addAttribute("averageGrade",averageGrade);
     }
 
     @GetMapping("/select/{value}")
