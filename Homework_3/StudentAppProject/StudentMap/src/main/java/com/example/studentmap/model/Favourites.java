@@ -1,5 +1,7 @@
 package com.example.studentmap.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -22,6 +24,7 @@ public class Favourites {
     private User user;
 
     @ManyToMany
+    @JsonManagedReference
     private List<Location> locationList;
 
     public Favourites(User user) {
