@@ -45,7 +45,9 @@ public class FavouritesServiceImpl implements FavouritesService {
         else{
             f = createFavourites(username);
         }
-        f.getLocationList().add(locationService.getLocationById(locationID));
+        Location loc = locationService.getLocationById(locationID);
+        if(!f.getLocationList().contains(loc))
+            f.getLocationList().add(loc);
         return favouritesRepository.save(f);
     }
 

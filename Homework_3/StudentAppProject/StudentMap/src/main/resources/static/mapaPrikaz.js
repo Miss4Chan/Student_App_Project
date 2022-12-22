@@ -74,6 +74,7 @@ async function loadAllLocations(){
             let phone = document.getElementById("phone");
             let website = document.getElementById("website");
             let avgGrade = document.getElementById("result");
+            console.log(item);
 
             avgGrade.innerText = item.averageGrade;
 

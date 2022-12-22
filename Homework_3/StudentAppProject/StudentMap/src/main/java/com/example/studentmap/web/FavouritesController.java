@@ -12,11 +12,11 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/favourites")
-public class FavourtiesController {
+public class FavouritesController{
 
     private final FavouritesService favouritesService;
 
-    public FavourtiesController(FavouritesService favouritesService){
+    public FavouritesController(FavouritesService favouritesService){
         this.favouritesService=favouritesService;
     }
 

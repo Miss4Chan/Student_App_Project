@@ -15,7 +15,6 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @JsonBackReference
     private String comment;
     @ManyToOne
     private User user;

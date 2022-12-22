@@ -6,6 +6,11 @@ import com.example.studentmap.model.User;
 import com.example.studentmap.repository.UserRepository;
 import com.example.studentmap.service.CommentService;
 import com.example.studentmap.service.LocationService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonArrayFormatVisitor;
+import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -34,13 +39,27 @@ public class CommentsController{
         return "allComments";
     }
 
-    @GetMapping("/{id}")
-    public String getAllCommentsForLocation(@PathVariable Long id,
-                                            @RequestParam(required = false) String error, Model model) {
+    //    @GetMapping("/{id}")
+//    public String getAllCommentsForLocationPage(@PathVariable Long id,
+//                                            @RequestParam(required = false) String error, Model model) {
+//        List<Comment> comments = this.commentService.getAllCommentsByLocation_Id(id);
+//        model.addAttribute("comments", comments);
+//        model.addAttribute("error", error);
+//        return "allComments";
+//    }
+
+    @PostMapping("/{id}")
+    @ResponseBody
+    public List<Comment> getAllCommentsForLocation(@PathVariable Long id, @RequestParam(required = false) String error,
+                                            Model model) throws JsonProcessingException{
         List<Comment> comments = this.commentService.getAllCommentsByLocation_Id(id);
-        model.addAttribute("comments", comments);
         model.addAttribute("error", error);
-        return "allComments";
+        ObjectMapper objectMapper = new ObjectMapper();
+        //Set pretty printing of json
+//        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+        String arrayToJson = objectMapper.writeValueAsString(comments);
+        model.addAttribute("comments", arrayToJson);
+        return comments;
     }
 
     @GetMapping("/add-comment/{id}")
@@ -54,10 +73,12 @@ public class CommentsController{
 
     @PostMapping("/add-comment/{id}")
     public String createComment(@PathVariable String id, @RequestParam String comment,
-                                @RequestParam String name){
+                                @RequestParam String name, Model model, @RequestParam(required = false) String error){
         Location location = this.locationService.getLocationById(Long.valueOf(id));
+        model.addAttribute("error", error);
+        model.addAttribute("location", location);
         User user = userRepository.findByName(name).get();
         this.commentService.createComment(comment, user, location);
-        return "redirect:/comments";
+        return "redirect:/locations";
     }
 }
