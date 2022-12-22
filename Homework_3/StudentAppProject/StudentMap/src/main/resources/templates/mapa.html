@@ -91,6 +91,28 @@
                             Home
                         </a>
                     </li>
+                    <li sec:authorize="isAuthenticated()">
+                        <a href="/locations" class="nav-link">
+                            <button type="button" class="btn btn-success" th:text="${#request.getRemoteUser()}" ></button>
+                        </a>
+                    </li>
+                    <li sec:authorize="isAnonymous()">
+                        <a href="/login" class="nav-link">
+                            <button type="button" class="btn btn-success">Login</button>
+                        </a>
+                    </li>
+                    <li sec:authorize="isAuthenticated()">
+                        <a href="/logout" class="nav-link">
+                            <button type="button" class="btn btn-danger">Logout</button>
+                        </a>
+                    </li>
+                    <li sec:authorize="isAnonymous()">
+                        <a href="/register" class="nav-link">
+                            <button type="button" class="btn btn-primary">Register</button>
+                        </a>
+                    </li>
+
+
 <!--                    <li>-->
 <!--                        <a href="aboutus.html" class="nav-link text-white">-->
 <!--                            <svg class="bi d-block mx-auto mb-1" width="24" height="24">-->

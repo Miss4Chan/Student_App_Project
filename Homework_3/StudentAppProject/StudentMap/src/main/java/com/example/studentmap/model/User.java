@@ -1,6 +1,8 @@
 package com.example.studentmap.model;
 
 import com.example.studentmap.model.enums.Role;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,6 +30,7 @@ public class User implements UserDetails {
     private String name;
     private String surname;
     @OneToOne(mappedBy = "user",fetch = FetchType.EAGER)
+    @JsonBackReference
     private Favourites favourite;
     @Enumerated(value = EnumType.STRING)
     private Role role;
