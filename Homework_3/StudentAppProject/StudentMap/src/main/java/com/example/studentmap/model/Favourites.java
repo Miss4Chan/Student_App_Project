@@ -16,7 +16,7 @@ public class Favourites {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDateTime dateCreated;
+    //private LocalDateTime dateCreated;
 
     @OneToOne(fetch = FetchType.EAGER)
     private User user;
@@ -26,7 +26,7 @@ public class Favourites {
 
     public Favourites(User user) {
         this.user = user;
-        this.dateCreated=LocalDateTime.now();
+        //this.dateCreated=LocalDateTime.now();
         this.locationList= new ArrayList<>();
     }
 }
