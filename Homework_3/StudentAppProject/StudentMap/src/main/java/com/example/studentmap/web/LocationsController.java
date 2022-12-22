@@ -1,5 +1,6 @@
 package com.example.studentmap.web;
 
+import com.example.studentmap.model.Comment;
 import com.example.studentmap.model.Location;
 import com.example.studentmap.service.LocationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -86,6 +87,18 @@ public class LocationsController {
         double averageGrade = locationService.calculateAverageGrade(id,grade);
         String result = String.valueOf(averageGrade);
         return result;
+    }
+
+    @PostMapping("/get-comments/{id}")
+    @ResponseBody
+    public String getComments(@PathVariable Long id) throws JsonProcessingException{
+        Location location = locationService.getLocationById(id);
+        List<Comment> comments = location.getComments();
+        ObjectMapper objectMapper = new ObjectMapper();
+        //Set pretty printing of json
+//        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+        String arrayToJson = objectMapper.writeValueAsString(comments);
+        return arrayToJson;
     }
 
     @GetMapping("/select/{value}")

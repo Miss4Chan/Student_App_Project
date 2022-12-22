@@ -173,6 +173,7 @@
             <i class="bi bi-globe"></i></br><a target="_blank" id="website" ></a>
         </div>
     </div>
+    <br>
     <div hidden id="commentDiv">
         <h2 style="color: maroon" th:text="${error} != null ? ${error} : ''"></h2>
         <form id="commentForm" th:method="POST" sec:authorize="isAuthenticated()" >
@@ -180,12 +181,19 @@
             <input id="comment" type="textarea" name="comment"/>
             <br/>
             <input type="hidden" id="user" name="name" th:value="${#authentication.getPrincipal().getName}"/>
-            <button type="submit">Add Comment</button>
+            <br>
+            <button type="submit" class="btn btn-primary" style="display:block; margin-left:auto; margin-right:auto;">
+                Add Comment</button>
+            <br>
+            <button type="button" class="btn btn-primary" data-toggle="modal" id="showAllComments"
+                    data-target="#commentsModal" style="display:block; margin-left:auto; margin-right:auto;">
+                View all comments</button>
             <br>
         </form>
         <form id="favesForm" th:method="POST" sec:authorize="isAuthenticated()">
             <input type="hidden" id="faveButton" name="faves" th:value="${#authentication.getPrincipal().getName}"/>
-            <button type="submit">Add to Faves</button>
+            <button type="submit" class="btn btn-primary" style="display:block; margin-left:auto; margin-right:auto;">
+                Add to Faves</button>
         </form>
 <!--        <div class="info" th:text="'Оцена: ' + ${location.averageGrade} + ' според ' + ${location.graders} + ' оценувач/и'"></div>-->
         <div id="grades" >
@@ -244,6 +252,30 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="commentsModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 30px;background-color: #212529">
+            <div class="modal-header" style="border:none !important;">
+                <h3 class="text-center" style="margin-left:20px;color: white !important">All comments</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        style="background-color: #212529;color: white;border:none !important;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body" style="background-color: #212529;color: white;padding: 3%;border-radius: 30px;">
+                <div>
+                    <ul style="list-style-type:none" id="commentsList"></ul>
+                </div>
+                <!-- Close button -->
+                <div class="text-lg-start mt-4 pt-2">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                    style="display:block; margin-left:auto; margin-right:auto;">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <div id="map"></div>
 <input id="locs" type="hidden" th:value="${locations}"/>
 <input id="chosenLoc" name="location" type="hidden" />
@@ -258,6 +290,37 @@
         document.getElementById("loginBtn").click();
         document.getElementById()
     }
+</script>
+<script>
+    $('#showAllComments').click(
+        function() {
+            let idT = document.getElementById("chosenLoc").value;
+            let url3 = "/locations/get-comments/" + idT;
+            $.ajax({
+                type : "POST",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                url: url3,
+                cache: false,
+                async: false,
+                data: idT,
+                success: function (result) {
+                    console.log(result);
+                    $.each(result, function (key, value) {
+                        $('#commentsList').append("<li>\
+										<div>"+value.user.name+"</div>\
+										<div>"+value.user.surname+"</div>\
+										<div>"+value.comment+"</div>\
+										</li>");
+                    });
+                    // $("#commentsList").children('li')=result.values;
+                    console.log(JSON.stringify(result));
+                },
+                error : function(err) {
+                    alert("not working" + JSON.stringify(err));
+                }
+            });
+        });
 </script>
 <script>
     $('.addG').click(
