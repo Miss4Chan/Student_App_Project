@@ -36,7 +36,10 @@ public class LocationsController {
         //samo universities
         List<Location> locations = this.locationService.getLocationsByType("university");
         //model.addAttribute("locations", locations);
-        model.addAttribute("error", error);
+        if(error != null) {
+            model.addAttribute("hasError", true);
+            model.addAttribute("error", error);
+        }
         ObjectMapper objectMapper = new ObjectMapper();
         //Set pretty printing of json
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
@@ -44,10 +47,7 @@ public class LocationsController {
         model.addAttribute("locations", arrayToJson);
         return "mapa";
     }
-    //    @GetMapping("/{id}")
-//    public String getDetails(Model model){
-//
-//    }
+
     @PostMapping("/search")
     public String returnSearch(@RequestParam(required = false) String error,
                                @RequestParam(required=false) String text,

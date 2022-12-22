@@ -9,7 +9,6 @@
         <outputRelativeToContentRoot value="true" />
         <module name="StudentMap" />
         <module name="StudentMap (2)" />
-        <module name="StudentMap (1)" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

@@ -27,7 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                 .loginPage("/login").permitAll()
-                .failureUrl("/login?error=Bad Credentials")
+                .failureUrl("/locations?error=Bad Credentials")
                 .defaultSuccessUrl("/locations", true)
                 .and()
                 .logout()
@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .clearAuthentication(true)
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
-                .logoutSuccessUrl("/login");
+                .logoutSuccessUrl("/locations");
 
     }
 
