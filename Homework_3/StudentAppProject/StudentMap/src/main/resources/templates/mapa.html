@@ -173,9 +173,10 @@
             <a class="addG" name="3"><i class="bi bi-star-fill"></i></a>
             <a class="addG"  name="4"><i class="bi bi-star-fill"></i></a>
             <a class="addG" name="5"><i class="bi bi-star-fill"></i></a>
-            <p class="text-danger">Внеси оцена за универзитетот избирајќи една од ѕвездите</p>
-
         </div>
+        <p>
+        <span>Average grade: </span><span id="result"></span>
+        </p>
 
         <div th:if="${comments} != null" th:each="comment: ${comments}">
             <label for="username">User:</label>
@@ -198,15 +199,16 @@
             console.log(gradee);
             $.ajax({
                 type : "POST",
-                dataType: "json",
+                dataType: "text",
                 contentType: "application/json; charset=utf-8",
                 url: url2,
                 cache: false,
+                data: null,
                 success: function (result) {
-                    console.log(result);
+                    $("#result").text(result);
                 },
-                error : function() {
-                    alert("not working");
+                error : function(err) {
+                    alert("not working" + JSON.stringify(err));
                 }
             });
         });

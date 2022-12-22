@@ -73,6 +73,9 @@ async function loadAllLocations(){
             let hours = document.getElementById("opening-hours");
             let phone = document.getElementById("phone");
             let website = document.getElementById("website");
+            let avgGrade = document.getElementById("result");
+
+            avgGrade.innerText = item.averageGrade;
 
             if(item.address!=="") {
                 address.innerText = item.address;

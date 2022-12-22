@@ -81,10 +81,11 @@ public class LocationsController {
         return "add-location";
     }
     @PostMapping("/add-grade/{id}/{grade}")
+    @ResponseBody
     public String addGrade(@PathVariable int grade, @PathVariable Long id){
         double averageGrade = locationService.calculateAverageGrade(id,grade);
-        //model.addAttribute("averageGrade",averageGrade);
-        return String.valueOf(averageGrade);
+        String result = String.valueOf(averageGrade);
+        return result;
     }
 
     @GetMapping("/select/{value}")
