@@ -37,8 +37,8 @@ public class LoginController {
             return "redirect:/locations";
         }
         catch (InvalidUserCredentialsException exception) {
-            model.addAttribute("hasError", true);
-            model.addAttribute("error", exception.getMessage());
+            model.addAttribute("hasLoginError", true);
+            model.addAttribute("loginError", exception.getMessage());
             return "mapa";
         }
     }

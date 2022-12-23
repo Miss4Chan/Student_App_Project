@@ -39,13 +39,19 @@ public class LocationsController {
     }
 
     @GetMapping
-    public String getHomePage(@RequestParam(required = false) String error, Model model) throws JsonProcessingException {
+    public String getHomePage(@RequestParam(required = false) String loginError,
+                              @RequestParam(required = false) String registerError,
+                              Model model) throws JsonProcessingException {
         //samo universities
         List<Location> locations = this.locationService.getLocationsByType("university");
-        //model.addAttribute("locations", locations);
-        if(error != null) {
-            model.addAttribute("hasError", true);
-            model.addAttribute("error", error);
+
+        if(loginError != null) {
+            model.addAttribute("hasLoginError", true);
+            model.addAttribute("loginError", loginError);
+        }
+        if(registerError != null) {
+            model.addAttribute("hasRegisterError", true);
+            model.addAttribute("registerError", registerError);
         }
         ObjectMapper objectMapper = new ObjectMapper();
         //Set pretty printing of json
