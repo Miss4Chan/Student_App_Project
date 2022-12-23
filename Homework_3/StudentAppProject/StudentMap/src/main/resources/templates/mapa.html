@@ -18,11 +18,16 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- JavaScript Bundle -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
 
 
     <!-- icons -->
@@ -79,7 +84,8 @@
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <i class="bi bi-list fs-2 mb-3" id="menu" onclick="menuClick()"></i>
             <div class="container d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-                <a href="/locations" class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+                <a href="/locations"
+                   class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
                     <img id="logo" src="/Student_icon.svg.png" height="50px">
                     <span class="fs-4" style="margin-left: 10px">STUDENT APP</span>
                 </a>
@@ -95,12 +101,15 @@
                     </li>
                     <li sec:authorize="isAuthenticated()">
                         <a href="/locations" class="nav-link">
-                            <button type="button" class="btn btn-success" th:text="${#request.getRemoteUser()}" ></button>
+                            <button type="button" class="btn btn-success"
+                                    th:text="${#request.getRemoteUser()}"></button>
                         </a>
                     </li>
                     <li sec:authorize="isAnonymous()">
                         <div style="padding: 0.5rem 1rem;">
-                        <button id="loginBtn" type="button" class="btn btn-success nav-bar" data-bs-toggle="modal" data-bs-target="#loginModal">Login</button>
+                            <button id="loginBtn" type="button" class="btn btn-success nav-bar" data-bs-toggle="modal"
+                                    data-bs-target="#loginModal">Login
+                            </button>
                         </div>
                     </li>
                     <li sec:authorize="isAuthenticated()">
@@ -110,24 +119,19 @@
                     </li>
                     <li sec:authorize="isAnonymous()">
                         <div style="padding: 0.5rem 1rem;">
-                            <button id="registerBtn" type="button" class="btn btn-danger nav-bar" data-bs-toggle="modal" data-bs-target="#registerModal">Register</button>
+                            <button id="registerBtn" type="button" class="btn btn-danger nav-bar" data-bs-toggle="modal"
+                                    data-bs-target="#registerModal">Register
+                            </button>
                         </div>
                     </li>
-<!--                    <li sec:authorize="hasRole('ROLE_ADMIN')">-->
+                    <!--                    <li sec:authorize="hasRole('ROLE_ADMIN')">-->
                     <li>
-                        <a href="/locations/create-form" class="nav-link">
-                            <button type="button" class="btn btn-primary">Create</button>
-                        </a>
+                        <div style="padding: 0.5rem 1rem;">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModalCreate">Create
+                            </button>
+                        </div>
                     </li>
-
-<!--                    <li>-->
-<!--                        <a href="aboutus.html" class="nav-link text-white">-->
-<!--                            <svg class="bi d-block mx-auto mb-1" width="24" height="24">-->
-<!--                                <use xlink:href="#people-circle"></use>-->
-<!--                            </svg>-->
-<!--                            About us-->
-<!--                        </a>-->
-<!--                    </li>-->
                 </ul>
             </div>
         </div>
@@ -137,91 +141,105 @@
 <div id="sidebar" style="padding-top: 32px" class="text-bg-dark col-sm-12" hidden>
     <div style="padding: 0px 20px">
 
-        <form class="col-12 ncol-lg-auto mb-3 mb-lg-0 me-lg-3 d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start" role="search" method="post" action="/locations/search">
-            <input style="width: 80%" name="text" type="search" class="form-control text-bg-dark " placeholder="Search location..." aria-label="Search">
+        <form class="col-12 ncol-lg-auto mb-3 mb-lg-0 me-lg-3 d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"
+              role="search" method="post" action="/locations/search">
+            <input style="width: 80%" name="text" type="search" class="form-control text-bg-dark "
+                   placeholder="Search location..." aria-label="Search">
             <button class="btn btn-outline-light col-2" type="submit" id="search"><i class="bi bi-search"></i></button>
         </form>
 
         <div class="dropdown" style="margin-top: 15px; width: 80%;">
-        <select style="width: 80%" class="btn btn-secondary dropdown-toggle" id="select" data-bs-auto-close="true" type="button" data-bs-toggle="dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <option class="dropdown-item" value="none" th:text="(${selectedValue} != null ? ${selectedValue} : 'Choose category..')" selected disabled hidden></option>
-            <option class="dropdown-item" value="university" name="university">university</option>
-            <option class="dropdown-item" value="cafe" name="cafe">cafe</option>
-            <option class="dropdown-item" value="bakery">bakery</option>
-            <option class="dropdown-item" value="library">library</option>
-            <option class="dropdown-item" value="pub">pub</option>
-            <option class="dropdown-item" value="confectionary">confectionary</option>
-            <option class="dropdown-item" value="electronics">electronics</option>
-            <option class="dropdown-item" value="supermarket">supermarkets</option>
-        </select>
+            <select style="width: 80%" class="btn btn-secondary dropdown-toggle" id="select" data-bs-auto-close="true"
+                    type="button" data-bs-toggle="dropdown" data-toggle="dropdown" aria-haspopup="true"
+                    aria-expanded="false">
+                <option class="dropdown-item" value="none"
+                        th:text="(${selectedValue} != null ? ${selectedValue} : 'Choose category..')" selected disabled
+                        hidden></option>
+                <option class="dropdown-item" value="university" name="university">university</option>
+                <option class="dropdown-item" value="cafe" name="cafe">cafe</option>
+                <option class="dropdown-item" value="bakery">bakery</option>
+                <option class="dropdown-item" value="library">library</option>
+                <option class="dropdown-item" value="pub">pub</option>
+                <option class="dropdown-item" value="confectionary">confectionary</option>
+                <option class="dropdown-item" value="electronics">electronics</option>
+                <option class="dropdown-item" value="supermarket">supermarkets</option>
+            </select>
         </div>
 
 
     </div>
     <div hidden id="details" style="margin-top: 40px;" class="text-center">
+        <input id="x" type="hidden"/>
+        <input id="y" type="hidden"/>
+        <input id="type" type="hidden"/>
         <div class="mt-3">
             <th:block sec:authorize="hasRole('ROLE_ADMIN')">
                 <a>Edit location..</a>
             </th:block>
         </div>
         <div class="mt-3">
-        <strong name="name" id="name" ></strong>
+            <strong name="name" id="name"></strong>
         </div>
         <div hidden class="mt-4">
-            <i class="bi bi-geo-alt-fill"></i><p id="address"></p>
+            <i class="bi bi-geo-alt-fill"></i>
+            <p id="address"></p>
         </div>
         <div hidden class="mt-4">
-            <i class="bi bi-clock"></i><p id="opening-hours"></p>
+            <i class="bi bi-clock"></i>
+            <p id="opening-hours"></p>
         </div>
         <div hidden class="mt-4">
-            <i class="bi bi-telephone-fill"></i><p id="phone"></p>
+            <i class="bi bi-telephone-fill"></i>
+            <p id="phone"></p>
         </div>
         <div hidden class="mt-4">
-            <i class="bi bi-globe"></i></br><a target="_blank" id="website" ></a>
+            <i class="bi bi-globe"></i></br><a target="_blank" id="website"></a>
         </div>
     </div>
     <br>
     <div hidden id="commentDiv">
         <h2 style="color: maroon" th:text="${error} != null ? ${error} : ''"></h2>
-        <form id="commentForm" th:method="POST" sec:authorize="isAuthenticated()" >
+        <form id="commentForm" th:method="POST" sec:authorize="isAuthenticated()">
             <label>Comment:</label>
             <input id="comment" type="textarea" name="comment"/>
             <br/>
             <input type="hidden" id="user" name="name" th:value="${#authentication.getPrincipal().getName}"/>
             <br>
             <button type="submit" class="btn btn-primary" style="display:block; margin-left:auto; margin-right:auto;">
-                Add Comment</button>
+                Add Comment
+            </button>
             <br>
             <button type="button" class="btn btn-primary" data-toggle="modal" id="showAllComments"
                     data-target="#commentsModal" style="display:block; margin-left:auto; margin-right:auto;">
-                View all comments</button>
+                View all comments
+            </button>
             <br>
         </form>
         <form id="favesForm" th:method="POST" sec:authorize="isAuthenticated()">
             <input type="hidden" id="faveButton" name="faves" th:value="${#authentication.getPrincipal().getName}"/>
             <button type="submit" class="btn btn-primary" style="display:block; margin-left:auto; margin-right:auto;">
-                Add to Faves</button>
+                Add to Faves
+            </button>
         </form>
-<!--        <div class="info" th:text="'Оцена: ' + ${location.averageGrade} + ' според ' + ${location.graders} + ' оценувач/и'"></div>-->
-        <div id="grades" >
+        <div id="grades">
             <!--th:if="${!graded}"-->
-            <a class="addG"  name="1"><i class="bi bi-star-fill"></i></a>
+            <a class="addG" name="1"><i class="bi bi-star-fill"></i></a>
             <a class="addG" name="2"><i class="bi bi-star-fill"></i></a>
             <a class="addG" name="3"><i class="bi bi-star-fill"></i></a>
-            <a class="addG"  name="4"><i class="bi bi-star-fill"></i></a>
+            <a class="addG" name="4"><i class="bi bi-star-fill"></i></a>
             <a class="addG" name="5"><i class="bi bi-star-fill"></i></a>
         </div>
         <p>
-        <span>Average grade: </span><span id="result"></span>
+            <span>Average grade: </span><span id="result"></span>
         </p>
-        <form id="editForm" th:method="GET" sec:authorize="isAuthenticated()">
-<!--            <input type="hidden" id="editButton" name="edit" th:value=""/>-->
-            <button type="submit" class="btn btn-primary" style="display:block; margin-left:auto; margin-right:auto;">
-                Edit</button>
-        </form>
+        <button onclick="editLocation()" type="submit" class="btn btn-primary" data-bs-toggle="modal"
+                data-bs-target="#exampleModal" style="display:block; margin-left:auto; margin-right:auto;">
+            Edit
+        </button>
         <form id="deleteForm" th:method="GET" sec:authorize="isAuthenticated()">
             <button type="submit" class="btn btn-primary" style="display:block; margin-left:auto; margin-right:auto;">
-                Delete</button>
+                Delete
+            </button>
         </form>
     </div>
 </div>
@@ -237,20 +255,24 @@
                     </div>
                     <!-- Email input -->
                     <div class="form-group row mb-3">
-                        <label for="username" class="pr-5 col-sm-5 col-form-label text-end">Enter username or email:</label>
+                        <label for="username" class="pr-5 col-sm-5 col-form-label text-end">Enter username or
+                            email:</label>
                         <div class="row col-sm-7">
                             <input type="text" style="color: white;" class="form-control bg-transparent ps-5"
                                    id="username" name="username" required=""
                                    autofocus="" placeholder="email@example.com">
-                            <i class="bi bi-person-circle position-relative translate-middle-y" style="bottom: 21px; width: 12px;"></i>
+                            <i class="bi bi-person-circle position-relative translate-middle-y"
+                               style="bottom: 21px; width: 12px;"></i>
                         </div>
                     </div>
                     <!-- Password input -->
                     <div class="form-group row mb-3">
                         <label for="password" class="col-sm-5 col-form-label text-end">Enter password:</label>
                         <div class="row col-sm-7">
-                            <input type="password" style="color: white;" class="form-control bg-transparent ps-5" id="password" name="password" placeholder="type password..">
-                            <i class="bi bi-eye-slash position-relative translate-middle-y" style="bottom: 21px; width: 12px;"></i>
+                            <input type="password" style="color: white;" class="form-control bg-transparent ps-5"
+                                   id="password" name="password" placeholder="type password..">
+                            <i class="bi bi-eye-slash position-relative translate-middle-y"
+                               style="bottom: 21px; width: 12px;"></i>
                         </div>
                     </div>
                     <div class="d-flex justify-content-center mb-4" style="margin-top: 25px;">
@@ -262,7 +284,10 @@
 
                 <!-- Register buttons -->
                 <div class="text-lg-start mt-4 pt-2">
-                    <p class="text-center small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="#!" onclick="openRegister()" class="link-primary">Register</a></p>
+                    <p class="text-center small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="#!"
+                                                                                                  onclick="openRegister()"
+                                                                                                  class="link-primary">Register</a>
+                    </p>
                 </div>
             </div>
         </div>
@@ -284,7 +309,8 @@
                         <div class="row col-sm-7">
                             <input type="text" style="color: white;" class="form-control bg-transparent ps-5"
                                    id="rgtrUsername" name="username" placeholder="username.example" required>
-                            <i class="bi bi-person-circle position-relative translate-middle-y" style="bottom: 21px; width: 12px;"></i>
+                            <i class="bi bi-person-circle position-relative translate-middle-y"
+                               style="bottom: 21px; width: 12px;"></i>
                         </div>
                     </div>
                     <!-- Password input -->
@@ -293,16 +319,20 @@
                         <div class="row col-sm-7">
                             <input type="password" style="color: white;" class="form-control bg-transparent ps-5"
                                    id="rgtrPassword" name="password" placeholder="type password.." required>
-                            <i class="bi bi-eye-slash position-relative translate-middle-y" style="bottom: 21px; width: 12px;"></i>
+                            <i class="bi bi-eye-slash position-relative translate-middle-y"
+                               style="bottom: 21px; width: 12px;"></i>
                         </div>
                     </div>
                     <!-- Password input -->
                     <div class="form-group row mb-3">
-                        <label for="re-enter-password" class="col-sm-5 col-form-label text-end">Re-enter password:</label>
+                        <label for="re-enter-password" class="col-sm-5 col-form-label text-end">Re-enter
+                            password:</label>
                         <div class="row col-sm-7">
                             <input type="password" style="color: white;" class="form-control bg-transparent ps-5"
-                                   id="re-enter-password" name="repeatedPassword" placeholder="re-type password.." required>
-                            <i class="bi bi-eye-slash position-relative translate-middle-y" style="bottom: 21px; width: 12px;"></i>
+                                   id="re-enter-password" name="repeatedPassword" placeholder="re-type password.."
+                                   required>
+                            <i class="bi bi-eye-slash position-relative translate-middle-y"
+                               style="bottom: 21px; width: 12px;"></i>
                         </div>
                     </div>
                     <!-- Name input -->
@@ -311,7 +341,8 @@
                         <div class="row col-sm-7">
                             <input type="text" style="color: white;" class="form-control bg-transparent ps-5"
                                    id="rgtrName" name="name" placeholder="type your name.." required>
-                            <i class="bi bi-person-lines-fill position-relative translate-middle-y" style="bottom: 21px; width: 12px;"></i>
+                            <i class="bi bi-person-lines-fill position-relative translate-middle-y"
+                               style="bottom: 21px; width: 12px;"></i>
                         </div>
                     </div>
                     <!-- Surname input -->
@@ -320,7 +351,8 @@
                         <div class="row col-sm-7">
                             <input type="text" style="color: white;" class="form-control bg-transparent ps-5"
                                    id="rgtrSurname" name="surname" placeholder="type your surname.." required>
-                            <i class="bi bi-person-lines-fill position-relative translate-middle-y" style="bottom: 21px; width: 12px;"></i>
+                            <i class="bi bi-person-lines-fill position-relative translate-middle-y"
+                               style="bottom: 21px; width: 12px;"></i>
                         </div>
                     </div>
                     <div class="d-flex justify-content-center mb-4" style="margin-top: 25px;">
@@ -351,7 +383,8 @@
                 <!-- Close button -->
                 <div class="text-lg-start mt-4 pt-2">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"
-                    style="display:block; margin-left:auto; margin-right:auto;">Close</button>
+                            style="display:block; margin-left:auto; margin-right:auto;">Close
+                    </button>
                 </div>
             </div>
         </div>
@@ -359,7 +392,7 @@
 </div>
 <div id="map"></div>
 <input id="locs" type="hidden" th:value="${locations}"/>
-<input id="chosenLoc" name="location" type="hidden" />
+<input id="chosenLoc" name="location" type="hidden"/>
 <script src="/mapaPrikaz.js"></script>
 <script th:inline="javascript">
     /*<![CDATA[*/
@@ -368,20 +401,20 @@
     let hasRegisterError = /*[[${hasRegisterError}]]*/ false;
     /*]]>*/
     console.log(hasRegisterError);
-    if(hasLoginError) {
+    if (hasLoginError) {
         document.getElementById("loginBtn").click();
     }
-    if(hasRegisterError) {
+    if (hasRegisterError) {
         document.getElementById("registerBtn").click();
     }
 </script>
 <script>
     $('#showAllComments').click(
-        function() {
+        function () {
             let idT = document.getElementById("chosenLoc").value;
             let url3 = "/locations/get-comments/" + idT;
             $.ajax({
-                type : "POST",
+                type: "POST",
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 url: url3,
@@ -390,17 +423,21 @@
                 data: idT,
                 success: function (result) {
                     console.log(result);
+                    var e = document.querySelector("#commentsList");
+                    e.innerHTML = "";
                     $.each(result, function (key, value) {
+
                         $('#commentsList').append("<li>\
-										<div>"+value.user.name+"</div>\
-										<div>"+value.user.surname+"</div>\
-										<div>"+value.comment+"</div>\
+										<div>" + value.user.name + "</div>\
+										<div>" + value.user.surname + "</div>\
+										<div>" + value.comment + "</div>\
 										</li>");
+
                     });
                     // $("#commentsList").children('li')=result.values;
                     console.log(JSON.stringify(result));
                 },
-                error : function(err) {
+                error: function (err) {
                     alert("not working" + JSON.stringify(err));
                 }
             });
@@ -408,13 +445,13 @@
 </script>
 <script>
     $('.addG').click(
-        function() {
+        function () {
             let idT = document.getElementById("chosenLoc").value;
             let gradee = this.name;
             var url2 = "/locations/add-grade/" + idT + "/" + gradee;
             console.log(gradee);
             $.ajax({
-                type : "POST",
+                type: "POST",
                 dataType: "text",
                 contentType: "application/json; charset=utf-8",
                 url: url2,
@@ -423,11 +460,212 @@
                 success: function (result) {
                     $("#result").text(result);
                 },
-                error : function(err) {
+                error: function (err) {
                     alert("not working" + JSON.stringify(err));
                 }
             });
         });
 </script>
+<div class="modal fade" id="exampleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background-color: #212529;color: white;">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Edit location</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="/locations/create">
+                    <input type="hidden" name="id" id="id">
+                    <div class="form-group row mb-3">
+                        <label for="coordinates" class="pr-5 col-sm-5 col-form-label text-end">Coordinates:</label>
+                        <div class="row col-sm-7" id="coordinates">
+                            <input type="text" style="width: 130px; color: white;"
+                                   class="form-control bg-transparent text-center" id="editx"
+                                   placeholder="x coordinate" name="x">
+                            <input type="text" style="width: 130px; color: white;"
+                                   class="form-control bg-transparent text-center" id="edity"
+                                   placeholder="y coordinate" name="y">
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label for="type" class="pr-5 col-sm-5 col-form-label text-end">Amenity type:</label>
+                        <div class="dropdown row col-sm-7">
+                            <select style="margin-left: 0px" class="ml-1 btn btn-secondary dropdown-toggle row "
+                                    data-bs-auto-close="true"
+                                    type="button" data-bs-toggle="dropdown" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false" name="type">
+                                <option class="dropdown-item" id="edittype"
+                                        selected hidden disabled>
+                                </option>
+                                <option class="dropdown-item" value="university" name="university">university</option>
+                                <option class="dropdown-item" value="cafe" name="cafe">cafe</option>
+                                <option class="dropdown-item" value="bakery" name="bakery">bakery</option>
+                                <option class="dropdown-item" value="library" name="library">library</option>
+                                <option class="dropdown-item" value="pub" name="pub">pub</option>
+                                <option class="dropdown-item" value="confectionary" name="confectionary">confectionary
+                                </option>
+                                <option class="dropdown-item" value="electronics" name="electronics">electronics
+                                </option>
+                                <option class="dropdown-item" value="supermarket" name="supermarket">supermarkets
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label for="name" class="pr-5 col-sm-5 col-form-label text-end">Location name:</label>
+                        <div class="row col-sm-7">
+                            <input type="text" style="color: white;" class="form-control bg-transparent text-center"
+                                   id="editname"
+                                   placeholder="Enter location name" name="name">
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label for="address" class="pr-5 col-sm-5 col-form-label text-end">Location address:</label>
+                        <div class="row col-sm-7">
+                            <input type="text" style="color: white;"
+                                   class="form-control bg-transparent text-center"
+                                   id="editaddress"
+                                   placeholder="Enter location address" name="address">
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label for="editopeningHours" class="pr-5 col-sm-5 col-form-label text-end">Opening
+                            hours:</label>
+                        <div class="row col-sm-7">
+                            <input type="text" style="color: white;" class="form-control bg-transparent text-center"
+                                   id="editopeningHours"
+                                   placeholder="Enter opening hours" name="openingHours">
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row mb-3">
+                        <label for="phone" class="pr-5 col-sm-5 col-form-label text-end">Phone number:</label>
+                        <div class="row col-sm-7">
+                            <input type="text" style="color: white;" class="form-control bg-transparent text-center"
+                                   id="editphone"
+                                   placeholder="Enter phone number"
+                                   name="phone">
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-3">
+                        <label for="website" class="pr-5 col-sm-5 col-form-label text-end">Website:</label>
+                        <div class="row col-sm-7">
+                            <input type="text" style="color: white;" class="form-control bg-transparent text-center"
+                                   id="editwebsite"
+                                   placeholder="Enter link to website"
+                                   name="website">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Go back</button>
+                        <button type="submit" class="btn btn-success">Save location</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="exampleModalCreate" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background-color: #212529;color: white;">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabelCreate">Add location</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="/locations/create">
+                    <input type="hidden" name="id" id="idC">
+                    <div class="form-group row mb-3">
+                        <label for="coordinates" class="pr-5 col-sm-5 col-form-label text-end">Coordinates:</label>
+                        <div class="row col-sm-7" id="coordinatesC">
+                            <input type="text" style="width: 130px; color: white;"
+                                   class="form-control bg-transparent text-center" id="xC"
+                                   placeholder="x coordinate" name="x">
+                            <input type="text" style="width: 130px; color: white;"
+                                   class="form-control bg-transparent text-center" id="yC"
+                                   placeholder="y coordinate" name="y">
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label for="type" class="pr-5 col-sm-5 col-form-label text-end">Amenity type:</label>
+                        <div class="dropdown row col-sm-7">
+                            <select style="margin-left: 0px" class="ml-1 btn btn-secondary dropdown-toggle row"
+                                    data-bs-auto-close="true"
+                                    type="button" data-bs-toggle="dropdown" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false" name="type">
+                                <option class="dropdown-item" value="university" name="university" selected>university
+                                </option>
+                                <option class="dropdown-item" value="cafe" name="cafe">cafe</option>
+                                <option class="dropdown-item" value="bakery" name="bakery">bakery</option>
+                                <option class="dropdown-item" value="library" name="library">library</option>
+                                <option class="dropdown-item" value="pub" name="pub">pub</option>
+                                <option class="dropdown-item" value="confectionary" name="confectionary">confectionary
+                                </option>
+                                <option class="dropdown-item" value="electronics" name="electronics">electronics
+                                </option>
+                                <option class="dropdown-item" value="supermarket" name="supermarket">supermarkets
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label for="name" class="pr-5 col-sm-5 col-form-label text-end">Location name:</label>
+                        <div class="row col-sm-7">
+                            <input type="text" style="color: white;" class="form-control bg-transparent text-center"
+                                   id="nameC"
+                                   placeholder="Enter location name" name="name">
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label for="address" class="pr-5 col-sm-5 col-form-label text-end">Location address:</label>
+                        <div class="row col-sm-7">
+                            <input type="text" style="color: white;" class="form-control bg-transparent text-center"
+                                   id="addressC"
+                                   placeholder="Enter location address" name="address">
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label for="openingHours" class="pr-5 col-sm-5 col-form-label text-end">Opening hours:</label>
+                        <div class="row col-sm-7">
+                            <input type="text" style="color: white;" class="form-control bg-transparent text-center"
+                                   id="openingHours"
+                                   placeholder="Enter opening hours" name="openingHours">
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-3">
+                        <label for="phone" class="pr-5 col-sm-5 col-form-label text-end">Phone number:</label>
+                        <div class="row col-sm-7">
+                            <input type="text" style="color: white;" class="form-control bg-transparent text-center"
+                                   id="phoneC"
+                                   placeholder="Enter phone number"
+                                   name="phone">
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-3">
+                        <label for="web" class="pr-5 col-sm-5 col-form-label text-end">Website:</label>
+                        <div class="row col-sm-7">
+                            <input type="text" style="color: white;" class="form-control bg-transparent text-center"
+                                   id="web"
+                                   placeholder="Enter link to website"
+                                   name="website">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Go back</button>
+
+                        <button type="submit" class="btn btn-success">Create location</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
