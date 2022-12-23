@@ -113,6 +113,13 @@
                             <button type="button" class="btn btn-primary">Register</button>
                         </a>
                     </li>
+<!--                    <li sec:authorize="hasRole('ROLE_ADMIN')">-->
+                    <li>
+                        <a href="/locations/create-form" class="nav-link">
+                            <button type="button" class="btn btn-primary">Create</button>
+                        </a>
+                    </li>
+
 <!--                    <li>-->
 <!--                        <a href="aboutus.html" class="nav-link text-white">-->
 <!--                            <svg class="bi d-block mx-auto mb-1" width="24" height="24">-->
@@ -127,7 +134,7 @@
     </div>
 
 </div>
-<div id="sidebar" style="padding-top: 32px" class="text-bg-dark" hidden>
+<div id="sidebar" style="padding-top: 32px" class="text-bg-dark col-sm-12" hidden>
     <div style="padding: 0px 20px">
 
         <form class="col-12 ncol-lg-auto mb-3 mb-lg-0 me-lg-3 d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start" role="search" method="post" action="/locations/search">
@@ -207,6 +214,15 @@
         <p>
         <span>Average grade: </span><span id="result"></span>
         </p>
+        <form id="editForm" th:method="GET" sec:authorize="isAuthenticated()">
+<!--            <input type="hidden" id="editButton" name="edit" th:value=""/>-->
+            <button type="submit" class="btn btn-primary" style="display:block; margin-left:auto; margin-right:auto;">
+                Edit</button>
+        </form>
+        <form id="deleteForm" th:method="GET" sec:authorize="isAuthenticated()">
+            <button type="submit" class="btn btn-primary" style="display:block; margin-left:auto; margin-right:auto;">
+                Delete</button>
+        </form>
     </div>
 </div>
 <div class="modal" id="loginModal">

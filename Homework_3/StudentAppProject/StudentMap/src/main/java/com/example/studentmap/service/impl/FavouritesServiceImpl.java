@@ -55,4 +55,14 @@ public class FavouritesServiceImpl implements FavouritesService {
     public Favourites createFavourites(String username) {
         return new Favourites(userRepository.findByUsername(username).get());
     }
+
+    @Override
+    public List<Favourites> getAllFavouritesByLocationId(Long id) {
+        return favouritesRepository.findFavouritesByLocationList(id);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        this.favouritesRepository.deleteById(id);
+    }
 }

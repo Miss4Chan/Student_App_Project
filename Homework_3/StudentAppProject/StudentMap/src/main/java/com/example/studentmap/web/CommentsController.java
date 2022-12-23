@@ -52,7 +52,7 @@ public class CommentsController{
     @ResponseBody
     public List<Comment> getAllCommentsForLocation(@PathVariable Long id, @RequestParam(required = false) String error,
                                             Model model) throws JsonProcessingException{
-        List<Comment> comments = this.commentService.getAllCommentsByLocation_Id(id);
+        List<Comment> comments = this.commentService.getAllCommentsByLocationId(id);
         model.addAttribute("error", error);
         ObjectMapper objectMapper = new ObjectMapper();
         //Set pretty printing of json
