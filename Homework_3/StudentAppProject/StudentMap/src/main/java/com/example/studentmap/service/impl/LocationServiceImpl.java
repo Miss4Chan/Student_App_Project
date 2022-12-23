@@ -21,8 +21,8 @@ public class LocationServiceImpl implements LocationService{
     }
 
     @Override
-    public List<Location> getLocationByName(String name){
-        return locationRepository.findAllByNameContainingIgnoreCase(name);
+    public List<Location> getLocationByNameOrAddress(String text) {
+        return locationRepository.findAllByNameContainingIgnoreCaseOrAddressContainingIgnoreCase(text,text);
     }
     @Override
     public double calculateAverageGrade(Long id, int grade) {
@@ -53,8 +53,23 @@ public class LocationServiceImpl implements LocationService{
     }
 
     @Override
-    public Location createOrUpdate(float x, float y, String type, String name, String address, String phone, String website, String openingHours) {
-        return locationRepository.save(new Location(x,y,type,name,address,phone,website,openingHours));
+    public Location createOrUpdate(float x, float y, String type, String name, String address, String phone, String website, String openingHours,Long id) {
+        Location location = null;
+        if(id == null){
+            location = new Location(x,y,type,name,address,phone,website,openingHours);
+        }
+        else{
+            location = locationRepository.findById(id).get();
+            location.setX(x);
+            location.setY(y);
+            location.setName(name);
+            location.setType(type);
+            location.setAddress(address);
+            location.setPhone(phone);
+            location.setWebsite(website);
+            location.setOpeningHours(openingHours);
+        }
+        return locationRepository.save(location);
     }
 
     @Override

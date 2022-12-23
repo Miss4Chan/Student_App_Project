@@ -45,7 +45,7 @@ public class CommentServiceImpl implements CommentService{
     }
 
     @Override
-    public List<Comment> getAllCommentsByLocation_Id(Long id){
+    public List<Comment> getAllCommentsByLocationId(Long id){
         return commentRepository.findByLocation_Id(id);
     }
 

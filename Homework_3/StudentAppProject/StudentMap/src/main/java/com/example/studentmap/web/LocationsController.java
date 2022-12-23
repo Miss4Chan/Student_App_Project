@@ -1,7 +1,10 @@
 package com.example.studentmap.web;
 
 import com.example.studentmap.model.Comment;
+import com.example.studentmap.model.Favourites;
 import com.example.studentmap.model.Location;
+import com.example.studentmap.service.CommentService;
+import com.example.studentmap.service.FavouritesService;
 import com.example.studentmap.service.LocationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
@@ -19,9 +21,13 @@ import java.util.concurrent.ExecutionException;
 @RequestMapping("/locations")
 public class LocationsController {
     private final LocationService locationService;
+    private final CommentService commentService;
+    private final FavouritesService favouritesService;
 
-    public LocationsController(LocationService locationService) {
+    public LocationsController(LocationService locationService, CommentService commentService, FavouritesService favouritesService) {
         this.locationService = locationService;
+        this.commentService = commentService;
+        this.favouritesService = favouritesService;
     }
 
     @GetMapping("/all")
@@ -56,7 +62,7 @@ public class LocationsController {
         if(Objects.equals(text, "")){
             return "redirect:/locations";
         }
-        List<Location> locations = this.locationService.getLocationByName(text);
+        List<Location> locations = this.locationService.getLocationByNameOrAddress(text);
         model.addAttribute("error", error);
         ObjectMapper objectMapper = new ObjectMapper();
         //Set pretty printing of json
@@ -122,8 +128,9 @@ public class LocationsController {
                                  @RequestParam String address,
                                  @RequestParam String phone,
                                  @RequestParam String website,
-                                 @RequestParam String openingHours) throws InterruptedException, ExecutionException {
-        locationService.createOrUpdate(x, y, type, name, address, phone, website, openingHours);
+                                 @RequestParam String openingHours,
+                                 @RequestParam(required = false) Long id) throws InterruptedException, ExecutionException {
+        this.locationService.createOrUpdate(x,y, type, name, address, phone, website, openingHours, id);
         return "redirect:/locations";
     }
 
@@ -134,8 +141,12 @@ public class LocationsController {
     }
 
 
-    @DeleteMapping("/delete/{id}")
+    @GetMapping("/delete/{id}")
     public String deleteLocation(@PathVariable Long id) {
+        List<Comment> comments = commentService.getAllCommentsByLocationId(id);
+        comments.stream().forEach(c -> commentService.deleteById(c.getId()));
+//        List<Favourites> favourites = favouritesService.getAllFavouritesByLocationId(id);
+//        favourites.stream().forEach(f -> favouritesService.deleteById(f.getId())); NE RABOTI
         locationService.deleteById(id);
         return "redirect:/locations";
     }

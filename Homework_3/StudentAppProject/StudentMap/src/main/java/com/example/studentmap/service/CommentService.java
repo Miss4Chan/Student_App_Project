@@ -12,6 +12,6 @@ public interface CommentService{
     void createComment(String comment, User user, Location location);
     void updateComment(String comment, User user, Location location);
     List<Comment> getAll();
-    List<Comment> getAllCommentsByLocation_Id(Long id);
+    List<Comment> getAllCommentsByLocationId(Long id);
     List<Comment> getAllCommentsByUser_Username(String username);
 }

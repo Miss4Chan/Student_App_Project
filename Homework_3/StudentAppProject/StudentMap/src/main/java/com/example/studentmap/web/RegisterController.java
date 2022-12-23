@@ -2,6 +2,7 @@ package com.example.studentmap.web;
 
 import com.example.studentmap.model.exceptions.InvalidArgumentsException;
 import com.example.studentmap.model.exceptions.PasswordsDoNotMatchException;
+import com.example.studentmap.model.exceptions.UsernameAlreadyExistsException;
 import com.example.studentmap.service.AuthService;
 import com.example.studentmap.service.UserService;
 import org.springframework.stereotype.Controller;
@@ -40,7 +41,7 @@ public class RegisterController {
         try{
             this.userService.register(username, password, repeatedPassword, name, surname);
             return "redirect:/login";
-        } catch (InvalidArgumentsException | PasswordsDoNotMatchException exception) {
+        } catch (InvalidArgumentsException | PasswordsDoNotMatchException | UsernameAlreadyExistsException exception) {
             return "redirect:/register?error=" + exception.getMessage();
         }
     }
