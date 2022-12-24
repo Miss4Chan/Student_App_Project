@@ -153,8 +153,10 @@ public class LocationsController {
         comments.stream().forEach(c -> commentService.deleteById(c.getId()));
         //treba da gi zemam site faves listi kade shto se naogja lokacijata i da ja izbrisham
         Location location = locationService.getLocationById(id);
-        location.getFavourites().forEach(f->f.getLocationList().remove(location));
-        favouritesService.saveAll(location.getFavourites());
+        if(location.getFavourites().size()>0){
+            location.getFavourites().forEach(f->f.getLocationList().remove(location));
+            favouritesService.saveAll(location.getFavourites());
+        }
         locationService.deleteById(id);
         return "redirect:/locations";
     }

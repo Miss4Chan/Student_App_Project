@@ -29,6 +29,7 @@ public class FavouritesServiceImpl implements FavouritesService {
         this.locationRepository = locationRepository;
     }
 
+
     @Override
     public Optional<Favourites> getFave(String username) {
         return favouritesRepository.findFavouritesByUser_Username(username);
@@ -42,13 +43,7 @@ public class FavouritesServiceImpl implements FavouritesService {
 
     @Override
     public Favourites addLocationToFaves(String username, Long locationID) {
-        Favourites f = null;
-        if(favouritesRepository.findFavouritesByUser_Username(username).isPresent()) {
-            f = favouritesRepository.findFavouritesByUser_Username(username).get();
-        }
-        else{
-            f = createFavourites(username);
-        }
+        Favourites f = favouritesRepository.findFavouritesByUser_Username(username).orElseThrow();
         Location loc = locationService.getLocationById(locationID);
         if(!f.getLocationList().contains(loc)) {
             f.getLocationList().add(loc);

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -12,7 +13,7 @@ import java.util.List;
 @Setter
 @Entity
 //added lombok notation for easy writing od classes
-public class Location{
+public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -34,6 +35,7 @@ public class Location{
     @ManyToMany
     @JsonBackReference
     private List<Favourites> favourites;
+
     public Location(float x, float y, String type, String name, String address, String phone, String website, String openingHours) {
         this.x = x;
         this.y = y;
@@ -43,8 +45,10 @@ public class Location{
         this.phone = phone;
         this.website = website;
         this.openingHours = openingHours;
-        averageGrade=0;
-        graders=0;
+        comments = new ArrayList<>();
+        favourites = new ArrayList<>();
+        averageGrade = 0;
+        graders = 0;
     }
 
 }

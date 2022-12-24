@@ -18,7 +18,7 @@ public class Comment {
     private String comment;
     @ManyToOne
     private User user;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JsonBackReference
     private Location location;
 

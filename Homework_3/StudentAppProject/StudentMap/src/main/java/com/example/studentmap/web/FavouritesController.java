@@ -43,7 +43,7 @@ public class FavouritesController{
         try {
             User user = (User) authentication.getPrincipal();
             this.favouritesService.addLocationToFaves(user.getUsername(), id);
-            return "redirect:/favourites";
+            return "redirect:/locations";
         } catch (RuntimeException exception) {
             return "redirect:/locations?error=" + exception.getMessage();
         }

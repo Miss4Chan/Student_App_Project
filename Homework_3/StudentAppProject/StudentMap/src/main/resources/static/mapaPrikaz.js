@@ -13,6 +13,7 @@ function menuClick(){
         document.getElementById("map").style.margin = "0px"
         open = false;
         document.getElementById("sidebar").hidden = true;
+        document.getElementById("catButtons").style.left = "60px";
     }
     else
     {
@@ -20,6 +21,7 @@ function menuClick(){
         document.getElementById("map").style.margin = "0px 0px 0px 320px"
         open = true;
         document.getElementById("sidebar").hidden = false;
+        document.getElementById("catButtons").style.left = "380px"
     }
 }
 
@@ -63,10 +65,16 @@ async function loadAllLocations(){
         markers.push(marker);
         map.addLayer(marker);
         marker.on('click', () => {
+            document.getElementById("showAllComments").hidden=false;
+            document.getElementById("line").hidden=false;
+            document.getElementById("grades").hidden=false;
+            document.getElementById("edit").hidden=false;
+            document.getElementById("save").hidden=false;
             document.getElementById("details").hidden=false;
             document.getElementById("name").innerText=item.name;
             document.getElementById("chosenLoc").value = item.id;
             document.getElementById("deleteLocation").value = item.id;
+
             document.getElementById("commentDiv").hidden=false;
             document.getElementById("x").innerText=item.x;
             document.getElementById("y").innerText=item.y;
@@ -118,10 +126,15 @@ async function loadAllLocations(){
             if(document.getElementById("sidebar").hidden == true){
                 menuClick();
             }
+
+
             document.getElementById("commentForm").action="/comments/add-comment/" + item.id;
             document.getElementById("favesForm").action="/favourites/add-location-to-faves/" + item.id;
             document.getElementById("editForm").action="/locations/edit-form/" + item.id;
             document.getElementById("deleteForm").action="/locations/delete/";
+
+
+
         });
     }
 }

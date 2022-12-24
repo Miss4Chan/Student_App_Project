@@ -1,5 +1,7 @@
 package com.example.studentmap.service.impl;
 
+import com.example.studentmap.model.Comment;
+import com.example.studentmap.model.Favourites;
 import com.example.studentmap.model.Location;
 import com.example.studentmap.repository.LocationRepository;
 import com.example.studentmap.service.LocationService;
@@ -10,6 +12,7 @@ import java.util.List;
 @Service
 public class LocationServiceImpl implements LocationService{
     private final LocationRepository locationRepository;
+
 
     public LocationServiceImpl(LocationRepository locationRepository){
         this.locationRepository = locationRepository;

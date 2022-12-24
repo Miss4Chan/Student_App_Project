@@ -35,12 +35,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
 </head>
 <style>
-    #mapContainer{
+    #mapContainer {
         position: relative;
         height: 100%;
-        width:
     }
-    #map{
+
+    #map {
         position: absolute;
         top: 0;
         bottom: 0;
@@ -100,7 +100,8 @@
                     <span class="fs-4" style="margin-left: 10px">STUDENT APP</span>
                 </a>
 
-                <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small" style="align-items: center">
+                <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small"
+                    style="align-items: center">
                     <li>
                         <a href="/locations" class="nav-link text-white">
                             <svg class="bi d-block mx-auto mb-1" width="24" height="24">
@@ -113,15 +114,26 @@
                         <a href="/locations/help" class="nav-link text-white">
                             <svg class="bi d-block mx-auto mb-1" width="24" height="24">
                                 <use xlink:href="#question-circle"></use>
-                            </svg> Help
+                            </svg>
+                            Help
                         </a>
                     </li>
                     <li sec:authorize="isAuthenticated()">
-                        <a href="/locations" class="nav-link">
-                            <button type="button" class="btn btn-success"
-                                    th:text="${#request.getRemoteUser()}"></button>
-                        </a>
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown"
+                                    aria-expanded="false">
+                                <i class="bi bi-person-badge"> </i> <span th:text="${#request.getRemoteUser()}"></span>
+                            </button>
+                            <ul class=dropdown-menu aria-labelledby="profile-btn">
+                                <li>
+                                    <a class="dropdown-item" href="/favourites">
+                                        <i class="bi bi-list"></i>Favourites
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </li>
+
                     <li sec:authorize="isAnonymous()">
                         <div style="padding: 0.5rem 1rem;">
                             <button id="loginBtn" type="button" class="btn btn-success nav-bar" data-bs-toggle="modal"
@@ -142,13 +154,6 @@
                         </div>
                     </li>
                     <!--                    <li sec:authorize="hasRole('ROLE_ADMIN')">-->
-                    <li>
-                        <div style="padding: 0.5rem 1rem;">
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModalCreate">Create
-                            </button>
-                        </div>
-                    </li>
                 </ul>
             </div>
         </div>
@@ -164,102 +169,89 @@
                    placeholder="Search location..." aria-label="Search">
             <button class="btn btn-outline-light col-2" type="submit" id="search"><i class="bi bi-search"></i></button>
         </form>
-
-        <div class="dropdown" style="margin-top: 15px; width: 80%;">
-            <select style="width: 80%" class="btn btn-secondary dropdown-toggle" id="select" data-bs-auto-close="true"
-                    type="button" data-bs-toggle="dropdown" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false">
-                <option class="dropdown-item" value="none"
-                        th:text="(${selectedValue} != null ? ${selectedValue} : 'Choose category..')" selected disabled
-                        hidden></option>
-                <option class="dropdown-item" value="university" name="university">university</option>
-                <option class="dropdown-item" value="cafe" name="cafe">cafe</option>
-                <option class="dropdown-item" value="bakery">bakery</option>
-                <option class="dropdown-item" value="library">library</option>
-                <option class="dropdown-item" value="pub">pub</option>
-                <option class="dropdown-item" value="confectionary">confectionary</option>
-                <option class="dropdown-item" value="electronics">electronics</option>
-                <option class="dropdown-item" value="supermarket">supermarkets</option>
-            </select>
-        </div>
-
-
     </div>
-    <div hidden id="details" style="margin-top: 40px;" class="text-center">
+
+    <hr>
+
+    <div id="details" style="margin-top: 40px; padding-left: 20px" class="text-left">
         <input id="x" type="hidden"/>
         <input id="y" type="hidden"/>
         <input id="type" type="hidden"/>
-        <div class="mt-3">
-            <th:block sec:authorize="hasRole('ROLE_ADMIN')">
-                <a>Edit location..</a>
-            </th:block>
-        </div>
-        <div class="mt-3">
+
+        <div>
             <strong name="name" id="name"></strong>
+            <div id="grades" class="col-4 text-left" style="font-size: 13px; padding: 0px;" hidden>
+                    <span sec:authorize="isAuthenticated()">
+                        <a class="addG" name="1"><i class="bi bi-star-fill"></i></a>
+                        <a class="addG" name="2"><i class="bi bi-star-fill"></i></a>
+                        <a class="addG" name="3"><i class="bi bi-star-fill"></i></a>
+                        <a class="addG" name="4"><i class="bi bi-star-fill"></i></a>
+                        <a class="addG" name="5"><i class="bi bi-star-fill"></i></a>
+                    </span>
+            </div>
+            <div class="row">
+                <span id="result" class="col-1"></span>
+                <a class="col-4" data-toggle="modal" id="showAllComments" data-target="#commentsModal"
+                   style="display:block; font-size: 13px; padding: 0px 5px; margin-left: 5px;" hidden>
+                    View comments
+                </a>
+                <div hidden class="col-2 " id="edit">
+                    <button onclick="editLocation()" type="submit" class="btn btn-primary btn-sm"
+                            data-bs-toggle="modal"
+                            data-bs-target="#exampleModal" style="display:block;"
+                            sec:authorize="hasRole('ROLE_ADMIN')">
+                        Edit
+                    </button>
+                </div>
+                <div id="save" class="col-2" hidden>
+                    <form id="favesForm" th:method="POST" sec:authorize="isAuthenticated()">
+                        <input type="hidden" id="faveButton" name="faves"
+                               th:value="${#authentication.getPrincipal().getName}"/>
+                        <button type="submit" class="btn col-2 btn-sm" style="padding: 0px"
+                                sec:authorize="hasRole('ROLE_USER')">
+                            <i class="bi bi-bookmark-fill" style="color: white"></i>
+                        </button>
+                    </form>
+                </div>
+
+            </div>
         </div>
-        <div hidden class="mt-4">
-            <i class="bi bi-geo-alt-fill"></i>
-            <p id="address"></p>
+
+        <div hidden class="row">
+            <i class="bi bi-geo-alt-fill col-1"></i>
+            <div id="address" class="col-11"></div>
         </div>
-        <div hidden class="mt-4">
-            <i class="bi bi-clock"></i>
-            <p id="opening-hours"></p>
+        <div hidden class="row">
+            <i class="bi bi-clock col-1"></i>
+            <div id="opening-hours" class="col-11"></div>
         </div>
-        <div hidden class="mt-4">
-            <i class="bi bi-telephone-fill"></i>
-            <p id="phone"></p>
+        <div hidden class="row">
+            <i class="bi bi-telephone-fill col-1"></i>
+            <div id="phone" class="col-11"></div>
         </div>
-        <div hidden class="mt-4">
-            <i class="bi bi-globe"></i></br><a target="_blank" id="website"></a>
+        <div hidden class="row">
+            <i class="bi bi-globe col-1"></i>
+            <a target="_blank" id="website" class="col-11"></a>
         </div>
     </div>
-    <br>
+    <hr id="line" hidden>
     <div hidden id="commentDiv">
         <h2 style="color: maroon" th:text="${error} != null ? ${error} : ''"></h2>
         <form id="commentForm" th:method="POST" sec:authorize="isAuthenticated()">
-            <label>Comment:</label>
-            <input id="comment" type="textarea" name="comment"/>
-            <br/>
-            <input type="hidden" id="user" name="name" th:value="${#authentication.getPrincipal().getName}"/>
-            <br>
-            <button type="submit" class="btn btn-primary" style="display:block; margin-left:auto; margin-right:auto;">
-                Add Comment
-            </button>
+            <div class="p-3">
+                <textarea id="comment" name="comment" style="width: 90%" placeholder="Enter comment..."></textarea>
+                <input type="hidden" id="user" name="name" th:value="${#authentication.getPrincipal().getName}"/>
+                <br>
+                <button type="submit" class="btn btn-warning btn-sm text-left" style="display:block;">
+                    Add Comment
+                </button>
+            </div>
             <br>
         </form>
-        <button type="button" class="btn btn-primary" data-toggle="modal" id="showAllComments"
-                data-target="#commentsModal" style="display:block; margin-left:auto; margin-right:auto;">
-            View all comments
-        </button>
+
         <br>
-        <form id="favesForm" th:method="POST" sec:authorize="isAuthenticated()">
-            <input type="hidden" id="faveButton" name="faves" th:value="${#authentication.getPrincipal().getName}"/>
-            <button type="submit" class="btn btn-primary" style="display:block; margin-left:auto; margin-right:auto;">
-                Add to Faves
-            </button>
-        </form>
-        <div id="grades">
-            <!--th:if="${!graded}"-->
-            <a class="addG" name="1"><i class="bi bi-star-fill"></i></a>
-            <a class="addG" name="2"><i class="bi bi-star-fill"></i></a>
-            <a class="addG" name="3"><i class="bi bi-star-fill"></i></a>
-            <a class="addG" name="4"><i class="bi bi-star-fill"></i></a>
-            <a class="addG" name="5"><i class="bi bi-star-fill"></i></a>
-        </div>
-        <p>
-            <span>Average grade: </span><span id="result"></span>
-        </p>
-        <button onclick="editLocation()" type="submit" class="btn btn-primary" data-bs-toggle="modal"
-                data-bs-target="#exampleModal" style="display:block; margin-left:auto; margin-right:auto;"
-                sec:authorize="isAuthenticated()">
-            Edit
-        </button>
-        <form id="deleteForm" th:method="GET" sec:authorize="isAuthenticated()" action="/locations/delete">
-            <button type="submit" class="btn btn-primary" style="display:block; margin-left:auto; margin-right:auto;">
-                Delete
-            </button>
-            <input name="id" id="deleteLocation">
-        </form>
+
+
     </div>
 </div>
 <div class="modal" id="loginModal">
@@ -274,8 +266,7 @@
                     </div>
                     <!-- Email input -->
                     <div class="form-group row mb-3">
-                        <label for="username" class="pr-5 col-sm-5 col-form-label text-end">Enter username or
-                            email:</label>
+                        <label for="username" class="pr-5 col-sm-5 col-form-label text-end">Enter username:</label>
                         <div class="row col-sm-7">
                             <input type="text" style="color: white;" class="form-control bg-transparent ps-5"
                                    id="username" name="username" required=""
@@ -409,7 +400,7 @@
         </div>
     </div>
 </div>
-<div id="mapContainer">
+<div id="mapContainer" style="z-index: 80">
     <div id="map"></div>
 </div>
 <input id="locs" type="hidden" th:value="${locations}"/>
@@ -431,7 +422,7 @@
 </script>
 <script>
     $(window).on("resize", function () {
-        $("#map").height($(window).height()-$("#topBar").height());
+        $("#map").height($(window).height() - $("#topBar").height());
         map.invalidateSize();
     }).trigger("resize");
 </script>
@@ -452,14 +443,14 @@
                     $('#commentsList').empty();
                     $.each(result, function (key, value) {
                         $('#commentsList').append("<li>\
-										<div style='font-size: 15px'>"+value.user.name+' '+value.user.surname+' said: '+"</div>\
-										<div style='font-size: 25px'>"+value.comment+"</div>\
+										<div style='font-size: 15px'>" + value.user.name + ' ' + value.user.surname + ' said: ' + "</div>\
+										<div style='font-size: 25px'>" + value.comment + "</div>\
 										</li><br>");
                     });
                     // $("#commentsList").children('li')=result.values;
                     console.log(JSON.stringify(result));
                 },
-                error:function(err) {
+                error: function (err) {
                     alert("not working" + JSON.stringify(err));
                 }
             });
@@ -582,13 +573,23 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Go back</button>
+
                         <button type="submit" class="btn btn-success">Save location</button>
-                    </div>
+                </form>
+                <form id="deleteForm" th:method="GET" action="/locations/delete" >
+                    <button type="submit" class="btn btn-danger"
+                            style="display:block; margin-left:auto; margin-right:auto;"
+                            sec:authorize="isAuthenticated()">
+                        Delete
+                    </button>
+                    <input hidden name="id" id="deleteLocation">
                 </form>
             </div>
+
+
         </div>
     </div>
+</div>
 </div>
 <div class="modal fade" id="exampleModalCreate" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
      aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -688,6 +689,32 @@
         </div>
     </div>
 </div>
-
+<div id="addLocation" style="position: fixed; right: 25px; bottom:60px; z-index: 99; box-shadow: 0 0 10px #ccc;"
+     class="text-white">
+    <a class="btn btn-success" data-bs-target="#exampleModalCreate" data-bs-toggle="modal">
+        <i class="bi bi-plus-circle"></i> Add new location
+    </a>
+</div>
+<div id="catButtons" role="group" aria-label="Basic example"
+     style="position: fixed; left: 60px;top: 95px; z-index: 99;">
+    <a href="/locations/select/university">
+        <button type="button" class="btn btn-light rounded-pill shadow ml-3">University</button>
+    </a>
+    <a href="/locations/select/cafe">
+        <button type="button" class="btn btn-light rounded-pill shadow ml-3">Cafe</button>
+    </a>
+    <a href="/locations/select/bakery">
+        <button type="button" class="btn btn-light rounded-pill shadow ml-3">Bakery</button>
+    </a>
+    <a href="/locations/select/library">
+        <button type="button" class="btn btn-light rounded-pill shadow ml-3">Library</button>
+    </a>
+    <a href="/locations/select/supermarket">
+        <button type="button" class="btn btn-light rounded-pill shadow ml-3">Supermarket</button>
+    </a>
+    <a href="/locations/select/electronics">
+        <button type="button" class="btn btn-light rounded-pill shadow ml-3">Electronics</button>
+    </a>
+</div>
 </body>
 </html>

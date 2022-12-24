@@ -1,11 +1,13 @@
 package com.example.studentmap.service.impl;
 
+import com.example.studentmap.model.Favourites;
 import com.example.studentmap.model.enums.Role;
 import com.example.studentmap.model.User;
 import com.example.studentmap.model.exceptions.InvalidArgumentsException;
 import com.example.studentmap.model.exceptions.PasswordsDoNotMatchException;
 import com.example.studentmap.model.exceptions.UsernameAlreadyExistsException;
 import com.example.studentmap.repository.UserRepository;
+import com.example.studentmap.service.FavouritesService;
 import com.example.studentmap.service.UserService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,9 +20,12 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    private final FavouritesService favouritesService;
+
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, FavouritesService favouritesService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.favouritesService = favouritesService;
     }
 
     @Override
@@ -37,6 +42,7 @@ public class UserServiceImpl implements UserService {
         if(this.userRepository.findByUsername(username).isPresent())
             throw new UsernameAlreadyExistsException(username);
         User user = new User(username,passwordEncoder.encode(password),name,surname,Role.ROLE_USER);
+        Favourites f = favouritesService.createFavourites(username);
         return userRepository.save(user);
     }
 }
