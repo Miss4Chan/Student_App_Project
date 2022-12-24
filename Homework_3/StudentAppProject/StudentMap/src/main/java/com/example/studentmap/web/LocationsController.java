@@ -147,12 +147,14 @@ public class LocationsController {
     }
 
 
-    @GetMapping("/delete/{id}")
-    public String deleteLocation(@PathVariable Long id) {
+    @GetMapping("/delete")
+    public String deleteLocation(@RequestParam Long id) {
         List<Comment> comments = commentService.getAllCommentsByLocationId(id);
         comments.stream().forEach(c -> commentService.deleteById(c.getId()));
-//        List<Favourites> favourites = favouritesService.getAllFavouritesByLocationId(id);
-//        favourites.stream().forEach(f -> favouritesService.deleteById(f.getId())); NE RABOTI
+        //treba da gi zemam site faves listi kade shto se naogja lokacijata i da ja izbrisham
+        Location location = locationService.getLocationById(id);
+        location.getFavourites().forEach(f->f.getLocationList().remove(location));
+        favouritesService.saveAll(location.getFavourites());
         locationService.deleteById(id);
         return "redirect:/locations";
     }

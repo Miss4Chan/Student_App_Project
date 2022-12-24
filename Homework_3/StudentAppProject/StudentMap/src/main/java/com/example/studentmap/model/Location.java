@@ -1,5 +1,6 @@
 package com.example.studentmap.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
@@ -30,6 +31,9 @@ public class Location{
     @JsonManagedReference
     private List<Comment> comments;
 
+    @ManyToMany
+    @JsonBackReference
+    private List<Favourites> favourites;
     public Location(float x, float y, String type, String name, String address, String phone, String website, String openingHours) {
         this.x = x;
         this.y = y;

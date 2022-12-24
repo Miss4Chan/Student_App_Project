@@ -66,6 +66,7 @@ async function loadAllLocations(){
             document.getElementById("details").hidden=false;
             document.getElementById("name").innerText=item.name;
             document.getElementById("chosenLoc").value = item.id;
+            document.getElementById("deleteLocation").value = item.id;
             document.getElementById("commentDiv").hidden=false;
             document.getElementById("x").innerText=item.x;
             document.getElementById("y").innerText=item.y;
@@ -120,7 +121,7 @@ async function loadAllLocations(){
             document.getElementById("commentForm").action="/comments/add-comment/" + item.id;
             document.getElementById("favesForm").action="/favourites/add-location-to-faves/" + item.id;
             document.getElementById("editForm").action="/locations/edit-form/" + item.id;
-            document.getElementById("deleteForm").action="/locations/delete/" + item.id;
+            document.getElementById("deleteForm").action="/locations/delete/";
         });
     }
 }

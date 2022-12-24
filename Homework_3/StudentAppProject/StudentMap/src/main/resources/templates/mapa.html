@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
@@ -253,10 +254,11 @@
                 sec:authorize="isAuthenticated()">
             Edit
         </button>
-        <form id="deleteForm" th:method="GET" sec:authorize="isAuthenticated()">
+        <form id="deleteForm" th:method="GET" sec:authorize="isAuthenticated()" action="/locations/delete">
             <button type="submit" class="btn btn-primary" style="display:block; margin-left:auto; margin-right:auto;">
                 Delete
             </button>
+            <input name="id" id="deleteLocation">
         </form>
     </div>
 </div>

@@ -23,7 +23,7 @@ public class Favourites {
     @OneToOne(fetch = FetchType.EAGER)
     private User user;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "favourites")
     @JsonManagedReference
     private List<Location> locationList;
 

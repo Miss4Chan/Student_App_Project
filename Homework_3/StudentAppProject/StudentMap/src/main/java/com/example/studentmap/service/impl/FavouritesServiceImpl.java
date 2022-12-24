@@ -3,6 +3,7 @@ package com.example.studentmap.service.impl;
 import com.example.studentmap.model.Favourites;
 import com.example.studentmap.model.Location;
 import com.example.studentmap.repository.FavouritesRepository;
+import com.example.studentmap.repository.LocationRepository;
 import com.example.studentmap.repository.UserRepository;
 import com.example.studentmap.service.FavouritesService;
 import com.example.studentmap.service.LocationService;
@@ -17,12 +18,15 @@ public class FavouritesServiceImpl implements FavouritesService {
     private final FavouritesRepository favouritesRepository;
     private final LocationService locationService;
     private final UserRepository userRepository;
+    private final LocationRepository locationRepository;
 
     public FavouritesServiceImpl(FavouritesRepository favouritesRepository, LocationService locationService,
-                                 UserRepository userRepository) {
+                                 UserRepository userRepository,
+                                 LocationRepository locationRepository) {
         this.favouritesRepository = favouritesRepository;
         this.locationService = locationService;
         this.userRepository = userRepository;
+        this.locationRepository = locationRepository;
     }
 
     @Override
@@ -46,8 +50,13 @@ public class FavouritesServiceImpl implements FavouritesService {
             f = createFavourites(username);
         }
         Location loc = locationService.getLocationById(locationID);
-        if(!f.getLocationList().contains(loc))
+        if(!f.getLocationList().contains(loc)) {
             f.getLocationList().add(loc);
+        }
+        if(!loc.getFavourites().contains(f))
+        {
+            loc.getFavourites().add(f);
+        }
         return favouritesRepository.save(f);
     }
 
@@ -56,13 +65,14 @@ public class FavouritesServiceImpl implements FavouritesService {
         return new Favourites(userRepository.findByUsername(username).get());
     }
 
-    @Override
-    public List<Favourites> getAllFavouritesByLocationId(Long id) {
-        return favouritesRepository.findFavouritesByLocationList(id);
-    }
 
     @Override
     public void deleteById(Long id) {
         this.favouritesRepository.deleteById(id);
+    }
+
+    @Override
+    public void saveAll(List<Favourites> favourites) {
+        favouritesRepository.saveAll(favourites);
     }
 }
