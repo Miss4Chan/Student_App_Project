@@ -164,8 +164,9 @@ public class LocationsController {
         return "add-location";
     }
 
-    // TODO: 24-Nov-22 post method na locations za search
-
-    // TODO: 24-Nov-22 post method za filter by type
+    @GetMapping("/help")
+    public String getHelpPage(){
+        return "helpPage";
+    }
 
 }
