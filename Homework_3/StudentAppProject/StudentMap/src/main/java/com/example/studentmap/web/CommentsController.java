@@ -81,4 +81,10 @@ public class CommentsController{
         this.commentService.createComment(comment, user, location);
         return "redirect:/locations";
     }
+
+    @PostMapping("/delete-comment")
+    public void deleteComment(String id){
+        id = "5";
+        this.commentService.deleteById(Long.valueOf(id));
+    }
 }
