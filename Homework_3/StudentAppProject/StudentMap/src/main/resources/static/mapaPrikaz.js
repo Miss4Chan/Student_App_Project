@@ -76,6 +76,7 @@ async function loadAllLocations(){
             document.getElementById("deleteLocation").value = item.id;
 
             document.getElementById("commentDiv").hidden=false;
+            document.getElementById("deleteRating").hidden=false;
             document.getElementById("x").innerText=item.x;
             document.getElementById("y").innerText=item.y;
             document.getElementById("type").innerText=item.type;

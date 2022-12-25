@@ -126,7 +126,8 @@
                             </button>
                             <ul class=dropdown-menu aria-labelledby="profile-btn">
                                 <li>
-                                    <a class="dropdown-item" href="/favourites">
+                                    <a class="dropdown-item" data-toggle="modal" id="showFavourites"
+                                       data-target="#favouritesModal">
                                         <i class="bi bi-list"></i>Favourites
                                     </a>
                                 </li>
@@ -213,8 +214,8 @@
                         </button>
                     </form>
                 </div>
-                <div sec:authorize="hasRole('ROLE_ADMIN')">
-                    <a class="deleteRating button">Delete Rating</a>
+                <div hidden id="deleteRating">
+                    <a class="deleteRating btn btn-danger" sec:authorize="hasRole('ROLE_ADMIN')">Delete Rating</a>
                 </div>
             </div>
         </div>
@@ -403,105 +404,34 @@
         </div>
     </div>
 </div>
-<div id="mapContainer" style="z-index: 80">
-    <div id="map"></div>
+<div class="modal fade" id="favouritesModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 30px;background-color: #212529">
+            <div class="modal-header" style="border:none !important;">
+                <h3 class="text-center" style="margin-left:20px;color: white !important">
+                    Favourites for <th:block th:if="${#request.getRemoteUser() != null}"
+                                             th:text="${#request.getRemoteUser()}"></th:block>
+                </h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        style="background-color: #212529;color: white;border:none !important;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body" style="background-color: #212529;color: white;padding: 3%;border-radius: 30px;">
+                <div>
+                    <ul style="list-style-type:none" id="favouritesList"></ul>
+                </div>
+                <!-- Close button -->
+                <div class="text-lg-start mt-4 pt-2">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                            style="display:block; margin-left:auto; margin-right:auto;">Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<input id="locs" type="hidden" th:value="${locations}"/>
-<input id="chosenLoc" name="location" type="hidden"/>
-<script src="/mapaPrikaz.js"></script>
-<script th:inline="javascript">
-    /*<![CDATA[*/
-
-    let hasLoginError = /*[[${hasLoginError}]]*/ false;
-    let hasRegisterError = /*[[${hasRegisterError}]]*/ false;
-    /*]]>*/
-    console.log(hasRegisterError);
-    if (hasLoginError) {
-        document.getElementById("loginBtn").click();
-    }
-    if (hasRegisterError) {
-        document.getElementById("registerBtn").click();
-    }
-</script>
-<script>
-
-    $(window).on("resize", function () {
-        $("#map").height($(window).height() - $("#topBar").height());
-        map.invalidateSize();
-    }).trigger("resize");
-</script>
-<script>
-    $('#showAllComments').click(
-        function () {
-            let idT = document.getElementById("chosenLoc").value;
-            let url3 = "/locations/get-comments/" + idT;
-            $.ajax({
-                type: "POST",
-                dataType: "json",
-                contentType: "application/json; charset=utf-8",
-                url: url3,
-                cache: false,
-                async: false,
-                data: idT,
-                success: function (result) {
-                    $('#commentsList').empty();
-                    $.each(result, function (key, value) {
-                        $('#commentsList').append("<li>\
-										<div style='font-size: 15px'>" + value.user.name + ' ' + value.user.surname + ' said: ' + "</div>\
-										<div style='font-size: 25px'>" + value.comment + "</div>\
-										</li><br>");
-                    });
-                    // $("#commentsList").children('li')=result.values;
-                },
-                error: function (err) {
-                    alert("not working" + JSON.stringify(err));
-                }
-            });
-        });
-</script>
-<script>
-    $('.addG').click(
-        function () {
-            let idT = document.getElementById("chosenLoc").value;
-            let gradee = this.name;
-            var url2 = "/locations/add-grade/" + idT + "/" + gradee;
-            $.ajax({
-                type: "POST",
-                dataType: "text",
-                contentType: "application/json; charset=utf-8",
-                url: url2,
-                cache: false,
-                data: null,
-                success: function (result) {
-                    $("#result").text(result);
-                },
-                error: function (err) {
-                    alert("not working" + JSON.stringify(err));
-                }
-            });
-        });
-</script>
-<script>
-    $('.deleteRating').click(
-        function () {
-            let idT = document.getElementById("chosenLoc").value;
-            var url2 = "/locations/deleteRating/" + idT;
-            $.ajax({
-                type: "POST",
-                dataType: "text",
-                contentType: "application/json; charset=utf-8",
-                url: url2,
-                cache: false,
-                data: null,
-                success: function (result) {
-                    $("#result").text(result);
-                },
-                error: function (err) {
-                    alert("not working" + JSON.stringify(err));
-                }
-            });
-        });
-</script>
 <div class="modal fade" id="exampleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
      aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -518,10 +448,12 @@
                         <div class="row col-sm-7" id="coordinates">
                             <input type="text" style="width: 130px; color: white;"
                                    class="form-control bg-transparent text-center" id="editx"
-                                   placeholder="x coordinate" name="x">
+                                   placeholder="x coordinate" name="x" required
+                                   pattern="21\.[3-5][0-9]*">>
                             <input type="text" style="width: 130px; color: white;"
                                    class="form-control bg-transparent text-center" id="edity"
-                                   placeholder="y coordinate" name="y">
+                                   placeholder="y coordinate" name="y" required
+                                   pattern="4(1\.9[2-9][0-9]*)|4(2\.0[0-2][0-9]*)|42(\.0)?">
                         </div>
                     </div>
                     <div class="form-group row mb-3">
@@ -630,10 +562,12 @@
                         <div class="row col-sm-7" id="coordinatesC">
                             <input type="text" style="width: 130px; color: white;"
                                    class="form-control bg-transparent text-center" id="xC"
-                                   placeholder="x coordinate" name="x">
+                                   placeholder="x coordinate" name="x" required
+                                   pattern="21\.[3-5][0-9]*">
                             <input type="text" style="width: 130px; color: white;"
                                    class="form-control bg-transparent text-center" id="yC"
-                                   placeholder="y coordinate" name="y">
+                                   placeholder="y coordinate" name="y" required
+                                   pattern="4(1\.9[2-9][0-9]*)|4(2\.0[0-2][0-9]*)|42(\.0)?">
                         </div>
                     </div>
                     <div class="form-group row mb-3">
@@ -662,7 +596,7 @@
                         <label for="name" class="pr-5 col-sm-5 col-form-label text-end">Location name:</label>
                         <div class="row col-sm-7">
                             <input type="text" style="color: white;" class="form-control bg-transparent text-center"
-                                   id="nameC"
+                                   id="nameC" required
                                    placeholder="Enter location name" name="name">
                         </div>
                     </div>
@@ -739,5 +673,139 @@
         <button type="button" class="btn btn-light rounded-pill shadow ml-3">Electronics</button>
     </a>
 </div>
+<div id="mapContainer" style="z-index: 80">
+    <div id="map"></div>
+</div>
+<input id="locs" type="hidden" th:value="${locations}"/>
+<input id="chosenLoc" name="location" type="hidden"/>
+<script src="/mapaPrikaz.js"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    let hasLoginError = /*[[${hasLoginError}]]*/ false;
+    let hasRegisterError = /*[[${hasRegisterError}]]*/ false;
+    /*]]>*/
+    console.log(hasRegisterError);
+    if (hasLoginError) {
+        document.getElementById("loginBtn").click();
+    }
+    if (hasRegisterError) {
+        document.getElementById("registerBtn").click();
+    }
+</script>
+<script>
+
+    $(window).on("resize", function () {
+        $("#map").height($(window).height() - $("#topBar").height());
+        map.invalidateSize();
+    }).trigger("resize");
+</script>
+<script>
+    $('#showAllComments').click(
+        function () {
+            let idT = document.getElementById("chosenLoc").value;
+            let url3 = "/locations/get-comments/" + idT;
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                url: url3,
+                cache: false,
+                async: false,
+                data: idT,
+                success: function (result) {
+                    $('#commentsList').empty();
+                    $.each(result, function (key, value) {
+                        let comId = value.id;
+                        console.log(value);
+                        console.log(comId);
+                        $('#commentId').val(comId);
+                        $('#commentsList').append("<li>\
+										<div style='font-size: 15px'>" + value.user.name + ' ' + value.user.surname + ' said: ' + "</div>\
+										<div style='font-size: 25px'>" + value.comment + "</div>\
+										<form id='delComForm' th:action='/comments/delete/{id}'+value.id>\
+										<input name='commentId' id='commentId'></form>\
+										<button form = 'delComForm' type='submit' class=\"btn btn-danger\" \
+										sec:authorize=\"hasRole('ROLE_ADMIN')\">Delete Comment</button>\
+										</li><br>");
+                        $("#commentId").value=comId;
+                    });
+                },
+                error: function (err) {
+                    alert("not working" + JSON.stringify(err));
+                }
+            });
+        });
+</script>
+<script>
+    $('#showFavourites').click(
+        function () {
+            let url3 = "/favourites/get-favourites";
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                url: url3,
+                cache: false,
+                async: false,
+                success: function (result) {
+                    console.log(result);
+                    $('#favouritesList').empty();
+                    $.each(result, function (key, value) {
+                        console.log(value);
+                        console.log(value.name);
+                        $('#favouritesList').append("<div style='font-size: 20px'>" + value.name + "</div><br>");
+                    });
+                    // $("#commentsList").children('li')=result.values;
+                },
+                error: function (err) {
+                    alert("not working" + JSON.stringify(err));
+                }
+            });
+        });
+</script>
+<script>
+    $('.addG').click(
+        function () {
+            let idT = document.getElementById("chosenLoc").value;
+            let gradee = this.name;
+            var url2 = "/locations/add-grade/" + idT + "/" + gradee;
+            $.ajax({
+                type: "POST",
+                dataType: "text",
+                contentType: "application/json; charset=utf-8",
+                url: url2,
+                cache: false,
+                data: null,
+                success: function (result) {
+                    $("#result").text(result);
+                },
+                error: function (err) {
+                    alert("not working" + JSON.stringify(err));
+                }
+            });
+        });
+</script>
+<script>
+    $('.deleteRating').click(
+        function () {
+            let idT = document.getElementById("chosenLoc").value;
+            var url2 = "/locations/deleteRating/" + idT;
+            $.ajax({
+                type: "POST",
+                dataType: "text",
+                contentType: "application/json; charset=utf-8",
+                url: url2,
+                cache: false,
+                data: null,
+                success: function (result) {
+                    $("#result").text(result);
+                },
+                error: function (err) {
+                    alert("not working" + JSON.stringify(err));
+                }
+            });
+        });
+</script>
 </body>
 </html>
