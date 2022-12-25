@@ -3,6 +3,7 @@ package com.example.studentmap.service.impl;
 import com.example.studentmap.model.Comment;
 import com.example.studentmap.model.Favourites;
 import com.example.studentmap.model.Location;
+import com.example.studentmap.model.exceptions.InvalidArgumentsException;
 import com.example.studentmap.repository.LocationRepository;
 import com.example.studentmap.service.LocationService;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,12 @@ public class LocationServiceImpl implements LocationService{
         locationRepository.save(location);
         return averageGrade;
     }
+
+    @Override
+    public Location save(Location location) {
+        return locationRepository.save(location);
+    }
+
     @Override
     public List<Location> getLocationsByType(String type){
         return locationRepository.findAllByType(type);
@@ -56,21 +63,30 @@ public class LocationServiceImpl implements LocationService{
     }
 
     @Override
-    public Location createOrUpdate(float x, float y, String type, String name, String address, String phone, String website, String openingHours,Long id) {
+    public Location createOrUpdate(String x, String y, String type, String name, String address, String phone, String website, String openingHours,Long id) {
         Location location = null;
+        try {
         if(id == null){
-            location = new Location(x,y,type,name,address,phone,website,openingHours);
+            location = new Location(Float.parseFloat(x),Float.parseFloat(y),type,name,address,phone,website,openingHours);
         }
         else{
-            location = locationRepository.findById(id).get();
-            location.setX(x);
-            location.setY(y);
-            location.setName(name);
-            location.setType(type);
-            location.setAddress(address);
-            location.setPhone(phone);
-            location.setWebsite(website);
-            location.setOpeningHours(openingHours);
+                Float.parseFloat(x);
+                Float.parseFloat(y);
+
+                location = locationRepository.findById(id).get();
+                location.setX(Float.parseFloat(x));
+                location.setY(Float.parseFloat(y));
+                location.setName(name);
+                location.setType(type);
+                location.setAddress(address);
+                location.setPhone(phone);
+                location.setWebsite(website);
+                location.setOpeningHours(openingHours);
+            }
+        }
+        catch (NumberFormatException e)
+        {
+            throw new InvalidArgumentsException();
         }
         return locationRepository.save(location);
     }

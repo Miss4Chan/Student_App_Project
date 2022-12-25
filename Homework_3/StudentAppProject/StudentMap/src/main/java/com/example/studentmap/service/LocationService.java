@@ -10,7 +10,9 @@ public interface LocationService{
     List<Location> getLocationsByType(String type);
     void populateDataBase(List<Location> locations);
     Location getLocationById(Long id);
-    Location createOrUpdate(float x, float y, String type, String name, String address, String phone, String website, String openingHours,Long id);
+    Location createOrUpdate(String x, String y, String type, String name, String address, String phone, String website, String openingHours,Long id);
     void deleteById(Long id);
     public double calculateAverageGrade(Long id, int grade);
+
+    Location save(Location location);
 }

@@ -190,7 +190,7 @@
                     </span>
             </div>
             <div class="row">
-                <span id="result" class="col-1"></span>
+                <span id="result" class="col-2"></span>
                 <a class="col-4" data-toggle="modal" id="showAllComments" data-target="#commentsModal"
                    style="display:block; font-size: 13px; padding: 0px 5px; margin-left: 5px;" hidden>
                     View comments
@@ -213,9 +213,12 @@
                         </button>
                     </form>
                 </div>
-
+                <div sec:authorize="hasRole('ROLE_ADMIN')">
+                    <a class="deleteRating button">Delete Rating</a>
+                </div>
             </div>
         </div>
+
 
         <div hidden class="row">
             <i class="bi bi-geo-alt-fill col-1"></i>
@@ -421,6 +424,7 @@
     }
 </script>
 <script>
+
     $(window).on("resize", function () {
         $("#map").height($(window).height() - $("#topBar").height());
         map.invalidateSize();
@@ -448,7 +452,6 @@
 										</li><br>");
                     });
                     // $("#commentsList").children('li')=result.values;
-                    console.log(JSON.stringify(result));
                 },
                 error: function (err) {
                     alert("not working" + JSON.stringify(err));
@@ -462,7 +465,27 @@
             let idT = document.getElementById("chosenLoc").value;
             let gradee = this.name;
             var url2 = "/locations/add-grade/" + idT + "/" + gradee;
-            console.log(gradee);
+            $.ajax({
+                type: "POST",
+                dataType: "text",
+                contentType: "application/json; charset=utf-8",
+                url: url2,
+                cache: false,
+                data: null,
+                success: function (result) {
+                    $("#result").text(result);
+                },
+                error: function (err) {
+                    alert("not working" + JSON.stringify(err));
+                }
+            });
+        });
+</script>
+<script>
+    $('.deleteRating').click(
+        function () {
+            let idT = document.getElementById("chosenLoc").value;
+            var url2 = "/locations/deleteRating/" + idT;
             $.ajax({
                 type: "POST",
                 dataType: "text",
@@ -690,8 +713,8 @@
     </div>
 </div>
 <div id="addLocation" style="position: fixed; right: 25px; bottom:60px; z-index: 99; box-shadow: 0 0 10px #ccc;"
-     class="text-white">
-    <a class="btn btn-success" data-bs-target="#exampleModalCreate" data-bs-toggle="modal">
+     class="text-white" sec:authorize="hasRole('ROLE_ADMIN')">
+    <a class="btn btn-success" data-bs-target="#exampleModalCreate" data-bs-toggle="modal" >
         <i class="bi bi-plus-circle"></i> Add new location
     </a>
 </div>

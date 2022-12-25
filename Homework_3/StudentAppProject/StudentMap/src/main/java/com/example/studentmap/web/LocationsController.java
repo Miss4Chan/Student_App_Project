@@ -3,6 +3,7 @@ package com.example.studentmap.web;
 import com.example.studentmap.model.Comment;
 import com.example.studentmap.model.Favourites;
 import com.example.studentmap.model.Location;
+import com.example.studentmap.model.exceptions.InvalidArgumentsException;
 import com.example.studentmap.service.CommentService;
 import com.example.studentmap.service.FavouritesService;
 import com.example.studentmap.service.LocationService;
@@ -97,8 +98,18 @@ public class LocationsController {
     @ResponseBody
     public String addGrade(@PathVariable int grade, @PathVariable Long id){
         double averageGrade = locationService.calculateAverageGrade(id,grade);
-        String result = String.valueOf(averageGrade);
+        String result = String.format("%.2f",averageGrade);
         return result;
+    }
+
+    @PostMapping("/deleteRating/{id}")
+    @ResponseBody
+    public String deleteGrade(@PathVariable Long id){
+        Location location = locationService.getLocationById(id);
+        location.setGraders(0);
+        location.setAverageGrade(0.0);
+        locationService.save(location);
+        return String.valueOf(0);
     }
 
     @PostMapping("/get-comments/{id}")
@@ -127,16 +138,23 @@ public class LocationsController {
 
 
     @PostMapping("/create")
-    public String createLocation(@RequestParam float x,
-                                 @RequestParam float y,
+    public String createLocation(@RequestParam String x,
+                                 @RequestParam String y,
                                  @RequestParam String type,
                                  @RequestParam String name,
                                  @RequestParam String address,
                                  @RequestParam String phone,
                                  @RequestParam String website,
                                  @RequestParam String openingHours,
-                                 @RequestParam(required = false) Long id) throws InterruptedException, ExecutionException {
-        this.locationService.createOrUpdate(x,y, type, name, address, phone, website, openingHours, id);
+                                 @RequestParam(required = false) Long id,Model model) throws InterruptedException, ExecutionException {
+        try {
+            this.locationService.createOrUpdate(x, y, type, name, address, phone, website, openingHours, id);
+        }
+        catch (InvalidArgumentsException exception) {
+            model.addAttribute("hasLoginError", true);
+            model.addAttribute("loginError", exception.getMessage());
+            return "mapa";
+        }
         return "redirect:/locations";
     }
 
