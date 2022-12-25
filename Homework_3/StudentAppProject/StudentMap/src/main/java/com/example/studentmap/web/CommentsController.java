@@ -8,9 +8,6 @@ import com.example.studentmap.service.CommentService;
 import com.example.studentmap.service.LocationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonArrayFormatVisitor;
-import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -82,9 +79,10 @@ public class CommentsController{
         return "redirect:/locations";
     }
 
-    @PostMapping("/delete-comment")
-    public void deleteComment(String id){
-        id = "5";
+    @PostMapping("/delete-comment/{id}")
+    public String deleteCommentTestingTesting(@PathVariable String id){
+//        String id = "5";
         this.commentService.deleteById(Long.valueOf(id));
+        return "redirect:/locations";
     }
 }

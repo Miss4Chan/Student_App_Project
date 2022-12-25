@@ -139,6 +139,20 @@ async function loadAllLocations(){
         });
     }
 }
+function CommentDelete(){
+    let paragraphs = document.getElementById("commentsList").getElementsByTagName("p");
+    let btn = document.getElementsByName("deleteBtn");
+    for(let i=0; i<paragraphs.length; i++){
+        let text = paragraphs[i].innerHTML;
+        let parent = paragraphs[i].parentElement;
+        console.log(parent);console.log(text);
+        parent.action = "/comments/delete-comment/"+text;
+        btn[i].setAttribute("authorize","hasRole('ROLE_ADMIN')");
+    }
+}
+function openRegister(){
+    document.getElementById("registerBtn").click();
+}
 function editLocation(){
     let locationId = document.getElementById("chosenLoc").value;
     document.getElementById("id").value = locationId;

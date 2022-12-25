@@ -192,8 +192,8 @@
             </div>
             <div class="row">
                 <span id="result" class="col-2"></span>
-                <a class="col-4" data-toggle="modal" id="showAllComments" data-target="#commentsModal"
-                   style="display:block; font-size: 13px; padding: 0px 5px; margin-left: 5px;" hidden>
+                <a class="col-5" data-toggle="modal" id="showAllComments" data-target="#commentsModal"
+                   style="display:block; font-size: 15px; padding: 0px 5px; margin-left: 5px;" hidden>
                     View comments
                 </a>
                 <div hidden class="col-2 " id="edit">
@@ -215,7 +215,7 @@
                     </form>
                 </div>
                 <div hidden id="deleteRating">
-                    <a class="deleteRating btn btn-danger" sec:authorize="hasRole('ROLE_ADMIN')">Delete Rating</a>
+                    <a class="deleteRating btn btn-danger" sec:authorize="hasRole('ROLE_ADMIN')">Reset Rating</a>
                 </div>
             </div>
         </div>
@@ -391,8 +391,13 @@
             </div>
             <!-- Modal body -->
             <div class="modal-body" style="background-color: #212529;color: white;padding: 3%;border-radius: 30px;">
-                <div>
-                    <ul style="list-style-type:none" id="commentsList"></ul>
+                <div class="d-flex justify-content">
+                    <div>
+                        <ul style="list-style-type:none" id="commentsList"></ul>
+                    </div>
+                    <div sec:authorize="hasRole('ROLE_ADMIN')" class="align-middle">
+                        <ul style="list-style-type:none" id="delButtonsList"></ul>
+                    </div>
                 </div>
                 <!-- Close button -->
                 <div class="text-lg-start mt-4 pt-2">
@@ -530,7 +535,7 @@
                     <div class="modal-footer">
 
                         <button type="submit" class="btn btn-success">Save location</button>
-                </form>
+                </div></form>
                 <form id="deleteForm" th:method="GET" action="/locations/delete" >
                     <button type="submit" class="btn btn-danger"
                             style="display:block; margin-left:auto; margin-right:auto;"
@@ -716,25 +721,26 @@
                 success: function (result) {
                     $('#commentsList').empty();
                     $.each(result, function (key, value) {
+                        $('#delButtonsList').append("<li style='margin-bottom: 30px;'>\
+                        <button name='deleteBtn' form = 'delComForm' type='submit' class=\"btn btn-danger\">Delete Comment</button>\
+                        </li><br>");
                         let comId = value.id;
                         console.log(value);
                         console.log(comId);
-                        $('#commentId').val(comId);
                         $('#commentsList').append("<li>\
 										<div style='font-size: 15px'>" + value.user.name + ' ' + value.user.surname + ' said: ' + "</div>\
 										<div style='font-size: 25px'>" + value.comment + "</div>\
-										<form id='delComForm' th:action='/comments/delete/{id}'+value.id>\
-										<input name='commentId' id='commentId'></form>\
-										<button form = 'delComForm' type='submit' class=\"btn btn-danger\" \
-										sec:authorize=\"hasRole('ROLE_ADMIN')\">Delete Comment</button>\
+										<form id='delComForm' method='post' action='/comments/delete-comment-testing'>\
+										<p name='id' id='commmentIdDelete' hidden>"+value.id+"</p></form>\
 										</li><br>");
-                        $("#commentId").value=comId;
+                        $('#commentIdDelete').attr("value",value.id);
                     });
                 },
                 error: function (err) {
                     alert("not working" + JSON.stringify(err));
                 }
             });
+            CommentDelete();
         });
 </script>
 <script>

@@ -34,6 +34,8 @@ public class LocationServiceImpl implements LocationService{
         int graders = location.getGraders();
         double prevAvg = location.getAverageGrade();
         double averageGrade = (location.getAverageGrade()*location.getGraders() + grade)/ (location.getGraders()+1);
+        String gradeString = String.format("%.2f", averageGrade);
+        averageGrade = Double.parseDouble(gradeString);
         location.setAverageGrade(averageGrade);
         location.setGraders(location.getGraders()+1);
 //        System.out.println(location.getGraders());
