@@ -82,6 +82,7 @@ async function loadAllLocations(){
             document.getElementById("type").innerText=item.type;
 
 
+
             let address = document.getElementById("address");
             let editaddress = document.getElementById("editaddress");
             address.innerHTML=""
@@ -167,6 +168,7 @@ function editLocation(){
     edittype.innerText = document.getElementById("type").innerText;
     edittype.name=document.getElementById("type").innerText;
     edittype.value=document.getElementById("type").innerText;
+    // document.getElementById("selectType").selected()
 
     let editname = document.getElementById("editname");
     editname.value = document.getElementById("name").innerText;

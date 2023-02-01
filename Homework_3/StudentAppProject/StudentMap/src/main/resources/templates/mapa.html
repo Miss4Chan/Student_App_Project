@@ -414,8 +414,9 @@
         <div class="modal-content" style="border-radius: 30px;background-color: #212529">
             <div class="modal-header" style="border:none !important;">
                 <h3 class="text-center" style="margin-left:20px;color: white !important">
-                    Favourites for <th:block th:if="${#request.getRemoteUser() != null}"
-                                             th:text="${#request.getRemoteUser()}"></th:block>
+                    Favourites for
+                    <th:block th:if="${#request.getRemoteUser() != null}"
+                              th:text="${#request.getRemoteUser()}"></th:block>
                 </h3>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"
                         style="background-color: #212529;color: white;border:none !important;">
@@ -446,7 +447,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="POST" action="/locations/create">
+                <form method="POST" form = 'editForm'  action="/locations/create">
                     <input type="hidden" name="id" id="id">
                     <div class="form-group row mb-3">
                         <label for="coordinates" class="pr-5 col-sm-5 col-form-label text-end">Coordinates:</label>
@@ -466,10 +467,11 @@
                         <div class="dropdown row col-sm-7">
                             <select style="margin-left: 0px" class="ml-1 btn btn-secondary dropdown-toggle row "
                                     data-bs-auto-close="true"
-                                    type="button" data-bs-toggle="dropdown" data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false" name="type">
+                                    type="button" name="type" data-bs-toggle="dropdown" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false"
+                            id="selectType">
                                 <option class="dropdown-item" id="edittype"
-                                        selected hidden disabled>
+                                        selected hidden>
                                 </option>
                                 <option class="dropdown-item" value="university" name="university">university</option>
                                 <option class="dropdown-item" value="cafe" name="cafe">cafe</option>
@@ -533,10 +535,10 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-
-                        <button type="submit" class="btn btn-success">Save location</button>
-                </div></form>
-                <form id="deleteForm" th:method="GET" action="/locations/delete" >
+                        <button type="submit" id="editForm" class="btn btn-success">Save location</button>
+                    </div>
+                </form>
+                <form id="deleteForm" th:method="GET" action="/locations/delete">
                     <button type="submit" class="btn btn-danger"
                             style="display:block; margin-left:auto; margin-right:auto;"
                             sec:authorize="isAuthenticated()">
@@ -653,7 +655,7 @@
 </div>
 <div id="addLocation" style="position: fixed; right: 25px; bottom:60px; z-index: 99; box-shadow: 0 0 10px #ccc;"
      class="text-white" sec:authorize="hasRole('ROLE_ADMIN')">
-    <a class="btn btn-success" data-bs-target="#exampleModalCreate" data-bs-toggle="modal" >
+    <a class="btn btn-success" data-bs-target="#exampleModalCreate" data-bs-toggle="modal">
         <i class="bi bi-plus-circle"></i> Add new location
     </a>
 </div>
@@ -731,9 +733,9 @@
 										<div style='font-size: 15px'>" + value.user.name + ' ' + value.user.surname + ' said: ' + "</div>\
 										<div style='font-size: 25px'>" + value.comment + "</div>\
 										<form id='delComForm' method='post' action='/comments/delete-comment-testing'>\
-										<p name='id' id='commmentIdDelete' hidden>"+value.id+"</p></form>\
+										<p name='id' id='commmentIdDelete' hidden>" + value.id + "</p></form>\
 										</li><br>");
-                        $('#commentIdDelete').attr("value",value.id);
+                        $('#commentIdDelete').attr("value", value.id);
                     });
                 },
                 error: function (err) {
@@ -763,6 +765,34 @@
                         $('#favouritesList').append("<div style='font-size: 20px'>" + value.name + "</div><br>");
                     });
                     // $("#commentsList").children('li')=result.values;
+                },
+                error: function (err) {
+                    alert("not working" + JSON.stringify(err));
+                }
+            });
+        });
+    $('#showFavourites').click(
+        function () {
+            let idT = document.getElementById("chosenLoc").value;
+            let url3 = "/favourites/"
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                url: url3,
+                cache: false,
+                async: false,
+                data: idT,
+                success: function (result) {
+                    $('#commentsList').empty();
+                    $.each(result, function (key, value) {
+                        $('#commentsList').append("<li>\
+										<div style='font-size: 15px'>" + value.user.name + ' ' + value.user.surname + ' said: ' + "</div>\
+										<div style='font-size: 25px'>" + value.comment + "</div>\
+										</li><br>");
+                    });
+                    // $("#commentsList").children('li')=result.values;
+                    console.log(JSON.stringify(result));
                 },
                 error: function (err) {
                     alert("not working" + JSON.stringify(err));
