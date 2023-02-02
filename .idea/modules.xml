@@ -6,6 +6,9 @@
       <module fileurl="file://$PROJECT_DIR$/Homework_3/StudentAppProject/StudentMap/StudentMap.iml" filepath="$PROJECT_DIR$/Homework_3/StudentAppProject/StudentMap/StudentMap.iml" />
       <module fileurl="file://$PROJECT_DIR$/Homework_2/StudentAppProject/StudentMap/StudentMap (1).iml" filepath="$PROJECT_DIR$/Homework_2/StudentAppProject/StudentMap/StudentMap (1).iml" />
       <module fileurl="file://$PROJECT_DIR$/Homework_3/StudentAppProject/StudentMap/StudentMap (2).iml" filepath="$PROJECT_DIR$/Homework_3/StudentAppProject/StudentMap/StudentMap (2).iml" />
+      <module fileurl="file://$PROJECT_DIR$/Homework_4/location-microservice/location-microservice.iml" filepath="$PROJECT_DIR$/Homework_4/location-microservice/location-microservice.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Homework_4/supporting-features-microservice/supporting-features-microservice.iml" filepath="$PROJECT_DIR$/Homework_4/supporting-features-microservice/supporting-features-microservice.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Homework_4/user-microservice/user-microservice.iml" filepath="$PROJECT_DIR$/Homework_4/user-microservice/user-microservice.iml" />
     </modules>
   </component>
 </project>

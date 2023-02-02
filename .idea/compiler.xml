@@ -11,11 +11,20 @@
         <module name="StudentMap (2)" />
         <module name="StudentMap (1)" />
       </profile>
+      <profile name="disabled">
+        <module name="location-microservice" />
+        <module name="supporting-features-microservice" />
+        <module name="user-microservice" />
+      </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="location-microservice" target="17" />
+      <module name="studentmap" target="17" />
       <module name="StudentMap" target="17" />
       <module name="StudentMap (1)" target="17" />
       <module name="StudentMap (2)" target="17" />
+      <module name="supporting-features-microservice" target="17" />
+      <module name="user-microservice" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
