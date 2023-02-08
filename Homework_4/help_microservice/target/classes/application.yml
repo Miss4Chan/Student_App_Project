@@ -1,3 +1,0 @@
-server.port: 9092
-spring.application.name: help_microservice
-management.security.enabled: false
