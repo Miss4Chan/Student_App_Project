@@ -7,18 +7,19 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="eureka_server" />
         <module name="StudentMap" />
+        <module name="help_microservice" />
+        <module name="location_microservice" />
         <module name="StudentMap (2)" />
         <module name="StudentMap (1)" />
       </profile>
-      <profile name="disabled">
-        <module name="location-microservice" />
-        <module name="supporting-features-microservice" />
-        <module name="user-microservice" />
-      </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="eureka_server" target="17" />
+      <module name="help_microservice" target="17" />
       <module name="location-microservice" target="17" />
+      <module name="location_microservice" target="17" />
       <module name="studentmap" target="17" />
       <module name="StudentMap" target="17" />
       <module name="StudentMap (1)" target="17" />
@@ -32,6 +33,7 @@
       <module name="StudentMap" options="-parameters" />
       <module name="StudentMap (1)" options="-parameters" />
       <module name="StudentMap (2)" options="-parameters" />
+      <module name="location-microservice" options="" />
     </option>
   </component>
 </project>

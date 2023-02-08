@@ -8,6 +8,8 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="location-microservice" />
+        <module name="help_microservice" />
+        <module name="location_microservice" />
         <module name="supporting-features-microservice" />
         <module name="user-microservice" />
       </profile>

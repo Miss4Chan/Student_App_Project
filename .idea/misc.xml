@@ -8,6 +8,12 @@
         <option value="$PROJECT_DIR$/Homework_4/pom.xml" />
       </list>
     </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/Homework_4/supporting-features-microservice/pom.xml" />
+        <option value="$PROJECT_DIR$/Homework_4/user-microservice/pom.xml" />
+      </set>
+    </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="corretto-17" project-jdk-type="JavaSDK" />
   <component name="ProjectType">

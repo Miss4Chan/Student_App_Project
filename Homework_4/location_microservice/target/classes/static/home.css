@@ -1,0 +1,15 @@
+#map {
+    height: 630px;
+    margin: 20px;
+}
+.bi {
+    fill: white;
+}
+#sidebar{
+    z-index: 30;
+    position: absolute;
+    top: 70px;
+    left: 20px;
+    height: 600px;
+    width: 280px;
+}

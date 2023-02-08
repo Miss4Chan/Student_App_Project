@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Comment</title>
+</head>
+<body>
+<h2 style="color: maroon" th:text="${error} != null ? ${error} : ''"></h2>
+<form th:method="POST" th:action="@{'/comments/add-comment'}"
+      sec:authorize="isAuthenticated()">
+    <label>Comment:</label>
+    <input type="hidden" id="user" name="user" th:value="${#authentication.getPrincipal().getName()}"/>
+    <input type="hidden" id="location" name="location" th:value="${#httpSession.getAttribute('location')}"/>
+    <input id="comment" type="textarea" name="comment"/>
+    <br/>
+    <button type="submit">Add Comment</button>
+</form>
+</body>
+</html>
