@@ -1,6 +1,7 @@
 package finki.ukim.mk.studentmap.database;
 
 import finki.ukim.mk.studentmap.model.Location;
+import finki.ukim.mk.studentmap.service.AuthService;
 import finki.ukim.mk.studentmap.service.LocationService;
 import lombok.AllArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 public class DataHolder{
     public static List<Location> locations;
     private final LocationService locationService;
+    private  final AuthService authService;
 
     @PostConstruct
     public void init() throws IOException{
@@ -37,5 +39,6 @@ public class DataHolder{
             e.printStackTrace();
         }
         locationService.populateDataBase(locations);
+        authService.addAdminToDatabase();
     }
 }
