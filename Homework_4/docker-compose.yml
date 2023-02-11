@@ -1,14 +1,11 @@
-version: "3"
-volumes:
-  prometheus_data: {}
-
+version: "3.8"
 services:
   db:
     container_name: postgres_container
     image: postgres
     restart: always
     environment:
-      POSTGRES_DB: postgres_db
+      POSTGRES_DB: student_map_db
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: secret
       PGDATA: /var/lib/postgresql/data
@@ -17,7 +14,7 @@ services:
 
   pgadmin:
       container_name: pgadmin4_container
-      image: dpage/pgadmin4:4.0
+      image: dpage/pgadmin4:6.15
       restart: always
       environment:
         PGADMIN_DEFAULT_EMAIL: admin@admin.com
@@ -34,8 +31,7 @@ services:
   location-service:
     image: location-microservice
     environment:
-      - JAVA_OPTS=
-        -DEUREKA_SERVER=http://eureka-service:8761/eureka
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
     ports:
       - "9093:9093"
     depends_on:
@@ -46,8 +42,7 @@ services:
   help-service:
     image: help-microservice
     environment:
-      - JAVA_OPTS=
-        -DEUREKA_SERVER=http://eureka-service:8761/eureka
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
     ports:
       - "9092:9092"
     depends_on:
