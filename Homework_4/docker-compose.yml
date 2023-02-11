@@ -1,53 +1,100 @@
 version: "3.8"
 services:
-  db:
-    container_name: postgres_container
-    image: postgres
-    restart: always
+  eureka-server:
+    container_name: eureka
+    build:
+      context: ./eureka_server
+      dockerfile: Dockerfile
+    ports:
+      - "8761:8761"
+
+  help-microservice:
+    container_name: help
+    build:
+      context: ./help_microservice
+      dockerfile: Dockerfile
     environment:
-      POSTGRES_DB: student_map_db
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: secret
-      PGDATA: /var/lib/postgresql/data
+      - eureka.client.serviceUrl.defaultZone=http://eureka-server:8761/eureka/
+    depends_on:
+      - eureka-server
+    ports:
+      - "9092:9092"
+  location-microservice:
+    container_name: location
+    build:
+      context: ./location_microservice
+      dockerfile: Dockerfile
+    environment:
+      - eureka.client.serviceUrl.defaultZone=http://eureka-server:8761/eureka/
+      - DB_URL=postgres
+      - DB_USER=user
+      - DB_PASSWORD=password
+    depends_on:
+      - eureka-server
+      - postgres
+    ports:
+      - "9093:9093"
+  postgres:
+    image: postgres:9.4
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=student_map_db
     ports:
       - "5432:5432"
 
-  pgadmin:
-      container_name: pgadmin4_container
-      image: dpage/pgadmin4:6.15
-      restart: always
-      environment:
-        PGADMIN_DEFAULT_EMAIL: admin@admin.com
-        PGADMIN_DEFAULT_PASSWORD: secret
-        PGADMIN_LISTEN_PORT: 80
-      ports:
-        - "8080:80"
-  eureka-service:
-    image: eureka-server
-    ports:
-      - "8761:8761"
-    networks:
-      - eureka-service
-  location-service:
-    image: location-microservice
-    environment:
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
-    ports:
-      - "9093:9093"
-    depends_on:
-      - eureka-service
-      - db
-    networks:
-      - eureka-service
-  help-service:
-    image: help-microservice
-    environment:
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
-    ports:
-      - "9092:9092"
-    depends_on:
-      - eureka-service
-    networks:
-      - eureka-service
-networks:
-  eureka-service:
+#  db:
+#    container_name: postgres_container
+#    image: postgres
+#    restart: always
+#    environment:
+#      POSTGRES_DB: student_map_db
+#      POSTGRES_USER: admin
+#      POSTGRES_PASSWORD: secret
+#      PGDATA: /var/lib/postgresql/data
+#    ports:
+#      - "5432:5432"
+#
+#  pgadmin:
+#      container_name: pgadmin4_container
+#      image: dpage/pgadmin4:6.15
+#      restart: always
+#      environment:
+#        PGADMIN_DEFAULT_EMAIL: admin@admin.com
+#        PGADMIN_DEFAULT_PASSWORD: secret
+#        PGADMIN_LISTEN_PORT: 80
+#      ports:
+#        - "8080:80"
+#  eureka-service:
+#    image: eureka-server
+#    ports:
+#      - "8761:8761"
+#    networks:
+#      - eureka-service
+#  location-service:
+#    image: location-microservice
+#    links:
+#      - "eureka-service"
+##    environment:
+##      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://localhost:8761/eureka
+#    ports:
+#      - "9093:9093"
+##    depends_on:
+##      - eureka-service
+##      - db
+##    networks:
+##      - eureka-service
+#  help-service:
+#    image: help-microservice
+#    links:
+#      - "eureka-service"
+##    environment:
+##      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://localhost:8761/eureka
+#    ports:
+#      - "9092:9092"
+##    depends_on:
+##      - eureka-service
+##    networks:
+##      - eureka-service
+#networks:
+#  eureka-service:
