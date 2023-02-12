@@ -1,6 +1,7 @@
 version: "3.8"
 services:
   eureka-server:
+    image: studentapp.azurecr.io/eureka-server
     container_name: eureka
     build:
       context: ./eureka_server
@@ -9,26 +10,28 @@ services:
       - "8761:8761"
 
   help-microservice:
+    image: studentapp.azurecr.io/help-microservice
     container_name: help
     build:
       context: ./help_microservice
       dockerfile: Dockerfile
     environment:
-      - eureka.client.serviceUrl.defaultZone=http://eureka-server:8761/eureka/
+      SPRING_APPLICATION_JSON: '{"eureka":{"client":{"serviceUrl":{"defaultZone":"http://eureka-server:8761/eureka"}}}}'
     depends_on:
       - eureka-server
     ports:
       - "9092:9092"
   location-microservice:
+    image: studentapp.azurecr.io/location-microservice #azure not working:(((
     container_name: location
     build:
       context: ./location_microservice
       dockerfile: Dockerfile
     environment:
-      - eureka.client.serviceUrl.defaultZone=http://eureka-server:8761/eureka/
-      - DB_URL=postgres
-      - DB_USER=user
-      - DB_PASSWORD=password
+      DB_URL: postgres
+      DB_USER: user
+      DB_PASSWORD: password
+      SPRING_APPLICATION_JSON: '{"eureka":{"client":{"serviceUrl":{"defaultZone":"http://eureka-server:8761/eureka"}}}}'
     depends_on:
       - eureka-server
       - postgres
@@ -37,9 +40,9 @@ services:
   postgres:
     image: postgres:9.4
     environment:
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=student_map_db
+        POSTGRES_USER: user
+        POSTGRES_PASSWORD: password
+        POSTGRES_DB: student_map_db
     ports:
       - "5432:5432"
 

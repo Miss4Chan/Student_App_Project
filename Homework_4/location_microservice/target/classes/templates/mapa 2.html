@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Student app - Home</title>
+
+    <!-- leaflet-->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+          integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+          crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+            integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+            crossorigin=""></script>
+
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- JavaScript Bundle -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+
+
+    <!-- icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+</head>
+<style>
+    #mapContainer {
+        position: relative;
+        height: 100%;
+    }
+
+    #map {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        height: 100%;
+        width: 100%;
+    }
+
+    .bi {
+        fill: white;
+    }
+
+    #sidebar {
+        z-index: 30;
+        position: absolute;
+        padding-bottom: 50px;
+        height: 100%;
+        min-height: fit-content;
+        width: 320px;
+    }
+</style>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+    <symbol id="bootstrap" viewBox="0 0 118 94">
+        <title>Bootstrap</title>
+        <path fill-rule="evenodd" clip-rule="evenodd"
+              d="M24.509 0c-6.733 0-11.715 5.893-11.492 12.284.214 6.14-.064 14.092-2.066 20.577C8.943 39.365 5.547 43.485 0 44.014v5.972c5.547.529 8.943 4.649 10.951 11.153 2.002 6.485 2.28 14.437 2.066 20.577C12.794 88.106 17.776 94 24.51 94H93.5c6.733 0 11.714-5.893 11.491-12.284-.214-6.14.064-14.092 2.066-20.577 2.009-6.504 5.396-10.624 10.943-11.153v-5.972c-5.547-.529-8.934-4.649-10.943-11.153-2.002-6.484-2.28-14.437-2.066-20.577C105.214 5.894 100.233 0 93.5 0H24.508zM80 57.863C80 66.663 73.436 72 62.543 72H44a2 2 0 01-2-2V24a2 2 0 012-2h18.437c9.083 0 15.044 4.92 15.044 12.474 0 5.302-4.01 10.049-9.119 10.88v.277C75.317 46.394 80 51.21 80 57.863zM60.521 28.34H49.948v14.934h8.905c6.884 0 10.68-2.772 10.68-7.727 0-4.643-3.264-7.207-9.012-7.207zM49.948 49.2v16.458H60.91c7.167 0 10.964-2.876 10.964-8.281 0-5.406-3.903-8.178-11.425-8.178H49.948z"></path>
+    </symbol>
+    <symbol id="home" viewBox="0 0 16 16">
+        <path d="M8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4.5a.5.5 0 0 0 .5-.5v-4h2v4a.5.5 0 0 0 .5.5H14a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146zM2.5 14V7.707l5.5-5.5 5.5 5.5V14H10v-4a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v4H2.5z"></path>
+    </symbol>
+    <symbol id="speedometer2" viewBox="0 0 16 16">
+        <path d="M8 4a.5.5 0 0 1 .5.5V6a.5.5 0 0 1-1 0V4.5A.5.5 0 0 1 8 4zM3.732 5.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707zM2 10a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 10zm9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5zm.754-4.246a.389.389 0 0 0-.527-.02L7.547 9.31a.91.91 0 1 0 1.302 1.258l3.434-4.297a.389.389 0 0 0-.029-.518z"></path>
+        <path fill-rule="evenodd"
+              d="M0 10a8 8 0 1 1 15.547 2.661c-.442 1.253-1.845 1.602-2.932 1.25C11.309 13.488 9.475 13 8 13c-1.474 0-3.31.488-4.615.911-1.087.352-2.49.003-2.932-1.25A7.988 7.988 0 0 1 0 10zm8-7a7 7 0 0 0-6.603 9.329c.203.575.923.876 1.68.63C4.397 12.533 6.358 12 8 12s3.604.532 4.923.96c.757.245 1.477-.056 1.68-.631A7 7 0 0 0 8 3z"></path>
+    </symbol>
+    <symbol id="table" viewBox="0 0 16 16">
+        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2h-4v3h4V4zm0 4h-4v3h4V8zm0 4h-4v3h3a1 1 0 0 0 1-1v-2zm-5 3v-3H6v3h4zm-5 0v-3H1v2a1 1 0 0 0 1 1h3zm-4-4h4V8H1v3zm0-4h4V4H1v3zm5-3v3h4V4H6zm4 4H6v3h4V8z"></path>
+    </symbol>
+    <symbol id="question-circle" viewBox="0 0 16 16">
+        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+        <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286zm1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94z"/>
+    </symbol>
+    <symbol id="grid" viewBox="0 0 16 16">
+        <path d="M1 2.5A1.5 1.5 0 0 1 2.5 1h3A1.5 1.5 0 0 1 7 2.5v3A1.5 1.5 0 0 1 5.5 7h-3A1.5 1.5 0 0 1 1 5.5v-3zM2.5 2a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 1h3A1.5 1.5 0 0 1 15 2.5v3A1.5 1.5 0 0 1 13.5 7h-3A1.5 1.5 0 0 1 9 5.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zM1 10.5A1.5 1.5 0 0 1 2.5 9h3A1.5 1.5 0 0 1 7 10.5v3A1.5 1.5 0 0 1 5.5 15h-3A1.5 1.5 0 0 1 1 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3zm6.5.5A1.5 1.5 0 0 1 10.5 9h3a1.5 1.5 0 0 1 1.5 1.5v3a1.5 1.5 0 0 1-1.5 1.5h-3A1.5 1.5 0 0 1 9 13.5v-3zm1.5-.5a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3z"></path>
+    </symbol>
+</svg>
+
+
+<div class="px-3 py-2 text-bg-dark" id="topBar">
+    <div>
+        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+            <i class="bi bi-list fs-2 mb-3" id="menu" onclick="menuClick()"></i>
+            <div class="container d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a href="/locations"
+                   class="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
+                    <img id="logo" src="/Student_icon.svg.png" height="50px">
+                    <span class="fs-4" style="margin-left: 10px">STUDENT APP</span>
+                </a>
+
+                <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small"
+                    style="align-items: center">
+                    <li>
+                        <a href="/locations" class="nav-link text-white">
+                            <svg class="bi d-block mx-auto mb-1" width="24" height="24">
+                                <use xlink:href="#home"></use>
+                            </svg>
+                            Home
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/locations/help" class="nav-link text-white">
+                            <svg class="bi d-block mx-auto mb-1" width="24" height="24">
+                                <use xlink:href="#question-circle"></use>
+                            </svg>
+                            Help
+                        </a>
+                    </li>
+                    <li sec:authorize="isAuthenticated()">
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown"
+                                    aria-expanded="false">
+                                <i class="bi bi-person-badge"> </i> <span th:text="${#request.getRemoteUser()}"></span>
+                            </button>
+                            <ul class=dropdown-menu aria-labelledby="profile-btn">
+                                <li>
+                                    <a class="dropdown-item" data-toggle="modal" id="showFavourites"
+                                       data-target="#favouritesModal">
+                                        <i class="bi bi-list"></i>Favourites
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li sec:authorize="isAnonymous()">
+                        <div style="padding: 0.5rem 1rem;">
+                            <button id="loginBtn" type="button" class="btn btn-success nav-bar" data-bs-toggle="modal"
+                                    data-bs-target="#loginModal">Login
+                            </button>
+                        </div>
+                    </li>
+                    <li sec:authorize="isAuthenticated()">
+                        <a href="/logout" class="nav-link">
+                            <button type="button" class="btn btn-danger">Logout</button>
+                        </a>
+                    </li>
+                    <li sec:authorize="isAnonymous()">
+                        <div style="padding: 0.5rem 1rem;">
+                            <button id="registerBtn" type="button" class="btn btn-danger nav-bar" data-bs-toggle="modal"
+                                    data-bs-target="#registerModal">Register
+                            </button>
+                        </div>
+                    </li>
+                    <!--                    <li sec:authorize="hasRole('ROLE_ADMIN')">-->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div id="sidebar" style="padding-top: 32px" class="text-bg-dark col-sm-12" hidden>
+    <div style="padding: 0px 20px">
+
+        <form class="col-12 ncol-lg-auto mb-3 mb-lg-0 me-lg-3 d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start"
+              role="search" method="post" action="/locations/search">
+            <input style="width: 80%" name="text" type="search" class="form-control text-bg-dark "
+                   placeholder="Search location..." aria-label="Search">
+            <button class="btn btn-outline-light col-2" type="submit" id="search"><i class="bi bi-search"></i></button>
+        </form>
+    </div>
+
+    <hr>
+
+    <div id="details" style="margin-top: 40px; padding-left: 20px" class="text-left">
+        <input id="x" type="hidden"/>
+        <input id="y" type="hidden"/>
+        <input id="type" type="hidden"/>
+
+        <div>
+            <strong name="name" id="name"></strong>
+            <div id="grades" class="col-4 text-left" style="font-size: 13px; padding: 0px;" hidden>
+                    <span sec:authorize="isAuthenticated()">
+                        <a class="addG" name="1"><i class="bi bi-star-fill"></i></a>
+                        <a class="addG" name="2"><i class="bi bi-star-fill"></i></a>
+                        <a class="addG" name="3"><i class="bi bi-star-fill"></i></a>
+                        <a class="addG" name="4"><i class="bi bi-star-fill"></i></a>
+                        <a class="addG" name="5"><i class="bi bi-star-fill"></i></a>
+                    </span>
+            </div>
+            <div class="row">
+                <span id="result" class="col-2"></span>
+                <a class="col-5" data-toggle="modal" id="showAllComments" data-target="#commentsModal"
+                   style="display:block; font-size: 15px; padding: 0px 5px; margin-left: 5px;" hidden>
+                    View comments
+                </a>
+                <div hidden class="col-2 " id="edit">
+                    <button onclick="editLocation()" type="submit" class="btn btn-primary btn-sm"
+                            data-bs-toggle="modal"
+                            data-bs-target="#exampleModal" style="display:block;"
+                            sec:authorize="hasRole('ROLE_ADMIN')">
+                        Edit
+                    </button>
+                </div>
+                <div id="save" class="col-2" hidden>
+                    <form id="favesForm" th:method="POST" sec:authorize="isAuthenticated()">
+                        <input type="hidden" id="faveButton" name="faves"
+                               th:value="${#authentication.getPrincipal().getName}"/>
+                        <button type="submit" class="btn col-2 btn-sm" style="padding: 0px"
+                                sec:authorize="hasRole('ROLE_USER')">
+                            <i class="bi bi-bookmark-fill" style="color: white"></i>
+                        </button>
+                    </form>
+                </div>
+                <div hidden id="deleteRating">
+                    <a class="deleteRating btn btn-danger" sec:authorize="hasRole('ROLE_ADMIN')">Reset Rating</a>
+                </div>
+            </div>
+        </div>
+
+
+        <div hidden class="row">
+            <i class="bi bi-geo-alt-fill col-1"></i>
+            <div id="address" class="col-11"></div>
+        </div>
+        <div hidden class="row">
+            <i class="bi bi-clock col-1"></i>
+            <div id="opening-hours" class="col-11"></div>
+        </div>
+        <div hidden class="row">
+            <i class="bi bi-telephone-fill col-1"></i>
+            <div id="phone" class="col-11"></div>
+        </div>
+        <div hidden class="row">
+            <i class="bi bi-globe col-1"></i>
+            <a target="_blank" id="website" class="col-11"></a>
+        </div>
+    </div>
+    <hr id="line" hidden>
+    <div hidden id="commentDiv">
+        <h2 style="color: maroon" th:text="${error} != null ? ${error} : ''"></h2>
+        <form id="commentForm" th:method="POST" sec:authorize="isAuthenticated()">
+            <div class="p-3">
+                <textarea id="comment" name="comment" style="width: 90%" placeholder="Enter comment..."></textarea>
+                <input type="hidden" id="user" name="name" th:value="${#authentication.getPrincipal().getName}"/>
+                <br>
+                <button type="submit" class="btn btn-warning btn-sm text-left" style="display:block;">
+                    Add Comment
+                </button>
+            </div>
+            <br>
+        </form>
+
+        <br>
+
+
+    </div>
+</div>
+<div class="modal" id="loginModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 30px;background-color: #212529">
+            <!-- Modal body -->
+            <div class="modal-body" style="background-color: #212529;color: white;padding: 3%;border-radius: 30px;">
+                <h3 class="text-center" style="margin-bottom: 35px;">Log in to your account</h3>
+                <form class="form-signin mt-xl-5" method="post" action="/login" id="loginForm">
+                    <div class="text-danger text-center my-3" th:if="${loginError != null}">
+                        <th:block th:text="${loginError}"></th:block>
+                    </div>
+                    <!-- Email input -->
+                    <div class="form-group row mb-3">
+                        <label for="username" class="pr-5 col-sm-5 col-form-label text-end">Enter username:</label>
+                        <div class="row col-sm-7">
+                            <input type="text" style="color: white;" class="form-control bg-transparent ps-5"
+                                   id="username" name="username" required=""
+                                   autofocus="" placeholder="email@example.com">
+                            <i class="bi bi-person-circle position-relative translate-middle-y"
+                               style="bottom: 21px; width: 12px;"></i>
+                        </div>
+                    </div>
+                    <!-- Password input -->
+                    <div class="form-group row mb-3">
+                        <label for="password" class="col-sm-5 col-form-label text-end">Enter password:</label>
+                        <div class="row col-sm-7">
+                            <input type="password" style="color: white;" class="form-control bg-transparent ps-5"
+                                   id="password" name="password" placeholder="type password..">
+                            <i class="bi bi-eye-slash position-relative translate-middle-y"
+                               style="bottom: 21px; width: 12px;"></i>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center mb-4" style="margin-top: 25px;">
+                        <button type="submit" class="btn btn-block col-sm-7" style="background-color: #5CB85C">
+                            Login
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Register buttons -->
+                <div class="text-lg-start mt-4 pt-2">
+                    <p class="text-center small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="#!"
+                                                                                                  onclick="openRegister()"
+                                                                                                  class="link-primary">Register</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="registerModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 30px;background-color: #212529">
+            <!-- Modal body -->
+            <div class="modal-body" style="background-color: #212529;color: white;padding: 3%;border-radius: 30px;">
+                <h3 class="text-center" style="margin-bottom: 40px;">Register your account</h3>
+                <form class="form-signin mt-xl-5" method="POST" action="/register">
+                    <div class="text-danger text-center my-3" th:if="${registerError != null}">
+                        <th:block th:text="${registerError}"></th:block>
+                    </div>
+                    <!-- Email input -->
+                    <div class="form-group row mb-3">
+                        <label for="rgtrUsername" class="pr-5 col-sm-5 col-form-label text-end">Enter username:</label>
+                        <div class="row col-sm-7">
+                            <input type="text" style="color: white;" class="form-control bg-transparent ps-5"
+                                   id="rgtrUsername" name="username" placeholder="username.example" required>
+                            <i class="bi bi-person-circle position-relative translate-middle-y"
+                               style="bottom: 21px; width: 12px;"></i>
+                        </div>
+                    </div>
+                    <!-- Password input -->
+                    <div class="form-group row mb-3">
+                        <label for="rgtrPassword" class="col-sm-5 col-form-label text-end">Enter password:</label>
+                        <div class="row col-sm-7">
+                            <input type="password" style="color: white;" class="form-control bg-transparent ps-5"
+                                   id="rgtrPassword" name="password" placeholder="type password.." required>
+                            <i class="bi bi-eye-slash position-relative translate-middle-y"
+                               style="bottom: 21px; width: 12px;"></i>
+                        </div>
+                    </div>
+                    <!-- Password input -->
+                    <div class="form-group row mb-3">
+                        <label for="re-enter-password" class="col-sm-5 col-form-label text-end">Re-enter
+                            password:</label>
+                        <div class="row col-sm-7">
+                            <input type="password" style="color: white;" class="form-control bg-transparent ps-5"
+                                   id="re-enter-password" name="repeatedPassword" placeholder="re-type password.."
+                                   required>
+                            <i class="bi bi-eye-slash position-relative translate-middle-y"
+                               style="bottom: 21px; width: 12px;"></i>
+                        </div>
+                    </div>
+                    <!-- Name input -->
+                    <div class="form-group row mb-3">
+                        <label for="rgtrName" class="col-sm-5 col-form-label text-end">Enter name:</label>
+                        <div class="row col-sm-7">
+                            <input type="text" style="color: white;" class="form-control bg-transparent ps-5"
+                                   id="rgtrName" name="name" placeholder="type your name.." required>
+                            <i class="bi bi-person-lines-fill position-relative translate-middle-y"
+                               style="bottom: 21px; width: 12px;"></i>
+                        </div>
+                    </div>
+                    <!-- Surname input -->
+                    <div class="form-group row mb-3">
+                        <label for="rgtrSurname" class="col-sm-5 col-form-label text-end">Enter surname:</label>
+                        <div class="row col-sm-7">
+                            <input type="text" style="color: white;" class="form-control bg-transparent ps-5"
+                                   id="rgtrSurname" name="surname" placeholder="type your surname.." required>
+                            <i class="bi bi-person-lines-fill position-relative translate-middle-y"
+                               style="bottom: 21px; width: 12px;"></i>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center mb-4" style="margin-top: 25px;">
+                        <button type="submit" class="btn btn-block col-sm-7" style="background-color: #5CB85C">
+                            Register
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="commentsModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 30px;background-color: #212529">
+            <div class="modal-header" style="border:none !important;">
+                <h3 class="text-center" style="margin-left:20px;color: white !important">All comments</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        style="background-color: #212529;color: white;border:none !important;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body" style="background-color: #212529;color: white;padding: 3%;border-radius: 30px;">
+                <div class="d-flex justify-content">
+                    <div>
+                        <ul style="list-style-type:none" id="commentsList"></ul>
+                    </div>
+                    <div sec:authorize="hasRole('ROLE_ADMIN')" class="align-middle">
+                        <ul style="list-style-type:none" id="delButtonsList"></ul>
+                    </div>
+                </div>
+                <!-- Close button -->
+                <div class="text-lg-start mt-4 pt-2">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                            style="display:block; margin-left:auto; margin-right:auto;">Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="favouritesModal">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="border-radius: 30px;background-color: #212529">
+            <div class="modal-header" style="border:none !important;">
+                <h3 class="text-center" style="margin-left:20px;color: white !important">
+                    Favourites for
+                    <th:block th:if="${#request.getRemoteUser() != null}"
+                              th:text="${#request.getRemoteUser()}"></th:block>
+                </h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                        style="background-color: #212529;color: white;border:none !important;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body" style="background-color: #212529;color: white;padding: 3%;border-radius: 30px;">
+                <div>
+                    <ul style="list-style-type:none" id="favouritesList"></ul>
+                </div>
+                <!-- Close button -->
+                <div class="text-lg-start mt-4 pt-2">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                            style="display:block; margin-left:auto; margin-right:auto;">Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="exampleModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background-color: #212529;color: white;">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Edit location</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" form = 'editForm'  action="/locations/create">
+                    <input type="hidden" name="id" id="id">
+                    <div class="form-group row mb-3">
+                        <label for="coordinates" class="pr-5 col-sm-5 col-form-label text-end">Coordinates:</label>
+                        <div class="row col-sm-7" id="coordinates">
+                            <input type="text" style="width: 130px; color: white;"
+                                   class="form-control bg-transparent text-center" id="editx"
+                                   placeholder="x coordinate" name="x" required
+                                   pattern="21\.[3-5][0-9]*">
+                            <input type="text" style="width: 130px; color: white;"
+                                   class="form-control bg-transparent text-center" id="edity"
+                                   placeholder="y coordinate" name="y" required
+                                   pattern="4(1\.9[2-9][0-9]*)|4(2\.0[0-2][0-9]*)|42(\.0)?">
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label for="type" class="pr-5 col-sm-5 col-form-label text-end">Amenity type:</label>
+                        <div class="dropdown row col-sm-7">
+                            <select style="margin-left: 0px" class="ml-1 btn btn-secondary dropdown-toggle row "
+                                    data-bs-auto-close="true"
+                                    type="button" name="type" data-bs-toggle="dropdown" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false"
+                            id="selectType">
+                                <option class="dropdown-item" id="edittype"
+                                        selected hidden>
+                                </option>
+                                <option class="dropdown-item" value="university" name="university">university</option>
+                                <option class="dropdown-item" value="cafe" name="cafe">cafe</option>
+                                <option class="dropdown-item" value="bakery" name="bakery">bakery</option>
+                                <option class="dropdown-item" value="library" name="library">library</option>
+                                <option class="dropdown-item" value="pub" name="pub">pub</option>
+                                <option class="dropdown-item" value="confectionary" name="confectionary">confectionary
+                                </option>
+                                <option class="dropdown-item" value="electronics" name="electronics">electronics
+                                </option>
+                                <option class="dropdown-item" value="supermarket" name="supermarket">supermarkets
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label for="name" class="pr-5 col-sm-5 col-form-label text-end">Location name:</label>
+                        <div class="row col-sm-7">
+                            <input type="text" style="color: white;" class="form-control bg-transparent text-center"
+                                   id="editname"
+                                   placeholder="Enter location name" name="name">
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label for="address" class="pr-5 col-sm-5 col-form-label text-end">Location address:</label>
+                        <div class="row col-sm-7">
+                            <input type="text" style="color: white;"
+                                   class="form-control bg-transparent text-center"
+                                   id="editaddress"
+                                   placeholder="Enter location address" name="address">
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label for="editopeningHours" class="pr-5 col-sm-5 col-form-label text-end">Opening
+                            hours:</label>
+                        <div class="row col-sm-7">
+                            <input type="text" style="color: white;" class="form-control bg-transparent text-center"
+                                   id="editopeningHours"
+                                   placeholder="Enter opening hours" name="openingHours">
+                        </div>
+
+                    </div>
+
+                    <div class="form-group row mb-3">
+                        <label for="phone" class="pr-5 col-sm-5 col-form-label text-end">Phone number:</label>
+                        <div class="row col-sm-7">
+                            <input type="text" style="color: white;" class="form-control bg-transparent text-center"
+                                   id="editphone"
+                                   placeholder="Enter phone number"
+                                   name="phone">
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-3">
+                        <label for="website" class="pr-5 col-sm-5 col-form-label text-end">Website:</label>
+                        <div class="row col-sm-7">
+                            <input type="text" style="color: white;" class="form-control bg-transparent text-center"
+                                   id="editwebsite"
+                                   placeholder="Enter link to website"
+                                   name="website">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" id="editForm" class="btn btn-success">Save location</button>
+                    </div>
+                </form>
+                <form id="deleteForm" th:method="GET" action="/locations/delete">
+                    <button type="submit" class="btn btn-danger"
+                            style="display:block; margin-left:auto; margin-right:auto;"
+                            sec:authorize="isAuthenticated()">
+                        Delete
+                    </button>
+                    <input hidden name="id" id="deleteLocation">
+                </form>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+</div>
+<div class="modal fade" id="exampleModalCreate" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="background-color: #212529;color: white;">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabelCreate">Add location</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="/locations/create">
+                    <input type="hidden" name="id" id="idC">
+                    <div class="form-group row mb-3">
+                        <label for="coordinates" class="pr-5 col-sm-5 col-form-label text-end">Coordinates:</label>
+                        <div class="row col-sm-7" id="coordinatesC">
+                            <input type="text" style="width: 130px; color: white;"
+                                   class="form-control bg-transparent text-center" id="xC"
+                                   placeholder="x coordinate" name="x" required
+                                   pattern="21\.[3-5][0-9]*">
+                            <input type="text" style="width: 130px; color: white;"
+                                   class="form-control bg-transparent text-center" id="yC"
+                                   placeholder="y coordinate" name="y" required
+                                   pattern="4(1\.9[2-9][0-9]*)|4(2\.0[0-2][0-9]*)|42(\.0)?">
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label for="type" class="pr-5 col-sm-5 col-form-label text-end">Amenity type:</label>
+                        <div class="dropdown row col-sm-7">
+                            <select style="margin-left: 0px" class="ml-1 btn btn-secondary dropdown-toggle row"
+                                    data-bs-auto-close="true"
+                                    type="button" data-bs-toggle="dropdown" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false" name="type">
+                                <option class="dropdown-item" value="university" name="university" selected>university
+                                </option>
+                                <option class="dropdown-item" value="cafe" name="cafe">cafe</option>
+                                <option class="dropdown-item" value="bakery" name="bakery">bakery</option>
+                                <option class="dropdown-item" value="library" name="library">library</option>
+                                <option class="dropdown-item" value="pub" name="pub">pub</option>
+                                <option class="dropdown-item" value="confectionary" name="confectionary">confectionary
+                                </option>
+                                <option class="dropdown-item" value="electronics" name="electronics">electronics
+                                </option>
+                                <option class="dropdown-item" value="supermarket" name="supermarket">supermarkets
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label for="name" class="pr-5 col-sm-5 col-form-label text-end">Location name:</label>
+                        <div class="row col-sm-7">
+                            <input type="text" style="color: white;" class="form-control bg-transparent text-center"
+                                   id="nameC" required
+                                   placeholder="Enter location name" name="name">
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label for="address" class="pr-5 col-sm-5 col-form-label text-end">Location address:</label>
+                        <div class="row col-sm-7">
+                            <input type="text" style="color: white;" class="form-control bg-transparent text-center"
+                                   id="addressC"
+                                   placeholder="Enter location address" name="address">
+                        </div>
+                    </div>
+                    <div class="form-group row mb-3">
+                        <label for="openingHours" class="pr-5 col-sm-5 col-form-label text-end">Opening hours:</label>
+                        <div class="row col-sm-7">
+                            <input type="text" style="color: white;" class="form-control bg-transparent text-center"
+                                   id="openingHours"
+                                   placeholder="Enter opening hours" name="openingHours">
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-3">
+                        <label for="phone" class="pr-5 col-sm-5 col-form-label text-end">Phone number:</label>
+                        <div class="row col-sm-7">
+                            <input type="text" style="color: white;" class="form-control bg-transparent text-center"
+                                   id="phoneC"
+                                   placeholder="Enter phone number"
+                                   name="phone">
+                        </div>
+                    </div>
+
+                    <div class="form-group row mb-3">
+                        <label for="web" class="pr-5 col-sm-5 col-form-label text-end">Website:</label>
+                        <div class="row col-sm-7">
+                            <input type="text" style="color: white;" class="form-control bg-transparent text-center"
+                                   id="web"
+                                   placeholder="Enter link to website"
+                                   name="website">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Go back</button>
+
+                        <button type="submit" class="btn btn-success">Create location</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="addLocation" style="position: fixed; right: 25px; bottom:60px; z-index: 99; box-shadow: 0 0 10px #ccc;"
+     class="text-white" sec:authorize="hasRole('ROLE_ADMIN')">
+    <a class="btn btn-success" data-bs-target="#exampleModalCreate" data-bs-toggle="modal">
+        <i class="bi bi-plus-circle"></i> Add new location
+    </a>
+</div>
+<div id="catButtons" role="group" aria-label="Basic example"
+     style="position: fixed; left: 60px;top: 95px; z-index: 99;">
+    <a href="/locations/select/university">
+        <button type="button" class="btn btn-light rounded-pill shadow ml-3">University</button>
+    </a>
+    <a href="/locations/select/cafe">
+        <button type="button" class="btn btn-light rounded-pill shadow ml-3">Cafe</button>
+    </a>
+    <a href="/locations/select/bakery">
+        <button type="button" class="btn btn-light rounded-pill shadow ml-3">Bakery</button>
+    </a>
+    <a href="/locations/select/library">
+        <button type="button" class="btn btn-light rounded-pill shadow ml-3">Library</button>
+    </a>
+    <a href="/locations/select/supermarket">
+        <button type="button" class="btn btn-light rounded-pill shadow ml-3">Supermarket</button>
+    </a>
+    <a href="/locations/select/electronics">
+        <button type="button" class="btn btn-light rounded-pill shadow ml-3">Electronics</button>
+    </a>
+</div>
+<div id="mapContainer" style="z-index: 80">
+    <div id="map"></div>
+</div>
+<input id="locs" type="hidden" th:value="${locations}"/>
+<input id="chosenLoc" name="location" type="hidden"/>
+<script src="/mapaPrikaz.js"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    let hasLoginError = /*[[${hasLoginError}]]*/ false;
+    let hasRegisterError = /*[[${hasRegisterError}]]*/ false;
+    /*]]>*/
+    console.log(hasRegisterError);
+    if (hasLoginError) {
+        document.getElementById("loginBtn").click();
+    }
+    if (hasRegisterError) {
+        document.getElementById("registerBtn").click();
+    }
+</script>
+<script>
+
+    $(window).on("resize", function () {
+        $("#map").height($(window).height() - $("#topBar").height());
+        map.invalidateSize();
+    }).trigger("resize");
+</script>
+<script>
+    $('#showAllComments').click(
+        function () {
+            let idT = document.getElementById("chosenLoc").value;
+            let url3 = "/locations/get-comments/" + idT;
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                url: url3,
+                cache: false,
+                async: false,
+                data: idT,
+                success: function (result) {
+                    $('#commentsList').empty();
+                    $.each(result, function (key, value) {
+                        $('#delButtonsList').append("<li style='margin-bottom: 30px;'>\
+                        <button name='deleteBtn' form = 'delComForm' type='submit' class=\"btn btn-danger\">Delete Comment</button>\
+                        </li><br>");
+                        let comId = value.id;
+                        console.log(value);
+                        console.log(comId);
+                        $('#commentsList').append("<li>\
+										<div style='font-size: 15px'>" + value.user.name + ' ' + value.user.surname + ' said: ' + "</div>\
+										<div style='font-size: 25px'>" + value.comment + "</div>\
+										<form id='delComForm' method='post' action='/comments/delete-comment-testing'>\
+										<p name='id' id='commmentIdDelete' hidden>" + value.id + "</p></form>\
+										</li><br>");
+                        $('#commentIdDelete').attr("value", value.id);
+                    });
+                },
+                error: function (err) {
+                    alert("not working" + JSON.stringify(err));
+                }
+            });
+            CommentDelete();
+        });
+</script>
+<script>
+    $('#showFavourites').click(
+        function () {
+            let url3 = "/favourites/get-favourites";
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                url: url3,
+                cache: false,
+                async: false,
+                success: function (result) {
+                    console.log(result);
+                    $('#favouritesList').empty();
+                    $.each(result, function (key, value) {
+                        console.log(value);
+                        console.log(value.name);
+                        $('#favouritesList').append("<div style='font-size: 20px'>" + value.name + "</div><br>");
+                    });
+                    // $("#commentsList").children('li')=result.values;
+                },
+                error: function (err) {
+                    alert("not working" + JSON.stringify(err));
+                }
+            });
+        });
+    $('#showFavourites').click(
+        function () {
+            let idT = document.getElementById("chosenLoc").value;
+            let url3 = "/favourites/"
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                url: url3,
+                cache: false,
+                async: false,
+                data: idT,
+                success: function (result) {
+                    $('#commentsList').empty();
+                    $.each(result, function (key, value) {
+                        $('#commentsList').append("<li>\
+										<div style='font-size: 15px'>" + value.user.name + ' ' + value.user.surname + ' said: ' + "</div>\
+										<div style='font-size: 25px'>" + value.comment + "</div>\
+										</li><br>");
+                    });
+                    // $("#commentsList").children('li')=result.values;
+                    console.log(JSON.stringify(result));
+                },
+                error: function (err) {
+                    alert("not working" + JSON.stringify(err));
+                }
+            });
+        });
+</script>
+<script>
+    $('.addG').click(
+        function () {
+            let idT = document.getElementById("chosenLoc").value;
+            let gradee = this.name;
+            var url2 = "/locations/add-grade/" + idT + "/" + gradee;
+            $.ajax({
+                type: "POST",
+                dataType: "text",
+                contentType: "application/json; charset=utf-8",
+                url: url2,
+                cache: false,
+                data: null,
+                success: function (result) {
+                    $("#result").text(result);
+                },
+                error: function (err) {
+                    alert("not working" + JSON.stringify(err));
+                }
+            });
+        });
+</script>
+<script>
+    $('.deleteRating').click(
+        function () {
+            let idT = document.getElementById("chosenLoc").value;
+            var url2 = "/locations/deleteRating/" + idT;
+            $.ajax({
+                type: "POST",
+                dataType: "text",
+                contentType: "application/json; charset=utf-8",
+                url: url2,
+                cache: false,
+                data: null,
+                success: function (result) {
+                    $("#result").text(result);
+                },
+                error: function (err) {
+                    alert("not working" + JSON.stringify(err));
+                }
+            });
+        });
+</script>
+</body>
+</html>
