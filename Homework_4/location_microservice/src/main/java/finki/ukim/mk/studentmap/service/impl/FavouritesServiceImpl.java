@@ -18,15 +18,12 @@ public class FavouritesServiceImpl implements FavouritesService {
     private final FavouritesRepository favouritesRepository;
     private final LocationService locationService;
     private final UserRepository userRepository;
-    private final LocationRepository locationRepository;
 
     public FavouritesServiceImpl(FavouritesRepository favouritesRepository, LocationService locationService,
-                                 UserRepository userRepository,
-                                 LocationRepository locationRepository) {
+                                 UserRepository userRepository) {
         this.favouritesRepository = favouritesRepository;
         this.locationService = locationService;
         this.userRepository = userRepository;
-        this.locationRepository = locationRepository;
     }
 
 
