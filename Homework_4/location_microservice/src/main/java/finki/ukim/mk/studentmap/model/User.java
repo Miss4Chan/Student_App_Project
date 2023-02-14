@@ -18,21 +18,21 @@ import java.util.Collections;
 @Setter
 @Entity
 @Table(name = "student_app_users")
-public class User implements UserDetails{
+public class User implements UserDetails {
 
     @Id
     private String username;
     private String password;
     private String name;
     private String surname;
-    @OneToOne(mappedBy = "user",fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "user", fetch = FetchType.EAGER)
     @JsonBackReference
     private Favourites favourite;
     @Enumerated(value = EnumType.STRING)
     private Role role;
     private boolean isAccountNonExpired = true;
     private boolean isAccountNonLocked = true;
-    private boolean isCredentialsNonExpired =  true;
+    private boolean isCredentialsNonExpired = true;
     private boolean isEnabled = true;
 
 

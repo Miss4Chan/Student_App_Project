@@ -24,7 +24,6 @@ public class AuthController {
 
     @GetMapping("/login")
     public String getLoginPage() {
-
         return "mapa";
     }
 
@@ -49,14 +48,6 @@ public class AuthController {
         return "redirect:/locations";
     }
 
-    @GetMapping("/register")
-    public String getRegisterPage(@RequestParam(required = false) String error, Model model) {
-        if(error != null && !error.isEmpty()) {
-            model.addAttribute("hasError", true);
-            model.addAttribute("error", error);
-        }
-        return "register";
-    }
 
     @PostMapping("/register")
     public String register(@RequestParam String username,
@@ -64,7 +55,7 @@ public class AuthController {
                            @RequestParam String repeatedPassword,
                            @RequestParam String name,
                            @RequestParam String surname) {
-        try{
+        try {
             this.authService.register(username, password, repeatedPassword, name, surname);
             return "redirect:/locations";
         } catch (InvalidArgumentsException | PasswordsDoNotMatchException | UsernameAlreadyExistsException exception) {

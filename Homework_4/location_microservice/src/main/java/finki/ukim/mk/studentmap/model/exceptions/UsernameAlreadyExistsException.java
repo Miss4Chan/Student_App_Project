@@ -1,8 +1,8 @@
 package finki.ukim.mk.studentmap.model.exceptions;
 
-public class UsernameAlreadyExistsException extends RuntimeException{
+public class UsernameAlreadyExistsException extends RuntimeException {
 
-    public UsernameAlreadyExistsException(String username){
-        super(String.format("User with username %s already exists",username));
+    public UsernameAlreadyExistsException(String username) {
+        super(String.format("User with username %s already exists", username));
     }
 }

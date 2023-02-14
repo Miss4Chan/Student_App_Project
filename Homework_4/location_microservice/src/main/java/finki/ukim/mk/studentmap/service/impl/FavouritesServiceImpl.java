@@ -44,18 +44,16 @@ public class FavouritesServiceImpl implements FavouritesService {
     @Override
     public Favourites addLocationToFaves(String username, Long locationID) {
         Favourites f = null;
-        if(favouritesRepository.findFavouritesByUser_Username(username).isPresent()) {
+        if (favouritesRepository.findFavouritesByUser_Username(username).isPresent()) {
             f = favouritesRepository.findFavouritesByUser_Username(username).get();
-        }
-        else{
+        } else {
             f = createFavourites(username);
         }
         Location loc = locationService.getLocationById(locationID);
-        if(!f.getLocationList().contains(loc)) {
+        if (!f.getLocationList().contains(loc)) {
             f.getLocationList().add(loc);
         }
-        if(!loc.getFavourites().contains(f))
-        {
+        if (!loc.getFavourites().contains(f)) {
             loc.getFavourites().add(f);
         }
         return favouritesRepository.save(f);

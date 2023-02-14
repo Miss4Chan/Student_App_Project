@@ -9,11 +9,15 @@
         <outputRelativeToContentRoot value="true" />
         <module name="location-microservice" />
         <module name="help_microservice" />
-        <module name="location_microservice" />
         <module name="supporting-features-microservice" />
+        <module name="eureka_server" />
+        <module name="location_microservice" />
         <module name="user-microservice" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Database" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">

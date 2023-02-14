@@ -19,7 +19,6 @@ public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
     private float x;
     private float y;
     private String type;
@@ -28,7 +27,7 @@ public class Location {
     private String phone;
     private String website;
     private String openingHours;
-    private double averageGrade; //not in constructor
+    private double averageGrade;
     private int graders;
     @OneToMany(mappedBy = "location", fetch = FetchType.EAGER)
     @JsonManagedReference

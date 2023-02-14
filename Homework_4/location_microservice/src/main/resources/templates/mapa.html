@@ -154,7 +154,6 @@
                             </button>
                         </div>
                     </li>
-                    <!--                    <li sec:authorize="hasRole('ROLE_ADMIN')">-->
                 </ul>
             </div>
         </div>
@@ -171,14 +170,11 @@
             <button class="btn btn-outline-light col-2" type="submit" id="search"><i class="bi bi-search"></i></button>
         </form>
     </div>
-
     <hr>
-
     <div id="details" style="margin-top: 40px; padding-left: 20px" class="text-left">
         <input id="x" type="hidden"/>
         <input id="y" type="hidden"/>
         <input id="type" type="hidden"/>
-
         <div>
             <strong name="name" id="name"></strong>
             <div id="grades" class="col-4 text-left" style="font-size: 13px; padding: 0px;" hidden>
@@ -219,8 +215,6 @@
                 </div>
             </div>
         </div>
-
-
         <div hidden class="row">
             <i class="bi bi-geo-alt-fill col-1"></i>
             <div id="address" class="col-11"></div>
@@ -252,10 +246,7 @@
             </div>
             <br>
         </form>
-
         <br>
-
-
     </div>
 </div>
 <div class="modal" id="loginModal">
@@ -268,7 +259,6 @@
                     <div class="text-danger text-center my-3" th:if="${loginError != null}">
                         <th:block th:text="${loginError}"></th:block>
                     </div>
-                    <!-- Email input -->
                     <div class="form-group row mb-3">
                         <label for="username" class="pr-5 col-sm-5 col-form-label text-end">Enter username:</label>
                         <div class="row col-sm-7">
@@ -279,7 +269,6 @@
                                style="bottom: 21px; width: 12px;"></i>
                         </div>
                     </div>
-                    <!-- Password input -->
                     <div class="form-group row mb-3">
                         <label for="password" class="col-sm-5 col-form-label text-end">Enter password:</label>
                         <div class="row col-sm-7">
@@ -295,8 +284,6 @@
                         </button>
                     </div>
                 </form>
-
-                <!-- Register buttons -->
                 <div class="text-lg-start mt-4 pt-2">
                     <p class="text-center small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="#!"
                                                                                                   onclick="openRegister()"
@@ -310,14 +297,12 @@
 <div class="modal" id="registerModal">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content" style="border-radius: 30px;background-color: #212529">
-            <!-- Modal body -->
             <div class="modal-body" style="background-color: #212529;color: white;padding: 3%;border-radius: 30px;">
                 <h3 class="text-center" style="margin-bottom: 40px;">Register your account</h3>
                 <form class="form-signin mt-xl-5" method="POST" action="/register">
                     <div class="text-danger text-center my-3" th:if="${registerError != null}">
                         <th:block th:text="${registerError}"></th:block>
                     </div>
-                    <!-- Email input -->
                     <div class="form-group row mb-3">
                         <label for="rgtrUsername" class="pr-5 col-sm-5 col-form-label text-end">Enter username:</label>
                         <div class="row col-sm-7">
@@ -327,7 +312,6 @@
                                style="bottom: 21px; width: 12px;"></i>
                         </div>
                     </div>
-                    <!-- Password input -->
                     <div class="form-group row mb-3">
                         <label for="rgtrPassword" class="col-sm-5 col-form-label text-end">Enter password:</label>
                         <div class="row col-sm-7">
@@ -337,7 +321,6 @@
                                style="bottom: 21px; width: 12px;"></i>
                         </div>
                     </div>
-                    <!-- Password input -->
                     <div class="form-group row mb-3">
                         <label for="re-enter-password" class="col-sm-5 col-form-label text-end">Re-enter
                             password:</label>
@@ -349,7 +332,6 @@
                                style="bottom: 21px; width: 12px;"></i>
                         </div>
                     </div>
-                    <!-- Name input -->
                     <div class="form-group row mb-3">
                         <label for="rgtrName" class="col-sm-5 col-form-label text-end">Enter name:</label>
                         <div class="row col-sm-7">
@@ -359,7 +341,6 @@
                                style="bottom: 21px; width: 12px;"></i>
                         </div>
                     </div>
-                    <!-- Surname input -->
                     <div class="form-group row mb-3">
                         <label for="rgtrSurname" class="col-sm-5 col-form-label text-end">Enter surname:</label>
                         <div class="row col-sm-7">
@@ -389,7 +370,6 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <!-- Modal body -->
             <div class="modal-body" style="background-color: #212529;color: white;padding: 3%;border-radius: 30px;">
                 <div class="d-flex justify-content">
                     <div>
@@ -399,7 +379,6 @@
                         <ul style="list-style-type:none" id="delButtonsList"></ul>
                     </div>
                 </div>
-                <!-- Close button -->
                 <div class="text-lg-start mt-4 pt-2">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"
                             style="display:block; margin-left:auto; margin-right:auto;">Close
@@ -423,12 +402,10 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <!-- Modal body -->
             <div class="modal-body" style="background-color: #212529;color: white;padding: 3%;border-radius: 30px;">
                 <div>
                     <ul style="list-style-type:none" id="favouritesList"></ul>
                 </div>
-                <!-- Close button -->
                 <div class="text-lg-start mt-4 pt-2">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"
                             style="display:block; margin-left:auto; margin-right:auto;">Close
@@ -447,7 +424,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="POST" form = 'editForm'  action="/locations/create">
+                <form method="POST" form='editForm' action="/locations/create">
                     <input type="hidden" name="id" id="id">
                     <div class="form-group row mb-3">
                         <label for="coordinates" class="pr-5 col-sm-5 col-form-label text-end">Coordinates:</label>
@@ -467,9 +444,10 @@
                         <div class="dropdown row col-sm-7">
                             <select style="margin-left: 0px" class="ml-1 btn btn-secondary dropdown-toggle row "
                                     data-bs-auto-close="true"
-                                    type="button" name="type" data-bs-toggle="dropdown" data-toggle="dropdown" aria-haspopup="true"
+                                    type="button" name="type" data-bs-toggle="dropdown" data-toggle="dropdown"
+                                    aria-haspopup="true"
                                     aria-expanded="false"
-                            id="selectType">
+                                    id="selectType">
                                 <option class="dropdown-item" id="edittype"
                                         selected hidden>
                                 </option>

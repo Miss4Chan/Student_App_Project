@@ -28,7 +28,7 @@ services:
       context: ./location_microservice
       dockerfile: Dockerfile
     environment:
-      DB_URL: postgres
+      DB_URL: username
       DB_USER: user
       DB_PASSWORD: password
       SPRING_APPLICATION_JSON: '{"eureka":{"client":{"serviceUrl":{"defaultZone":"http://eureka-server:8761/eureka"}}}}'

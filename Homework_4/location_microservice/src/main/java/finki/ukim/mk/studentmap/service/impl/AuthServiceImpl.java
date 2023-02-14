@@ -39,23 +39,23 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        return userRepository.findByUsername(s).orElseThrow(()->new UsernameNotFoundException(s));
+        return userRepository.findByUsername(s).orElseThrow(() -> new UsernameNotFoundException(s));
     }
 
     @Override
     public void addAdminToDatabase() {
-        userRepository.save(new User("admin",passwordEncoder.encode("admin"),"admin","admin",Role.ROLE_ADMIN));
+        userRepository.save(new User("admin", passwordEncoder.encode("admin"), "admin", "admin", Role.ROLE_ADMIN));
     }
 
     @Override
     public User register(String username, String password, String repeatPassword, String name, String surname) {
-        if (username==null || username.isEmpty()  || password==null || password.isEmpty())
+        if (username == null || username.isEmpty() || password == null || password.isEmpty())
             throw new InvalidArgumentsException();
         if (!password.equals(repeatPassword))
             throw new PasswordsDoNotMatchException();
-        if(this.userRepository.findByUsername(username).isPresent())
+        if (this.userRepository.findByUsername(username).isPresent())
             throw new UsernameAlreadyExistsException(username);
-        User user = new User(username,passwordEncoder.encode(password),name,surname, Role.ROLE_USER);
+        User user = new User(username, passwordEncoder.encode(password), name, surname, Role.ROLE_USER);
         return userRepository.save(user);
     }
 }

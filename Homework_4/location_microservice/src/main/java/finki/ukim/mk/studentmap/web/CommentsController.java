@@ -29,13 +29,6 @@ public class CommentsController {
         this.userRepository = userRepository;
     }
 
-    @GetMapping()
-    public String getAllComments(@RequestParam(required = false) String error, Model model) {
-        List<Comment> comments = this.commentService.getAll();
-        model.addAttribute("comments", comments);
-        model.addAttribute("error", error);
-        return "allComments";
-    }
 
     @PostMapping("/{id}")
     @ResponseBody
@@ -49,14 +42,6 @@ public class CommentsController {
         return comments;
     }
 
-    @GetMapping("/add-comment/{id}")
-    public String addCommentPage(@PathVariable Long id,
-                                 @RequestParam(required = false) String error, Model model) {
-        Location location = this.locationService.getLocationById(id);
-        model.addAttribute("error", error);
-        model.addAttribute("location", location);
-        return "add-comment";
-    }
 
     @PostMapping("/add-comment/{id}")
     public String createComment(@PathVariable String id, @RequestParam String comment,

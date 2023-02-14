@@ -17,31 +17,16 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/favourites")
-public class FavouritesController{
+public class FavouritesController {
 
     private final FavouritesService favouritesService;
 
-    public FavouritesController(FavouritesService favouritesService){
-        this.favouritesService=favouritesService;
+    public FavouritesController(FavouritesService favouritesService) {
+        this.favouritesService = favouritesService;
     }
 
-    @GetMapping
-    public String getFavouritesPage(@RequestParam(required = false) String error,
-                                    HttpServletRequest req,
-                                    Model model) {
-        if(error != null && !error.isEmpty()){
-            model.addAttribute("hasError", true);
-            model.addAttribute("error", error);
-        }
-        String username = req.getRemoteUser();
-        if(this.favouritesService.getFave(username).isPresent()) {
-            Favourites favourites = this.favouritesService.getFave(username).get();
-            model.addAttribute("locations", this.favouritesService.listAllFaves(favourites.getId()));
-            return "favourites";
-        }
-        model.addAttribute("locations",null);
-        return "favourites";
-    }
+
+
     @PostMapping("/add-location-to-faves/{id}")
     public String addLocationToFaves(@PathVariable Long id,
                                      Authentication authentication) {
@@ -53,6 +38,7 @@ public class FavouritesController{
             return "redirect:/locations?error=" + exception.getMessage();
         }
     }
+
     @PostMapping("/get-favourites")
     @ResponseBody
     public String getFavourites(HttpServletRequest req) throws JsonProcessingException {

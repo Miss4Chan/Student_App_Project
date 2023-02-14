@@ -22,7 +22,7 @@ public class Comment {
     @JsonBackReference
     private Location location;
 
-    public Comment(String comment, User user, Location location){
+    public Comment(String comment, User user, Location location) {
         this.comment = comment;
         this.user = user;
         this.location = location;

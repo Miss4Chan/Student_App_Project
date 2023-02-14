@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 public class LocationMicroserviceApplication {
     public static void main(String[] args) {
-        SpringApplication.run(LocationMicroserviceApplication.class,args);
+        SpringApplication.run(LocationMicroserviceApplication.class, args);
     }
 
     @Bean

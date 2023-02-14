@@ -16,12 +16,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public SecurityConfig(CustomerUsernameAndPasswordImplementationProvider authProvider) {
         this.authProvider = authProvider;
     }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers( "/locations/**","/register","/*.js","/*.css","/*.png").permitAll()
+                .antMatchers("/locations/**", "/register", "/*.js", "/*.css", "/*.png").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -36,7 +37,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
                 .logoutSuccessUrl("/locations");
-
     }
 
 

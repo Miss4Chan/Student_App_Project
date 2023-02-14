@@ -18,9 +18,6 @@ public class Favourites {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    //private LocalDateTime dateCreated;
-
     @OneToOne(fetch = FetchType.EAGER)
     private User user;
 
@@ -30,6 +27,6 @@ public class Favourites {
 
     public Favourites(User user) {
         this.user = user;
-        this.locationList= new ArrayList<>();
+        this.locationList = new ArrayList<>();
     }
 }

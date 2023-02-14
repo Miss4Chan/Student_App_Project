@@ -33,14 +33,6 @@ public class LocationsController {
         this.favouritesService = favouritesService;
     }
 
-    @GetMapping("/all")
-    public String getLocationsPage(@RequestParam(required = false) String error, Model model) {
-        List<Location> locations = this.locationService.getAllLocations();
-        model.addAttribute("locations", locations);
-        model.addAttribute("error", error);
-        return "listLocations";
-    }
-
     @GetMapping
     public String getHomePage(@RequestParam(required = false) String loginError,
                               @RequestParam(required = false) String registerError,
@@ -80,12 +72,7 @@ public class LocationsController {
         return "mapa";
     }
 
-    @GetMapping("/create-form")
-    public String addLocationPage(Model model) {
-        List<Location> locations = this.locationService.getAllLocations();
-        model.addAttribute("locations", locations);
-        return "add-location";
-    }
+
     @PostMapping("/add-grade/{id}/{grade}")
     @ResponseBody
     public String addGrade(@PathVariable int grade, @PathVariable Long id){
@@ -168,12 +155,7 @@ public class LocationsController {
         return "redirect:/locations";
     }
 
-    @GetMapping("/edit-form/{id}")
-    public String editLocationPage(@PathVariable Long id, Model model) {
-        Location location = this.locationService.getLocationById(id);
-        model.addAttribute("location", location);
-        return "add-location";
-    }
+
 
     @GetMapping("/help")
     public RedirectView getHelpPage(){

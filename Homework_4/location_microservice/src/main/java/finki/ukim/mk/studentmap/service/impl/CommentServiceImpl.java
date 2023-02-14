@@ -13,17 +13,17 @@ import java.util.List;
 public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
 
-    public CommentServiceImpl(CommentRepository commentRepository){
+    public CommentServiceImpl(CommentRepository commentRepository) {
         this.commentRepository = commentRepository;
     }
 
     @Override
-    public void createComment(String comment, User user, Location location){
-        commentRepository.save(new Comment(comment,user,location));
+    public void createComment(String comment, User user, Location location) {
+        commentRepository.save(new Comment(comment, user, location));
     }
 
     @Override
-    public List<Comment> getAll(){
+    public List<Comment> getAll() {
         return commentRepository.findAll();
     }
 
@@ -33,7 +33,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> getAllCommentsByLocationId(Long id){
+    public List<Comment> getAllCommentsByLocationId(Long id) {
         return commentRepository.findByLocation_Id(id);
     }
 }
