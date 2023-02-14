@@ -18,9 +18,6 @@ public class Favourites {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    //private LocalDateTime dateCreated;
-
     @OneToOne(fetch = FetchType.EAGER)
     private User user;
 

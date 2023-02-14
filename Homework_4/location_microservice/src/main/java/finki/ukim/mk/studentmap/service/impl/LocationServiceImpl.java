@@ -29,15 +29,9 @@ public class LocationServiceImpl implements LocationService {
     @Override
     public double calculateAverageGrade(Long id, int grade) {
         Location location = locationRepository.findById(id).get();
-        int graders = location.getGraders();
-        double prevAvg = location.getAverageGrade();
         double averageGrade = (location.getAverageGrade()*location.getGraders() + grade)/ (location.getGraders()+1);
-        String gradeString = String.format("%.2f", averageGrade);
-        // averageGrade = Double.parseDouble(gradeString);
         location.setAverageGrade(averageGrade);
         location.setGraders(location.getGraders()+1);
-//        System.out.println(location.getGraders());
-//        System.out.println(location.getAverageGrade());
         locationRepository.save(location);
         return averageGrade;
     }
