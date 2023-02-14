@@ -8,9 +8,13 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
+<<<<<<< HEAD
 public interface FavouritesRepository extends JpaRepository<Favourites, Long> {
     Optional<Favourites> findByUser(User user);
 
+=======
+public interface FavouritesRepository extends JpaRepository<Favourites,Long> {
+>>>>>>> origin/main
     Optional<Favourites> findFavouritesByUser_Username(String username);
 
 }

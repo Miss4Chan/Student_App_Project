@@ -47,10 +47,7 @@ public class LocationsController {
             model.addAttribute("hasRegisterError", true);
             model.addAttribute("registerError", registerError);
         }
-        ObjectMapper objectMapper = new ObjectMapper();
-        //Set pretty printing of json
-        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-        String arrayToJson = objectMapper.writeValueAsString(locations);
+        String arrayToJson = arrayToJson(locations);
         model.addAttribute("locations", arrayToJson);
         return "mapa";
     }
@@ -64,10 +61,7 @@ public class LocationsController {
         }
         List<Location> locations = this.locationService.getLocationByNameOrAddress(text);
         model.addAttribute("error", error);
-        ObjectMapper objectMapper = new ObjectMapper();
-        //Set pretty printing of json
-        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-        String arrayToJson = objectMapper.writeValueAsString(locations);
+        String arrayToJson = arrayToJson(locations);
         model.addAttribute("locations", arrayToJson);
         return "mapa";
     }
@@ -104,9 +98,7 @@ public class LocationsController {
     @GetMapping("/select/{value}")
     public String getCategory(@PathVariable String value, Model model) throws JsonProcessingException {
         List<Location> locations = this.locationService.getLocationsByType(value);
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-        String arrayToJson = objectMapper.writeValueAsString(locations);
+        String arrayToJson = arrayToJson(locations);
         model.addAttribute("locations", arrayToJson);
         model.addAttribute("selectedValue",value);
         return "mapa";
@@ -160,4 +152,11 @@ public class LocationsController {
     @GetMapping("/help")
     public RedirectView getHelpPage(){
         return new RedirectView("http://localhost:9092/help");}
+
+    private String arrayToJson(List<Location> array) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+        String arrayToJson = objectMapper.writeValueAsString(array);
+        return arrayToJson;
+    }
 }
